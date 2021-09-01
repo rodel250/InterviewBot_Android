@@ -24,27 +24,26 @@ class _NavState extends State<Nav> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Interview Bot'),
+        backgroundColor: Color(0xFF8C383E),
+        title: Text('Interview Bot',style: TextStyle(color: Colors.white),),
       ),
       body: Center(
         child: _widgetOptions.elementAt(_selectedIndex),
       ),
       bottomNavigationBar: BottomNavigationBar(
+        backgroundColor: Color(0xFF8C383E),
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
             icon: Icon(Icons.search),
             label: 'Job List',
-            backgroundColor: Color(0xFF8C383E),
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.dashboard),
             label: 'Dashboard',
-            backgroundColor: Color(0xFF8C383E),
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.settings),
-            label: 'Settings',
-            backgroundColor: Color(0xFF8C383E),
+            icon: Icon(Icons.account_circle),
+            label: 'Account',
           ),
         ],
         currentIndex: _selectedIndex,

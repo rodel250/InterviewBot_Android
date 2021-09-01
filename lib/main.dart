@@ -12,5 +12,6 @@ class MyApp extends StatelessWidget {
       title: 'Bottom Navigation Bar',
       home: Nav(),
     );
-  }
+
+}
 }
