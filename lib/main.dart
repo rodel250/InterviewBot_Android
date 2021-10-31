@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:interview_bot/nav.dart';
+import 'package:interview_bot/user_nav.dart';
 
 void main() {
   runApp(MyApp());
