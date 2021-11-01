@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:interview_bot/admin_dashboard.dart';
-import 'package:interview_bot/admin_joblist.dart';
+import 'package:interview_bot/Admin/admin_dashboard.dart';
+import 'package:interview_bot/Admin/admin_joblist.dart';
 
-class Nav extends StatefulWidget {
+class AdminNav extends StatefulWidget {
   @override
   _NavState createState() => _NavState();
 }
 
-class _NavState extends State<Nav> {
+class _NavState extends State<AdminNav> {
   int _selectedIndex = 0;
   List<Widget> _widgetOptions = <Widget>[
     JobList(),

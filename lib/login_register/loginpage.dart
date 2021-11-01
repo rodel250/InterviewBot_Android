@@ -1,9 +1,14 @@
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:interview_bot/Admin/Model/Account.dart';
+import 'package:interview_bot/Admin/nav.dart';
 import 'package:interview_bot/login_register/registrationpage.dart';
+import 'package:interview_bot/user_nav.dart';
 import 'package:interview_bot/widgets/button.dart';
 import 'package:interview_bot/widgets/header.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
 
 import 'color.dart';
 
@@ -15,6 +20,24 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
+  List <Account> users = [];
+  getUserData() async {
+    var response = await http.get(Uri.http("10.0.2.2:8000", "/api/account/"));
+    var jsonData = jsonDecode(response.body);
+    List <Account> users = [];
+    for(var u in jsonData){
+      Account user = Account(u["email"],u["is_active"],u["staff"],u["admin"], u["firstname"], u["lastname"], u["phone"], u["password"], u["gender"]);
+      users.add(user);
+    }
+    this.users = [...users];
+    return users;
+  }
+
+
+
+  TextEditingController emailController = TextEditingController();
+  TextEditingController passwordController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -34,8 +57,8 @@ class _LoginPageState extends State<LoginPage> {
                   child: Column(
                     mainAxisSize: MainAxisSize.max,
                     children: <Widget>[
-                      _textInput(hint: "Email Address"),
-                      _textInput(hint: "Password"),
+                      _emailInput(hint: "Email Address"),
+                      _passInput(hint: "Password"),
 
                       SizedBox(height: 10),
 
@@ -84,9 +107,24 @@ class _LoginPageState extends State<LoginPage> {
                           children: [
                             MaroonButton(
                               onClick: (){
-                                Navigator.push(
-                                    context,
-                                    MaterialPageRoute(builder: (context)=>RegistrationPage()));
+                                getUserData();
+                                if(emailController.text=="" || passwordController.text==""){
+                                  print("fill all the blanks!");
+                                }else
+                                  for(int i=0;i< users.length;i++){
+                                    if(emailController.text == users[i].email && passwordController == users[i].password){
+                                      if(users[i].admin==true){
+                                        Navigator.push(
+                                            context,
+                                            MaterialPageRoute(builder: (context)=>AdminNav()));
+                                      }else
+                                        Navigator.push(
+                                            context,
+                                            MaterialPageRoute(builder: (context)=>UserNav()));
+
+                                    }else
+                                      print("Login Failed!");
+                                  }
                               },
                               btnText: "LOGIN",
                             ),
@@ -146,7 +184,7 @@ class _LoginPageState extends State<LoginPage> {
     );
   }
 
-  Widget _textInput({controller,hint}){
+  Widget _emailInput({controller,hint}){
     return Container(
       margin: EdgeInsets.only(top: 10),
       decoration: BoxDecoration(
@@ -155,7 +193,26 @@ class _LoginPageState extends State<LoginPage> {
       ),
       //padding: EdgeInsets.only(left: 10),
       child: TextFormField(
-        controller: controller,
+        controller: emailController,
+        textAlign: TextAlign.center,
+        decoration: InputDecoration(
+          border: InputBorder.none,
+          hintText: hint,
+        ),
+      ),
+    );
+  }
+
+  Widget _passInput({controller,hint}){
+    return Container(
+      margin: EdgeInsets.only(top: 10),
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.all(Radius.circular(20)),
+        color: gold,
+      ),
+      //padding: EdgeInsets.only(left: 10),
+      child: TextFormField(
+        controller: passwordController,
         textAlign: TextAlign.center,
         decoration: InputDecoration(
           border: InputBorder.none,

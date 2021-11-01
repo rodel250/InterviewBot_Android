@@ -1,4 +1,4 @@
-import 'package:interview_bot/home_screen.dart';
+import 'package:interview_bot/Admin/home_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:interview_bot/About Us/aboutus_list_screen.dart';
 import 'package:interview_bot/Contact Us/ContactUs.dart';
@@ -7,11 +7,11 @@ import 'package:interview_bot/job_offers/master.dart';
 
 
 
-class Nav extends StatefulWidget {
+class UserNav extends StatefulWidget {
   @override
   _NavState createState() => _NavState();
 }
-class _NavState extends State<Nav> {
+class _NavState extends State<UserNav> {
   int _selectedIndex = 0;
   List<Widget> _widgetOptions = <Widget>[
     HomeScreen(),
