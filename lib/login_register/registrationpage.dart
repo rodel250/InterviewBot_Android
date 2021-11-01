@@ -1,4 +1,6 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:interview_bot/widgets/button.dart';
 import 'color.dart';
 import 'loginpage.dart';
@@ -12,6 +14,8 @@ class RegistrationPage extends StatefulWidget {
 }
 
 class _RegistrationPageState extends State<RegistrationPage> {
+  String? dropdownValue;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -20,7 +24,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
         child: SingleChildScrollView(
           child: Column(
             children: <Widget>[
-                Container(
+              Container(
                 height: MediaQuery.of(context).size.height*0.3,
                 decoration: BoxDecoration(
                   gradient: LinearGradient(
@@ -43,17 +47,61 @@ class _RegistrationPageState extends State<RegistrationPage> {
                 child: Container(
                   margin: EdgeInsets.only(left:30, right: 30, top: 10, bottom: 10),
                   child: Column(
+
                     mainAxisSize: MainAxisSize.max,
                     children: <Widget>[
                       _textInput(hint: "First Name"),
                       _textInput(hint: "Last Name"),
                       _textInput(hint: "Phone Number"),
-                      _textInput(hint: "Gender"),
+
+                      SizedBox(height: 10),
+                      Container(
+                        height: 40,
+                        width: 300,
+                        alignment: Alignment.center,
+                        padding: EdgeInsets.only(top: 10, left: 10,right: 10, bottom: 10,),
+                        decoration: BoxDecoration(
+                          color: Color(0xFFFFCC00),
+                          borderRadius: BorderRadius.circular(25.0),
+                          border: Border.all(
+                              color: Color(0xFFFFCC00), style: BorderStyle.solid, width: 0.0),
+                        ),
+                        child:  Center(
+                          child: DropdownButton<String>(
+                            value: dropdownValue,
+                            style: TextStyle(color:Colors.black, fontSize: 14),
+                            elevation: 16,
+                            hint: Center(
+                                child: new Text(
+                                  'Gender',
+                                  textAlign: TextAlign.center,
+                                )
+                            ),
+                            icon: const Icon(Icons.arrow_drop_down_circle),
+                            onChanged: (String? newValue){
+                              setState(() {
+                                dropdownValue = newValue!;
+                              });
+                            },
+                            items: <String>['Male', 'Female'].map<DropdownMenuItem<String>>((String value){
+                              return DropdownMenuItem<String>(
+                                value: value,
+                                child: Text(value),
+                              );
+                            }).toList(),
+                            underline: DropdownButtonHideUnderline(child: Container()),
+                            dropdownColor: Color(0xFFFFFFFF),
+                            iconEnabledColor:Color(0xFFFFFFFF),
+                            isExpanded: true,
+                          ),
+                        ),
+                      ),
+
                       _textInput(hint: "Email Address"),
                       _textInput(hint: "Password"),
                       _textInput(hint: "Confirm Password"),
 
-                      SizedBox(height: 20),
+                      SizedBox(height: 40),
 
                       Container(
                         child: Column(
