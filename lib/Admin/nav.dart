@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-
-import 'admin_dashboard.dart';
+import 'package:interview_bot/Admin/admin_dashboard.dart';
+import 'package:interview_bot/Admin/admin_joblist.dart';
 
 class AdminNav extends StatefulWidget {
   @override
@@ -10,7 +10,7 @@ class AdminNav extends StatefulWidget {
 class _NavState extends State<AdminNav> {
   int _selectedIndex = 0;
   List<Widget> _widgetOptions = <Widget>[
-    Text('Job List'),
+    JobList(),
     Dashboard(),
     Text('Settings'),
   ];
@@ -24,6 +24,13 @@ class _NavState extends State<AdminNav> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Color(0xFF8C383E),
+        title: Text(
+          'Interview Bot',
+          style: TextStyle(color: Colors.white),
+        ),
+      ),
       body: Center(
         child: _widgetOptions.elementAt(_selectedIndex),
       ),
