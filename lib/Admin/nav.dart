@@ -10,7 +10,7 @@ class AdminNav extends StatefulWidget {
 class _NavState extends State<AdminNav> {
   int _selectedIndex = 0;
   List<Widget> _widgetOptions = <Widget>[
-    JobList(),
+    // JobList(),
     Dashboard(),
     Text('Settings'),
   ];

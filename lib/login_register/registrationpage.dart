@@ -1,7 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+
 import 'package:interview_bot/model/accounts.dart';
 import 'package:interview_bot/widgets/button.dart';
+
 import 'color.dart';
 import 'loginpage.dart';
 
@@ -17,7 +19,6 @@ class _RegistrationPageState extends State<RegistrationPage> {
   final TextEditingController _email = TextEditingController();
   final TextEditingController _firstname = TextEditingController();
   final TextEditingController _lastname = TextEditingController();
-  final TextEditingController _gender = TextEditingController();
   final TextEditingController _phone = TextEditingController();
   final TextEditingController _password = TextEditingController();
   final TextEditingController _password2 = TextEditingController();
@@ -156,7 +157,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
               icon: const Icon(Icons.arrow_drop_down_circle),
               onChanged: (String? newValue) {
                 setState(() {
-                  dropdownValue = newValue!;
+                  dropdownValue = newValue;
                 });
               },
               items: <String>['Male', 'Female']
@@ -187,7 +188,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
             textAlign: TextAlign.center,
             validator: (val) {
               if (val!.isEmpty) {
-                return 'This field is required';
+                return '\t\t\tThis field is required';
               }
               return null;
             },
@@ -210,7 +211,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
             textAlign: TextAlign.center,
             validator: (val) {
               if (val!.isEmpty) {
-                return 'This field is required';
+                return '\t\t\tThis field is required';
               }
               if (val != _password.text) {
                 return 'Password does not match';
@@ -243,7 +244,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
                           _lastname.text,
                           _phone.text,
                           _password.text,
-                          _gender.text);
+                          dropdownValue);
                     });
                   }
                 },

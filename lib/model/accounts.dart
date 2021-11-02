@@ -12,7 +12,7 @@ Future<Account> createAccount(
     String lastname,
     String phone,
     String password,
-    String gender) async {
+    String? gender) async {
   final response = await http.post(
     Uri.parse('http://10.0.2.2:8000/api/account/'),
     headers: <String, String>{
@@ -47,7 +47,7 @@ class Account {
   final String lastname;
   final String phone;
   final String password;
-  final String gender;
+  final String? gender;
 
   Account({
     required this.email,
