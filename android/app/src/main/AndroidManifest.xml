@@ -1,5 +1,6 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.interview_bot">
+    <uses-permission android:name="android.permission.INTERNET"/>
    <application
         android:label="interview_bot"
         android:icon="@mipmap/ic_launcher">

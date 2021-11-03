@@ -25,6 +25,7 @@ dependencies:
   flutter:
     sdk: flutter
   flutter_svg: ^0.22.0
+  url_launcher:
 
 
 flutter_icons:
@@ -38,7 +39,6 @@ flutter_icons:
 dev_dependencies:
   flutter_test:
     sdk: flutter
-  url_launcher:
 
   flutter_launcher_icons: "^0.9.2"
 # For information on the generic Dart part of this file, see the
@@ -54,16 +54,8 @@ flutter:
 
   # To add assets to your application, add an assets section, like this:
   assets:
-    - assets/logo.png
-    - assets/images/logo.png
-    - assets/images/logo2.png
-    - assets/images/favicon.png
-    - assets/images/white_bg.jpg
-    - assets/images/iblogo.png
-    - assets/images/view_applied.svg
-    - assets/images/view_job.svg
-    - assets/images/convergys.png
-    - assets/images/lexmark.png
+    - assets/
+    - assets/images/
   #   - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see

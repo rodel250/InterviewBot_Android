@@ -10,7 +10,7 @@ class AdminNav extends StatefulWidget {
 class _NavState extends State<AdminNav> {
   int _selectedIndex = 0;
   List<Widget> _widgetOptions = <Widget>[
-    JobList(),
+    // JobList(),
     Dashboard(),
     Text('Settings'),
   ];
@@ -26,7 +26,10 @@ class _NavState extends State<AdminNav> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Color(0xFF8C383E),
-        title: Text('Interview Bot',style: TextStyle(color: Colors.white),),
+        title: Text(
+          'Interview Bot',
+          style: TextStyle(color: Colors.white),
+        ),
       ),
       body: Center(
         child: _widgetOptions.elementAt(_selectedIndex),
