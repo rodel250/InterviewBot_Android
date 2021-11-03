@@ -2,7 +2,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:interview_bot/Admin/nav.dart';
 import 'package:interview_bot/login_register/registrationpage.dart';
-import 'package:interview_bot/model/accounts.dart';
 import 'package:interview_bot/user_nav.dart';
 import 'package:interview_bot/widgets/button.dart';
 import 'package:interview_bot/widgets/header.dart';
@@ -11,6 +10,21 @@ import 'dart:convert';
 
 import 'color.dart';
 
+AlertDialog getAlertDialog(title, content, context) {
+  return AlertDialog(
+    title: Text("Login failed"),
+    content: Text('$content'),
+    actions: <Widget>[
+      TextButton(
+        child: Text('Close'),
+        onPressed: () {
+          Navigator.of(context).pop();
+        },
+      ),
+    ],
+  );
+}
+
 class LoginPage extends StatefulWidget {
   const LoginPage({Key? key}) : super(key: key);
 
@@ -18,31 +32,77 @@ class LoginPage extends StatefulWidget {
   _LoginPageState createState() => _LoginPageState();
 }
 
-class _LoginPageState extends State<LoginPage> {
-  List<Account> users = [];
-  getUserData() async {
-    var response = await http.get(Uri.http("10.0.2.2:8000", "/api/account/"));
-    var jsonData = jsonDecode(response.body);
-    List<Account> users = [];
-    for (var u in jsonData) {
-      Account user = Account(
-          email: u["email"],
-          isActive: u["is_active"],
-          staff: u["staff"],
-          admin: u["admin"],
-          firstname: u["firstname"],
-          lastname: u["lastname"],
-          phone: u["phone"],
-          password: u["password"],
-          gender: u["gender"]);
-      users.add(user);
-    }
-    this.users = [...users];
-    return users;
-  }
+class _LoginData {
+  String email = '';
+  String password = '';
+}
 
+class UserData extends _LoginData {
+  bool is_admin = false;
+  bool is_staff = false;
+  bool is_active = false;
+  String email = '';
+  String firstname = '';
+  String lastname = '';
+  String gender = '';
+  String phone = '';
+  String token = '';
+
+  void addData(Map<String, dynamic> responseMap) {
+    this.is_admin = responseMap['is_admin'];
+    this.is_staff = responseMap['is_staff'];
+    this.is_active = responseMap['is_active'];
+    this.email = responseMap['email'];
+    this.firstname = responseMap['firstname'];
+    this.lastname = responseMap['lastname'];
+    this.gender = responseMap['gender'];
+    this.phone = responseMap['phone'];
+    this.token = responseMap['token'];
+  }
+}
+
+class _LoginPageState extends State<LoginPage> {
+  final GlobalKey<FormState> _formKey = new GlobalKey<FormState>();
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
+  UserData userData = new UserData();
+
+  void login(email, password) async {
+    final url = "http://10.0.2.2:8000/api/login/";
+    await http.post(Uri.parse(url),
+        body: {"email": email, "password": password}).then((response) {
+      Map<String, dynamic> responseMap = json.decode(response.body);
+      if (response.statusCode == 200) {
+        userData.addData(responseMap);
+        if (responseMap['is_admin'] == true) {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => AdminNav(userData),
+            ),
+          );
+        } else {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => UserNav(userData),
+            ),
+          );
+        }
+      } else {
+        if (responseMap.containsKey("detail"))
+          showDialog(
+              context: context,
+              builder: (BuildContext context) => getAlertDialog(
+                  "Login failed", '${responseMap["detail"]}', context));
+      }
+    }).catchError((err) {
+      showDialog(
+          context: context,
+          builder: (BuildContext context) =>
+              getAlertDialog("Login failed", '${err.toString()}', context));
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -59,23 +119,83 @@ class _LoginPageState extends State<LoginPage> {
                 child: Container(
                   margin:
                       EdgeInsets.only(left: 30, right: 30, top: 10, bottom: 10),
-                  child: Column(
-                    mainAxisSize: MainAxisSize.max,
-                    children: <Widget>[
-                      _emailInput(hint: "Email Address"),
-                      _passInput(hint: "Password"),
-                      SizedBox(height: 10),
-                      Container(
-                        child: Center(
+                  child: Form(
+                    key: this._formKey,
+                    child: Column(
+                      mainAxisSize: MainAxisSize.max,
+                      children: <Widget>[
+                        _emailInput(
+                            controller: emailController, hint: "Email Address"),
+                        _passInput(
+                            controller: passwordController, hint: "Password"),
+                        SizedBox(height: 10),
+                        Container(
+                          child: Center(
+                            child: Column(
+                              children: [
+                                InkWell(
+                                  onTap: () {
+                                    // Navigator.push(
+                                    //     context,
+                                    //     MaterialPageRoute(
+                                    //         builder: (context) =>
+                                    //             RegistrationPage()));
+                                  },
+                                  child: Container(
+                                    //margin: EdgeInsets.only(top:10),
+                                    width: 180,
+                                    height: 40,
+                                    decoration: BoxDecoration(
+                                      gradient: LinearGradient(
+                                          colors: [trans, trans],
+                                          end: Alignment.centerLeft,
+                                          begin: Alignment.centerRight),
+                                      borderRadius:
+                                          //BorderRadius.all(Radius.circular(100),
+                                          BorderRadius.all(
+                                        Radius.circular(20),
+                                      ),
+                                    ),
+                                    alignment: Alignment.center,
+                                    child: Text(
+                                      "Forgot Password?",
+                                      style: TextStyle(
+                                          fontSize: 14, color: Colors.black87),
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                        SizedBox(height: 10),
+                        Container(
+                          child: Column(
+                            children: [
+                              MaroonButton(
+                                onClick: () {
+                                  if (this._formKey.currentState!.validate()) {
+                                    _formKey.currentState!.save();
+                                    login(emailController.text,
+                                        passwordController.text);
+                                  }
+                                },
+                                btnText: "LOGIN",
+                              ),
+                            ],
+                          ),
+                        ),
+                        SizedBox(height: 10),
+                        Container(
                           child: Column(
                             children: [
                               InkWell(
                                 onTap: () {
-                                  // Navigator.push(
-                                  //     context,
-                                  //     MaterialPageRoute(
-                                  //         builder: (context) =>
-                                  //             RegistrationPage()));
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) =>
+                                              RegistrationPage()));
                                 },
                                 child: Container(
                                   //margin: EdgeInsets.only(top:10),
@@ -94,98 +214,22 @@ class _LoginPageState extends State<LoginPage> {
                                   ),
                                   alignment: Alignment.center,
                                   child: Text(
-                                    "Forgot Password?",
+                                    "SIGN UP",
                                     style: TextStyle(
-                                        fontSize: 14, color: Colors.black87),
+                                        fontSize: 20,
+                                        color: Colors.black87,
+                                        fontWeight: FontWeight.bold),
                                   ),
                                 ),
                               ),
                             ],
                           ),
-                        ),
-                      ),
-                      SizedBox(height: 10),
-                      Container(
-                        child: Column(
-                          children: [
-                            MaroonButton(
-                              onClick: () {
-                                getUserData();
-                                if (emailController.text == "" ||
-                                    passwordController.text == "") {
-                                  print("fill all the blanks!");
-                                } else
-                                  for (int i = 0; i < users.length; i++) {
-                                    if (emailController.text ==
-                                            users[i].email &&
-                                        passwordController.text ==
-                                            users[i].password) {
-                                      if (users[i].admin == true &&
-                                          users[i].isActive == true) {
-                                        Navigator.push(
-                                            context,
-                                            MaterialPageRoute(
-                                                builder: (context) =>
-                                                    AdminNav()));
-                                      } else if (users[i].isActive == true)
-                                        Navigator.push(
-                                            context,
-                                            MaterialPageRoute(
-                                                builder: (context) =>
-                                                    UserNav()));
-                                    } else
-                                      print("Login Failed!");
-                                  }
-                              },
-                              btnText: "LOGIN",
-                            ),
-                          ],
-                        ),
-                      ),
-                      SizedBox(height: 10),
-                      Container(
-                        child: Column(
-                          children: [
-                            InkWell(
-                              onTap: () {
-                                Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) =>
-                                            RegistrationPage()));
-                              },
-                              child: Container(
-                                //margin: EdgeInsets.only(top:10),
-                                width: 180,
-                                height: 40,
-                                decoration: BoxDecoration(
-                                  gradient: LinearGradient(
-                                      colors: [trans, trans],
-                                      end: Alignment.centerLeft,
-                                      begin: Alignment.centerRight),
-                                  borderRadius:
-                                      //BorderRadius.all(Radius.circular(100),
-                                      BorderRadius.all(
-                                    Radius.circular(20),
-                                  ),
-                                ),
-                                alignment: Alignment.center,
-                                child: Text(
-                                  "SIGN UP",
-                                  style: TextStyle(
-                                      fontSize: 20,
-                                      color: Colors.black87,
-                                      fontWeight: FontWeight.bold),
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                      )
-                    ],
+                        )
+                      ],
+                    ),
                   ),
                 ),
-              )
+              ),
             ],
           ),
         ),
@@ -221,6 +265,7 @@ class _LoginPageState extends State<LoginPage> {
       ),
       //padding: EdgeInsets.only(left: 10),
       child: TextFormField(
+        obscureText: true,
         controller: passwordController,
         textAlign: TextAlign.center,
         decoration: InputDecoration(

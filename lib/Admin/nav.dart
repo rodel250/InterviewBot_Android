@@ -1,8 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:interview_bot/Admin/admin_dashboard.dart';
-import 'package:interview_bot/Admin/admin_joblist.dart';
+import 'package:interview_bot/login_register/loginpage.dart';
+
+import 'admin_joblist.dart';
 
 class AdminNav extends StatefulWidget {
+  UserData userData;
+  AdminNav(@required this.userData);
+
   @override
   _NavState createState() => _NavState();
 }
@@ -10,8 +15,8 @@ class AdminNav extends StatefulWidget {
 class _NavState extends State<AdminNav> {
   int _selectedIndex = 0;
   List<Widget> _widgetOptions = <Widget>[
-    // JobList(),
     Dashboard(),
+    JobList(),
     Text('Settings'),
   ];
 

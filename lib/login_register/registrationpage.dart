@@ -269,7 +269,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
           return Text('${snapshot.error}');
         }
 
-        return const CircularProgressIndicator();
+        return Center(child: CircularProgressIndicator());
       },
     );
   }

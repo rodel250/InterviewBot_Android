@@ -5,14 +5,29 @@ import 'package:interview_bot/Contact Us/ContactUs.dart';
 import 'package:interview_bot/Profile/edit_profile.dart';
 import 'package:interview_bot/job_offers/master.dart';
 
-
+import 'login_register/loginpage.dart';
 
 class UserNav extends StatefulWidget {
+  UserData userData;
+  UserNav(@required this.userData);
+
   @override
-  _NavState createState() => _NavState();
+  _NavState createState() => _NavState(userData);
 }
+
 class _NavState extends State<UserNav> {
+  UserData userData;
+  Map<String, String> headers = new Map();
   int _selectedIndex = 0;
+
+  _NavState(this.userData);
+
+  @override
+  void initState() {
+    headers["Authorization"] = 'Bearer ${userData.token}';
+    super.initState();
+  }
+
   List<Widget> _widgetOptions = <Widget>[
     HomeScreen(),
     Master(),
@@ -31,7 +46,10 @@ class _NavState extends State<UserNav> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Interview Bot',style: TextStyle(fontFamily: "assets/fonts/Gotham Bold"),),
+        title: Text(
+          'Interview Bot',
+          style: TextStyle(fontFamily: "assets/fonts/Gotham Bold"),
+        ),
       ),
       body: Center(
         child: _widgetOptions.elementAt(_selectedIndex),
