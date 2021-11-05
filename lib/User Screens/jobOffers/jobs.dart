@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:interview_bot/job_offers/data.dart';
-import 'package:interview_bot/job_offers/job_detail.dart';
+import 'package:interview_bot/User%20Screens/jobOffers/data.dart';
+import 'package:interview_bot/User%20Screens/jobOffers/job_detail.dart';
 import 'package:interview_bot/login_register/color.dart';
 
 class Jobs extends StatefulWidget {
@@ -10,7 +10,6 @@ class Jobs extends StatefulWidget {
 }
 
 class _JobsState extends State<Jobs> {
-
   List<Job> jobs = getJobs();
   bool isSearching = false;
 
@@ -18,31 +17,25 @@ class _JobsState extends State<Jobs> {
   Widget build(BuildContext context) {
     return Column(
       children: [
-
         Padding(
           padding: EdgeInsets.only(right: 20, left: 20, top: 40, bottom: 10),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-
               IconButton(
                 icon: Icon(Icons.menu),
-                onPressed: (){
-                },
+                onPressed: () {},
               ),
-
               Row(
                 children: [
-                  
                   IconButton(
                     icon: Icon(Icons.search),
-                    onPressed: (){
+                    onPressed: () {
                       setState(() {
                         this.isSearching = !this.isSearching;
                       });
                     },
                   ),
-
                   SizedBox(
                     width: 5,
                   ),
@@ -51,26 +44,21 @@ class _JobsState extends State<Jobs> {
             ],
           ),
         ),
-
         Expanded(
           child: SingleChildScrollView(
             physics: BouncingScrollPhysics(),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
-
                 Padding(
-                  padding: EdgeInsets.only(right: 32, left: 32, top: 8, bottom: 20),
+                  padding:
+                      EdgeInsets.only(right: 32, left: 32, top: 8, bottom: 20),
                   child: Text(
                     "Hi User, \nFind your Dream Job",
                     style: TextStyle(
-                        fontSize: 30,
-                        fontFamily: 'Gotham Bold',
-                        height: 1.2
-                    ),
+                        fontSize: 30, fontFamily: 'Gotham Bold', height: 1.2),
                   ),
                 ),
-
                 Padding(
                   padding: EdgeInsets.symmetric(horizontal: 32, vertical: 16),
                   child: Wrap(
@@ -85,7 +73,6 @@ class _JobsState extends State<Jobs> {
                     ],
                   ),
                 ),
-
                 Padding(
                   padding: EdgeInsets.symmetric(horizontal: 32, vertical: 16),
                   child: Text(
@@ -96,7 +83,6 @@ class _JobsState extends State<Jobs> {
                     ),
                   ),
                 ),
-
                 Container(
                   height: 190,
                   child: ListView(
@@ -105,7 +91,6 @@ class _JobsState extends State<Jobs> {
                     children: buildRecommendations(),
                   ),
                 ),
-
                 Padding(
                   padding: EdgeInsets.symmetric(horizontal: 32, vertical: 16),
                   child: Text(
@@ -116,7 +101,6 @@ class _JobsState extends State<Jobs> {
                     ),
                   ),
                 ),
-
                 Padding(
                   padding: EdgeInsets.symmetric(horizontal: 32),
                   child: Column(
@@ -131,17 +115,19 @@ class _JobsState extends State<Jobs> {
     );
   }
 
-  Widget buildFilterOption(String text){
+  Widget buildFilterOption(String text) {
     return Container(
       decoration: BoxDecoration(
-        gradient: LinearGradient(
-            colors: [gold,gold]),
+        gradient: LinearGradient(colors: [gold, gold]),
         borderRadius: BorderRadius.all(
           Radius.circular(5),
         ),
       ),
       child: Container(
-        padding: EdgeInsets.symmetric(horizontal: 12, vertical: 8,),
+        padding: EdgeInsets.symmetric(
+          horizontal: 12,
+          vertical: 8,
+        ),
         child: Row(
           mainAxisSize: MainAxisSize.min,
           children: [
@@ -165,17 +151,21 @@ class _JobsState extends State<Jobs> {
     );
   }
 
-  List<Widget> buildRecommendations(){
+  List<Widget> buildRecommendations() {
     List<Widget> list = [];
-    list.add(SizedBox(width: 32,));
+    list.add(SizedBox(
+      width: 32,
+    ));
     for (var i = 0; i < jobs.length; i++) {
       list.add(buildRecommendation(jobs[i]));
     }
-    list.add(SizedBox(width: 16,));
+    list.add(SizedBox(
+      width: 16,
+    ));
     return list;
   }
 
-  Widget buildRecommendation(Job job){
+  Widget buildRecommendation(Job job) {
     return GestureDetector(
       onTap: () {
         Navigator.push(
@@ -186,8 +176,7 @@ class _JobsState extends State<Jobs> {
       child: Container(
         width: 200,
         decoration: BoxDecoration(
-          gradient: LinearGradient(
-              colors: [maroon,maroon]),
+          gradient: LinearGradient(colors: [maroon, maroon]),
           borderRadius: BorderRadius.all(
             Radius.circular(12),
           ),
@@ -197,11 +186,9 @@ class _JobsState extends State<Jobs> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-
                 Container(
                   height: 50,
                   width: 50,
@@ -215,7 +202,6 @@ class _JobsState extends State<Jobs> {
                     ),
                   ),
                 ),
-
                 Container(
                   decoration: BoxDecoration(
                     color: Colors.grey[200],
@@ -224,7 +210,10 @@ class _JobsState extends State<Jobs> {
                     ),
                   ),
                   child: Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 12, vertical: 4,),
+                    padding: EdgeInsets.symmetric(
+                      horizontal: 12,
+                      vertical: 4,
+                    ),
                     child: Text(
                       job.concept,
                       style: TextStyle(
@@ -234,16 +223,13 @@ class _JobsState extends State<Jobs> {
                     ),
                   ),
                 ),
-
               ],
             ),
-
             Expanded(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
-
                   Text(
                     job.position,
                     style: TextStyle(
@@ -251,11 +237,9 @@ class _JobsState extends State<Jobs> {
                       fontSize: 16,
                     ),
                   ),
-
                   SizedBox(
                     height: 8,
                   ),
-
                   Text(
                     r"P" + job.price + "/hr",
                     style: TextStyle(
@@ -263,18 +247,16 @@ class _JobsState extends State<Jobs> {
                       fontSize: 24,
                     ),
                   ),
-
                 ],
               ),
             )
-
           ],
         ),
       ),
     );
   }
 
-  List<Widget> buildLastJobs(){
+  List<Widget> buildLastJobs() {
     List<Widget> list = [];
     for (var i = jobs.length - 1; i > -1; i--) {
       list.add(buildLastJob(jobs[i]));
@@ -282,7 +264,7 @@ class _JobsState extends State<Jobs> {
     return list;
   }
 
-  Widget buildLastJob(Job job){
+  Widget buildLastJob(Job job) {
     return GestureDetector(
       onTap: () {
         Navigator.push(
@@ -301,7 +283,6 @@ class _JobsState extends State<Jobs> {
         margin: EdgeInsets.only(bottom: 16),
         child: Row(
           children: [
-
             Container(
               height: 45,
               width: 45,
@@ -315,36 +296,30 @@ class _JobsState extends State<Jobs> {
                 ),
               ),
             ),
-
             Expanded(
                 child: Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 24),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-
-                      Text(
-                        job.position,
-                        style: TextStyle(
-                          fontSize: 16,
-                          fontFamily: 'Gotham Bold',
-                        ),
-                      ),
-
-                      Text(
-                        job.company,
-                        style: TextStyle(
-                          fontSize: 14,
-                          fontFamily: 'Gotham Bold',
-                          color: Colors.grey,
-                        ),
-                      ),
-
-                    ],
+              padding: EdgeInsets.symmetric(horizontal: 24),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    job.position,
+                    style: TextStyle(
+                      fontSize: 16,
+                      fontFamily: 'Gotham Bold',
+                    ),
                   ),
-                )
-            ),
-
+                  Text(
+                    job.company,
+                    style: TextStyle(
+                      fontSize: 14,
+                      fontFamily: 'Gotham Bold',
+                      color: Colors.grey,
+                    ),
+                  ),
+                ],
+              ),
+            )),
             Text(
               r"P" + job.price + "/hr",
               style: TextStyle(
@@ -352,11 +327,9 @@ class _JobsState extends State<Jobs> {
                 fontFamily: 'GothamBook Regular',
               ),
             ),
-
           ],
         ),
       ),
     );
   }
-
 }

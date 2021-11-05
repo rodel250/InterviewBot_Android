@@ -1,8 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:interview_bot/Admin/nav.dart';
+import 'package:interview_bot/Admin%20Screens/nav.dart';
 import 'package:interview_bot/login_register/registrationpage.dart';
-import 'package:interview_bot/user_nav.dart';
+import 'package:interview_bot/User%20Screens/homePage/homePage.dart';
 import 'package:interview_bot/widgets/button.dart';
 import 'package:interview_bot/widgets/header.dart';
 import 'package:http/http.dart' as http;
@@ -38,9 +38,9 @@ class _LoginData {
 }
 
 class UserData extends _LoginData {
-  bool is_admin = false;
-  bool is_staff = false;
-  bool is_active = false;
+  bool isAdmin = false;
+  bool isStaff = false;
+  bool isActive = false;
   String email = '';
   String firstname = '';
   String lastname = '';
@@ -49,9 +49,9 @@ class UserData extends _LoginData {
   String token = '';
 
   void addData(Map<String, dynamic> responseMap) {
-    this.is_admin = responseMap['is_admin'];
-    this.is_staff = responseMap['is_staff'];
-    this.is_active = responseMap['is_active'];
+    this.isAdmin = responseMap['is_admin'];
+    this.isStaff = responseMap['is_staff'];
+    this.isActive = responseMap['is_active'];
     this.email = responseMap['email'];
     this.firstname = responseMap['firstname'];
     this.lastname = responseMap['lastname'];
@@ -85,7 +85,7 @@ class _LoginPageState extends State<LoginPage> {
           Navigator.push(
             context,
             MaterialPageRoute(
-              builder: (context) => UserNav(userData),
+              builder: (context) => HomePage(userData),
             ),
           );
         }

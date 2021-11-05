@@ -1,27 +1,39 @@
-import 'package:flutter/cupertino.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
+import 'package:interview_bot/User%20Screens/aboutUs/aboutus_list_screen.dart';
+import 'package:interview_bot/User%20Screens/contactUs/ContactUs.dart';
+import 'package:interview_bot/User%20Screens/jobOffers/jobOfferings.dart';
+import 'package:interview_bot/User%20Screens/profile/edit_profile.dart';
+import '../../login_register/color.dart';
+import '../../login_register/loginpage.dart';
 
-import 'package:interview_bot/login_register/color.dart';
-
-class HomeScreen extends StatefulWidget {
-  HomeScreen();
+class HomePage extends StatefulWidget {
+  final UserData userData;
+  HomePage(this.userData);
 
   @override
-  _HomeScreenState createState() => _HomeScreenState();
+  _HomePageState createState() => _HomePageState(userData);
 }
 
-class _HomeScreenState extends State<HomeScreen> {
+class _HomePageState extends State<HomePage> {
+  UserData userData;
   Map<String, String> headers = new Map();
+
+  _HomePageState(this.userData);
+
+  @override
+  void initState() {
+    headers["Authorization"] = 'Bearer ${userData.token}';
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
-    var size = MediaQuery.of(context).size; //to get the size
-
     var cardTextStyle = TextStyle(
         fontFamily: "Gotham",
         fontSize: 14,
         color: Color.fromRGBO(63, 63, 63, 1));
+
     return Scaffold(
       body: Stack(
         children: <Widget>[
@@ -55,14 +67,14 @@ class _HomeScreenState extends State<HomeScreen> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: <Widget>[
                             Text(
-                              'Full Name',
+                              '${userData.firstname} ${userData.lastname}',
                               style: TextStyle(
                                   fontFamily: 'GothamBook Bold',
                                   color: Colors.white,
                                   fontSize: 20),
                             ),
                             Text(
-                              'Your Email Address',
+                              '${userData.email}',
                               style: TextStyle(
                                   fontFamily: 'GothamBook Regular',
                                   color: Colors.white,
@@ -169,6 +181,125 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
         ],
       ),
+      persistentFooterButtons: [
+        Column(
+          children: [
+            Flexible(
+              child: Wrap(
+                spacing: 7.0,
+                children: <Widget>[
+                  ElevatedButton(
+                    onPressed: () {},
+                    style: ElevatedButton.styleFrom(
+                        primary: Colors.white,
+                        onPrimary: maroon,
+                        padding:
+                            EdgeInsets.symmetric(horizontal: 5, vertical: 0),
+                        textStyle: TextStyle(
+                            fontSize: 15, fontWeight: FontWeight.bold)),
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: <Widget>[
+                        new Icon(Icons.home),
+                        new Text('Home'),
+                      ],
+                    ),
+                  ),
+                  ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                        primary: Colors.white,
+                        onPrimary: Colors.black,
+                        padding:
+                            EdgeInsets.symmetric(horizontal: 5, vertical: 0),
+                        textStyle: TextStyle(
+                            fontSize: 15, fontWeight: FontWeight.normal)),
+                    onPressed: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => Master(userData)));
+                    },
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: <Widget>[
+                        new Icon(Icons.search),
+                        new Text('Job Offers'),
+                      ],
+                    ),
+                  ),
+                  ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                        primary: Colors.white,
+                        onPrimary: Colors.black,
+                        padding:
+                            EdgeInsets.symmetric(horizontal: 5, vertical: 0),
+                        textStyle: TextStyle(
+                            fontSize: 15, fontWeight: FontWeight.normal)),
+                    onPressed: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) =>
+                                  AboutusListScreen(userData)));
+                    },
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: <Widget>[
+                        new Icon(Icons.info),
+                        new Text('About Us'),
+                      ],
+                    ),
+                  ),
+                  ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                        primary: Colors.white,
+                        onPrimary: Colors.black,
+                        padding:
+                            EdgeInsets.symmetric(horizontal: 5, vertical: 0),
+                        textStyle: TextStyle(
+                            fontSize: 15, fontWeight: FontWeight.normal)),
+                    onPressed: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => ContactUs(userData)));
+                    },
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: <Widget>[
+                        new Icon(Icons.message),
+                        new Text('Contact Us'),
+                      ],
+                    ),
+                  ),
+                  ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                        primary: Colors.white,
+                        onPrimary: Colors.black,
+                        padding:
+                            EdgeInsets.symmetric(horizontal: 5, vertical: 0),
+                        textStyle: TextStyle(
+                            fontSize: 15, fontWeight: FontWeight.normal)),
+                    onPressed: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => EditProfilePage(userData)));
+                    },
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: <Widget>[
+                        new Icon(Icons.person),
+                        new Text('Me'),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
+      ],
     );
   }
 }

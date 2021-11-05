@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:interview_bot/job_offers/data.dart';
+
+import 'data.dart';
 
 class JobDetail extends StatelessWidget {
-
   final Job job;
 
   JobDetail({required this.job});
@@ -38,14 +38,12 @@ class JobDetail extends StatelessWidget {
             borderRadius: BorderRadius.only(
               topLeft: Radius.circular(50),
               topRight: Radius.circular(50),
-            )
-        ),
+            )),
         child: Padding(
           padding: EdgeInsets.all(40),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-
               Center(
                 child: Container(
                   height: 50,
@@ -61,11 +59,9 @@ class JobDetail extends StatelessWidget {
                   ),
                 ),
               ),
-
               SizedBox(
                 height: 32,
               ),
-
               Center(
                 child: Text(
                   job.position,
@@ -75,11 +71,9 @@ class JobDetail extends StatelessWidget {
                   ),
                 ),
               ),
-
               SizedBox(
                 height: 16,
               ),
-
               Center(
                 child: Text(
                   job.city,
@@ -90,14 +84,11 @@ class JobDetail extends StatelessWidget {
                   ),
                 ),
               ),
-
               SizedBox(
                 height: 32,
               ),
-
               Row(
                 children: [
-
                   Expanded(
                     child: Container(
                       height: 45,
@@ -118,7 +109,6 @@ class JobDetail extends StatelessWidget {
                       ),
                     ),
                   ),
-
                   Expanded(
                     child: Container(
                       child: Center(
@@ -132,14 +122,11 @@ class JobDetail extends StatelessWidget {
                       ),
                     ),
                   ),
-
                 ],
               ),
-
               SizedBox(
                 height: 32,
               ),
-
               Text(
                 "Basic Requirements",
                 style: TextStyle(
@@ -147,11 +134,9 @@ class JobDetail extends StatelessWidget {
                   fontFamily: 'Gotham Bold',
                 ),
               ),
-
               SizedBox(
                 height: 16,
               ),
-
               Expanded(
                 child: SingleChildScrollView(
                   physics: BouncingScrollPhysics(),
@@ -160,14 +145,11 @@ class JobDetail extends StatelessWidget {
                   ),
                 ),
               ),
-
               SizedBox(
                 height: 16,
               ),
-
               Row(
                 children: [
-
                   Container(
                     height: 60,
                     width: 60,
@@ -178,11 +160,9 @@ class JobDetail extends StatelessWidget {
                       ),
                     ),
                   ),
-
                   SizedBox(
                     width: 16,
                   ),
-
                   Expanded(
                     child: Container(
                       height: 60,
@@ -204,10 +184,8 @@ class JobDetail extends StatelessWidget {
                       ),
                     ),
                   ),
-
                 ],
               ),
-
             ],
           ),
         ),
@@ -215,7 +193,7 @@ class JobDetail extends StatelessWidget {
     );
   }
 
-  List<Widget> buildRequirements(){
+  List<Widget> buildRequirements() {
     List<Widget> list = [];
     for (var i = 0; i < getJobsRequirements().length; i++) {
       list.add(buildRequirement(getJobsRequirements()[i]));
@@ -223,12 +201,11 @@ class JobDetail extends StatelessWidget {
     return list;
   }
 
-  Widget buildRequirement(String requirement){
+  Widget buildRequirement(String requirement) {
     return Container(
       margin: EdgeInsets.symmetric(vertical: 8),
       child: Row(
         children: [
-
           Container(
             width: 4,
             height: 4,
@@ -237,11 +214,9 @@ class JobDetail extends StatelessWidget {
               shape: BoxShape.circle,
             ),
           ),
-
           SizedBox(
             width: 16,
           ),
-
           Flexible(
             child: Text(
               requirement,
@@ -252,10 +227,8 @@ class JobDetail extends StatelessWidget {
               ),
             ),
           ),
-
         ],
       ),
     );
   }
-
 }
