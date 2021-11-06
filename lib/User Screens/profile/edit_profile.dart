@@ -1,3 +1,6 @@
+import 'dart:convert';
+
+import 'package:flutter/services.dart';
 import 'package:interview_bot/User%20Screens/aboutUs/aboutus_list_screen.dart';
 import 'package:interview_bot/User%20Screens/contactUs/ContactUs.dart';
 import 'package:interview_bot/User%20Screens/homePage/homePage.dart';
@@ -6,6 +9,7 @@ import 'package:interview_bot/login_register/color.dart';
 import 'package:interview_bot/login_register/loginpage.dart';
 import 'package:interview_bot/login_register/splash_page.dart';
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
 
 class EditProfilePage extends StatefulWidget {
   final UserData userData;
@@ -19,62 +23,189 @@ class _EditProfilePageState extends State<EditProfilePage> {
   final UserData userData;
   _EditProfilePageState(this.userData);
 
+  TextEditingController emailController = TextEditingController();
+  TextEditingController passwordController = TextEditingController();
+  TextEditingController firstnameController = TextEditingController();
+  TextEditingController lastnameController = TextEditingController();
+  TextEditingController phoneController = TextEditingController();
   bool showPassword = true;
+
+  @override
+  void initState() {
+    super.initState();
+    emailController = new TextEditingController(text: '${userData.email}');
+    firstnameController =
+        new TextEditingController(text: '${userData.firstname}');
+    lastnameController =
+        new TextEditingController(text: '${userData.lastname}');
+    phoneController = new TextEditingController(text: '${userData.phone}');
+  }
+
+  void save(id, firstname, lastname, phone, password) async {
+    final url = "http://10.0.2.2:8000/api/update-account/";
+    await http.post(Uri.parse(url), body: {
+      'id': id,
+      'firstname': firstname,
+      'lastname': lastname,
+      'phone': phone,
+      'password': password
+    }).then((response) {
+      Map<String, dynamic> responseMap = json.decode(response.body);
+      if (response.statusCode == 200) {
+        userData.firstname = firstname;
+        userData.lastname = lastname;
+        userData.phone = phone;
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => EditProfilePage(userData),
+          ),
+        );
+        showDialog(
+            context: context,
+            builder: (BuildContext context) => getAlertDialog(
+                "SUCCESS", '${responseMap["success"]}', context));
+      } else {
+        if (responseMap.containsKey("detail"))
+          showDialog(
+              context: context,
+              builder: (BuildContext context) => getAlertDialog(
+                  "Save failed", '${responseMap["detail"]}', context));
+      }
+    }).catchError((err) {
+      showDialog(
+          context: context,
+          builder: (BuildContext context) =>
+              getAlertDialog("Save failed", '${err.toString()}', context));
+    });
+  }
+
+  void logout(key) async {
+    final url = "http://10.0.2.2:8000/api/logout/";
+    await http.post(Uri.parse(url), body: {'key': key}).then((response) {
+      Map<String, dynamic> responseMap = json.decode(response.body);
+      if (response.statusCode == 200) {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => LoginPage(),
+          ),
+        );
+        showDialog(
+            context: context,
+            builder: (BuildContext context) => getAlertDialog(
+                "SUCCESS", '${responseMap["success"]}', context));
+      } else {
+        if (responseMap.containsKey("detail"))
+          showDialog(
+              context: context,
+              builder: (BuildContext context) => getAlertDialog(
+                  "Logout failed", '${responseMap["detail"]}', context));
+      }
+    }).catchError((err) {
+      showDialog(
+          context: context,
+          builder: (BuildContext context) =>
+              getAlertDialog("Logout failed", '${err.toString()}', context));
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
-        padding: EdgeInsets.only(left: 16, top: 25, right: 16),
+        padding: EdgeInsets.only(left: 16, top: 50, right: 16),
         child: GestureDetector(
           onTap: () {
             FocusScope.of(context).unfocus();
           },
           child: ListView(
             children: [
+              Row(
+                children: [
+                  ElevatedButton(
+                    onPressed: () {
+                      logout("${userData.token}");
+                    },
+                    style: ElevatedButton.styleFrom(
+                      primary: Color(0xFFFFCC00),
+                      padding: EdgeInsets.symmetric(horizontal: 10),
+                      elevation: 2,
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(20)),
+                    ),
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: <Widget>[
+                        new Icon(Icons.logout),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
               Text(
-                "Personal Information\n",
+                "Personal Information",
                 style: TextStyle(
                     fontSize: 25,
                     fontWeight: FontWeight.w500,
                     fontFamily: "assets/fonts/Gotham Bold"),
               ),
-              buildTextField("Firstname:", "${userData.firstname}", false),
-              buildTextField("Lastname", "${userData.lastname}", false),
-              buildTextField("Phone number:", "${userData.phone}", false),
-              buildTextField("Gender:", "${userData.gender}", false),
+              buildTextField(
+                  controller: firstnameController,
+                  labelText: "First Name:",
+                  editable: true,
+                  isPasswordTextField: false),
+              buildTextField(
+                  controller: lastnameController,
+                  labelText: "Last Name",
+                  editable: true,
+                  isPasswordTextField: false),
+              buildTextField(
+                  controller: phoneController,
+                  labelText: "Phone",
+                  editable: true,
+                  isPasswordTextField: false),
               Text(
-                "Account Information\n",
+                "\nAccount Information",
                 style: TextStyle(
                     fontSize: 25,
                     fontWeight: FontWeight.w500,
                     fontFamily: "assets/fonts/Gotham Bold"),
               ),
-              buildTextField("Email Address:", "${userData.email}", false),
-              buildTextField("Password:", "", true),
+              buildTextField(
+                  controller: emailController,
+                  labelText: "Email Address",
+                  editable: false,
+                  isPasswordTextField: false),
+              buildTextField(
+                  controller: passwordController,
+                  labelText: "Password",
+                  editable: true,
+                  isPasswordTextField: true),
               SizedBox(
                 height: 10,
               ),
               Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisSize: MainAxisSize.max,
                 children: [
-                  OutlineButton(
-                    padding: EdgeInsets.symmetric(horizontal: 50),
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(20)),
-                    onPressed: () {},
-                    child: Text("CANCEL",
-                        style: TextStyle(
-                            fontSize: 14,
-                            letterSpacing: 2.2,
-                            color: Colors.black)),
-                  ),
-                  RaisedButton(
-                    onPressed: () {},
-                    color: Color(0xFFFFCC00),
-                    padding: EdgeInsets.symmetric(horizontal: 50),
-                    elevation: 2,
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(20)),
+                  ElevatedButton(
+                    onPressed: () {
+                      save(
+                          "${userData.id}",
+                          firstnameController.text,
+                          lastnameController.text,
+                          phoneController.text,
+                          passwordController.text);
+                    },
+                    style: ElevatedButton.styleFrom(
+                      primary: Color(0xFFFFCC00),
+                      padding: EdgeInsets.symmetric(horizontal: 50),
+                      elevation: 2,
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(20)),
+                    ),
                     child: Text(
                       "SAVE",
                       style: TextStyle(
@@ -212,10 +343,14 @@ class _EditProfilePageState extends State<EditProfilePage> {
   }
 
   Widget buildTextField(
-      String labelText, String placeholder, bool isPasswordTextField) {
+      {controller, labelText, editable, isPasswordTextField}) {
     return Padding(
-      padding: const EdgeInsets.only(bottom: 35.0),
+      padding: const EdgeInsets.only(bottom: 15.0),
       child: TextField(
+        controller: controller,
+        enabled: editable,
+        maxLength: labelText == "Phone" ? 11 : TextField.noMaxLength,
+        maxLengthEnforcement: MaxLengthEnforcement.truncateAfterCompositionEnds,
         obscureText: isPasswordTextField ? showPassword : false,
         decoration: InputDecoration(
             suffixIcon: isPasswordTextField
@@ -231,16 +366,31 @@ class _EditProfilePageState extends State<EditProfilePage> {
                     ),
                   )
                 : null,
-            contentPadding: EdgeInsets.only(bottom: 3),
+            contentPadding: EdgeInsets.only(bottom: 3, top: 15),
             labelText: labelText,
+            counterText: "",
             floatingLabelBehavior: FloatingLabelBehavior.always,
-            hintText: placeholder,
             hintStyle: TextStyle(
               fontSize: 16,
               fontWeight: FontWeight.bold,
               color: Colors.black,
             )),
       ),
+    );
+  }
+
+  AlertDialog getAlertDialog(title, content, context) {
+    return AlertDialog(
+      title: Text('$title'),
+      content: Text('$content'),
+      actions: <Widget>[
+        TextButton(
+          child: Text('Close'),
+          onPressed: () {
+            Navigator.of(context).pop();
+          },
+        ),
+      ],
     );
   }
 }

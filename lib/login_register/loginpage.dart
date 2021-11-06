@@ -38,10 +38,10 @@ class _LoginData {
 }
 
 class UserData extends _LoginData {
+  int id = 0;
   bool isAdmin = false;
   bool isStaff = false;
   bool isActive = false;
-  String email = '';
   String firstname = '';
   String lastname = '';
   String gender = '';
@@ -49,6 +49,7 @@ class UserData extends _LoginData {
   String token = '';
 
   void addData(Map<String, dynamic> responseMap) {
+    this.id = responseMap['user_id'];
     this.isAdmin = responseMap['is_admin'];
     this.isStaff = responseMap['is_staff'];
     this.isActive = responseMap['is_active'];
