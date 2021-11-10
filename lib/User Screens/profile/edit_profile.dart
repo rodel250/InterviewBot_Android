@@ -7,7 +7,7 @@ import 'package:interview_bot/User%20Screens/homePage/homePage.dart';
 import 'package:interview_bot/User%20Screens/jobOffers/jobOfferings.dart';
 import 'package:interview_bot/login_register/color.dart';
 import 'package:interview_bot/login_register/loginpage.dart';
-import 'package:interview_bot/login_register/splash_page.dart';
+import 'package:interview_bot/login_register/registrationpage.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
@@ -19,10 +19,11 @@ class EditProfilePage extends StatefulWidget {
   _EditProfilePageState createState() => _EditProfilePageState(userData);
 }
 
-class _EditProfilePageState extends State<EditProfilePage> {
+class _EditProfilePageState extends State<EditProfilePage>
+    with InputValidationMixin {
   final UserData userData;
   _EditProfilePageState(this.userData);
-
+  final _formKey = GlobalKey<FormState>();
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
   TextEditingController firstnameController = TextEditingController();
@@ -143,78 +144,89 @@ class _EditProfilePageState extends State<EditProfilePage> {
                   ),
                 ],
               ),
-              Text(
-                "Personal Information",
-                style: TextStyle(
-                    fontSize: 25,
-                    fontWeight: FontWeight.w500,
-                    fontFamily: "assets/fonts/Gotham Bold"),
-              ),
-              buildTextField(
-                  controller: firstnameController,
-                  labelText: "First Name:",
-                  editable: true,
-                  isPasswordTextField: false),
-              buildTextField(
-                  controller: lastnameController,
-                  labelText: "Last Name",
-                  editable: true,
-                  isPasswordTextField: false),
-              buildTextField(
-                  controller: phoneController,
-                  labelText: "Phone",
-                  editable: true,
-                  isPasswordTextField: false),
-              Text(
-                "\nAccount Information",
-                style: TextStyle(
-                    fontSize: 25,
-                    fontWeight: FontWeight.w500,
-                    fontFamily: "assets/fonts/Gotham Bold"),
-              ),
-              buildTextField(
-                  controller: emailController,
-                  labelText: "Email Address",
-                  editable: false,
-                  isPasswordTextField: false),
-              buildTextField(
-                  controller: passwordController,
-                  labelText: "Password",
-                  editable: true,
-                  isPasswordTextField: true),
-              SizedBox(
-                height: 10,
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisSize: MainAxisSize.max,
-                children: [
-                  ElevatedButton(
-                    onPressed: () {
-                      save(
-                          "${userData.id}",
-                          firstnameController.text,
-                          lastnameController.text,
-                          phoneController.text,
-                          passwordController.text);
-                    },
-                    style: ElevatedButton.styleFrom(
-                      primary: Color(0xFFFFCC00),
-                      padding: EdgeInsets.symmetric(horizontal: 50),
-                      elevation: 2,
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(20)),
-                    ),
-                    child: Text(
-                      "SAVE",
-                      style: TextStyle(
-                          fontSize: 14,
-                          letterSpacing: 2.2,
-                          color: Colors.white),
-                    ),
-                  )
-                ],
+              Form(
+                key: _formKey,
+                child: Container(
+                  child: Column(
+                    children: [
+                      Text(
+                        "Personal Information",
+                        style: TextStyle(
+                            fontSize: 25,
+                            fontWeight: FontWeight.w500,
+                            fontFamily: "assets/fonts/Gotham Bold"),
+                      ),
+                      buildTextField(
+                          controller: firstnameController,
+                          labelText: "First Name:",
+                          editable: true,
+                          isPasswordTextField: false),
+                      buildTextField(
+                          controller: lastnameController,
+                          labelText: "Last Name",
+                          editable: true,
+                          isPasswordTextField: false),
+                      buildTextField(
+                          controller: phoneController,
+                          labelText: "Phone",
+                          editable: true,
+                          isPasswordTextField: false),
+                      Text(
+                        "\nAccount Information",
+                        style: TextStyle(
+                            fontSize: 25,
+                            fontWeight: FontWeight.w500,
+                            fontFamily: "assets/fonts/Gotham Bold"),
+                      ),
+                      buildTextField(
+                          controller: emailController,
+                          labelText: "Email Address",
+                          editable: false,
+                          isPasswordTextField: false),
+                      buildTextField(
+                          controller: passwordController,
+                          labelText: "Password",
+                          editable: true,
+                          isPasswordTextField: true),
+                      SizedBox(
+                        height: 10,
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        mainAxisSize: MainAxisSize.max,
+                        children: [
+                          ElevatedButton(
+                            onPressed: () {
+                              if (_formKey.currentState!.validate()) {
+                                save(
+                                    "${userData.id}",
+                                    firstnameController.text,
+                                    lastnameController.text,
+                                    phoneController.text,
+                                    passwordController.text);
+                              }
+                            },
+                            style: ElevatedButton.styleFrom(
+                              primary: Color(0xFFFFCC00),
+                              padding: EdgeInsets.symmetric(horizontal: 50),
+                              elevation: 2,
+                              shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(20)),
+                            ),
+                            child: Text(
+                              "SAVE",
+                              style: TextStyle(
+                                  fontSize: 14,
+                                  letterSpacing: 2.2,
+                                  color: Colors.white),
+                            ),
+                          )
+                        ],
+                      ),
+                    ],
+                  ),
+                ),
               ),
             ],
           ),
@@ -346,12 +358,29 @@ class _EditProfilePageState extends State<EditProfilePage> {
       {controller, labelText, editable, isPasswordTextField}) {
     return Padding(
       padding: const EdgeInsets.only(bottom: 15.0),
-      child: TextField(
+      child: TextFormField(
         controller: controller,
         enabled: editable,
         maxLength: labelText == "Phone" ? 11 : TextField.noMaxLength,
         maxLengthEnforcement: MaxLengthEnforcement.truncateAfterCompositionEnds,
         obscureText: isPasswordTextField ? showPassword : false,
+        validator: (value) {
+          if (labelText != "Password") {
+            if ((value == null || value.isEmpty)) {
+              return '\t\t\tThis field is required';
+            }
+
+            if (labelText == "Phone" && !(isPhoneValid(value))) {
+              return "\t\t\tEnter a valid phone";
+            }
+          } else if (labelText == "Password" &&
+              !(isPasswordValid(value!)) &&
+              value.isNotEmpty) {
+            return "\t\t\tEnter a valid password";
+          }
+
+          return null;
+        },
         decoration: InputDecoration(
             suffixIcon: isPasswordTextField
                 ? IconButton(

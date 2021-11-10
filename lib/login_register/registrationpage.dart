@@ -327,12 +327,11 @@ mixin InputValidationMixin {
   bool isPasswordValid(String password) {
     password = password.trim();
     if (password.length > 5 && password.length < 21) {
-      RegExp regex = new RegExp(r"(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,20}");
+      RegExp regex = new RegExp(r"(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*\W)");
       if (regex.hasMatch(password)) {
         return true;
       }
     }
-
     return false;
   }
 
