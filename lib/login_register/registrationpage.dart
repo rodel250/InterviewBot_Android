@@ -131,7 +131,7 @@ class _RegistrationPageState extends State<RegistrationPage>
         SizedBox(height: 10),
         Container(
           height: 40,
-          width: 300,
+          width: 400,
           alignment: Alignment.center,
           padding: EdgeInsets.only(
             top: 10,
@@ -148,14 +148,14 @@ class _RegistrationPageState extends State<RegistrationPage>
           child: Center(
             child: DropdownButton<String>(
               value: dropdownValue,
-              style: TextStyle(color: Colors.black, fontSize: 14),
+              style: TextStyle(color: Colors.black, fontSize: 16),
               elevation: 16,
               hint: Center(
                   child: new Text(
                 'Gender',
                 textAlign: TextAlign.center,
               )),
-              icon: const Icon(Icons.arrow_drop_down_circle),
+              //icon: const Icon(Icons.arrow_drop_down_circle),
               onChanged: (String? newValue) {
                 setState(() {
                   dropdownValue = newValue;
