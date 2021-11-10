@@ -14,7 +14,8 @@ class RegistrationPage extends StatefulWidget {
   _RegistrationPageState createState() => _RegistrationPageState();
 }
 
-class _RegistrationPageState extends State<RegistrationPage> {
+class _RegistrationPageState extends State<RegistrationPage>
+    with InputValidationMixin {
   final _formKey = GlobalKey<FormState>();
   final TextEditingController _email = TextEditingController();
   final TextEditingController _firstname = TextEditingController();
@@ -189,6 +190,8 @@ class _RegistrationPageState extends State<RegistrationPage> {
             validator: (val) {
               if (val!.isEmpty) {
                 return '\t\t\tThis field is required';
+              } else if (!(isPasswordValid(val))) {
+                return '\t\t\tEnter a valid password';
               }
               return null;
             },
@@ -213,6 +216,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
               if (val!.isEmpty) {
                 return '\t\t\tThis field is required';
               }
+
               if (val != _password.text) {
                 return 'Password does not match';
               }
@@ -288,15 +292,58 @@ class _RegistrationPageState extends State<RegistrationPage> {
           if (value == null || value.isEmpty) {
             return '\t\t\tThis field is required';
           }
+
+          if (hint == "Email Address") {
+            if (!(isEmailValid(value))) {
+              return "\t\t\tEnter a valid email";
+            }
+          }
+
+          if (hint == "Phone Number") {
+            if (!(isPhoneValid(value))) {
+              return "\t\t\tEnter a valid phone number";
+            }
+          }
           return null;
         },
+        maxLength: hint == "Phone Number"
+            ? 11
+            : hint == "Password"
+                ? 20
+                : TextField.noMaxLength,
         controller: controller,
         textAlign: TextAlign.center,
         decoration: InputDecoration(
           border: InputBorder.none,
           hintText: hint,
+          counterText: "",
         ),
       ),
     );
+  }
+}
+
+mixin InputValidationMixin {
+  bool isPasswordValid(String password) {
+    password = password.trim();
+    if (password.length > 5 && password.length < 21) {
+      RegExp regex = new RegExp(r"(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,20}");
+      if (regex.hasMatch(password)) {
+        return true;
+      }
+    }
+
+    return false;
+  }
+
+  bool isEmailValid(String email) {
+    RegExp regex = new RegExp(
+        r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+");
+    return regex.hasMatch(email);
+  }
+
+  bool isPhoneValid(String phone) {
+    RegExp regex = new RegExp(r"^[0-9]{11}");
+    return regex.hasMatch(phone);
   }
 }

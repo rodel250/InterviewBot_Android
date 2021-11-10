@@ -14,7 +14,7 @@ Future<Account> createAccount(
     String password,
     String? gender) async {
   final response = await http.post(
-    Uri.parse('http://10.0.2.2:8000/api/account/'),
+    Uri.parse('http://10.0.2.2:8000/api/user-registration/'),
     headers: <String, String>{
       'Content-Type': 'application/json; charset=UTF-8',
     },
