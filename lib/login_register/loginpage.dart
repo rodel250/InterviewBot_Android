@@ -63,6 +63,7 @@ class UserData extends _LoginData {
 }
 
 class _LoginPageState extends State<LoginPage> {
+  // final storage = new FlutterSecureStorage();
   final GlobalKey<FormState> _formKey = new GlobalKey<FormState>();
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();

@@ -13,9 +13,8 @@ class SplashPage extends StatefulWidget {
 class _SplashPageState extends State<SplashPage> {
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
-    Timer(const Duration(milliseconds: 4000), () {
+    Timer(const Duration(seconds: 3), () {
       Navigator.push(
           context, MaterialPageRoute(builder: (context) => LoginPage()));
     });

@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 import 'package:interview_bot/model/accounts.dart';
 import 'package:interview_bot/widgets/button.dart';
@@ -187,6 +188,9 @@ class _RegistrationPageState extends State<RegistrationPage>
             controller: _password,
             obscureText: true,
             textAlign: TextAlign.center,
+            maxLength: 20,
+            maxLengthEnforcement:
+                MaxLengthEnforcement.truncateAfterCompositionEnds,
             validator: (val) {
               if (val!.isEmpty) {
                 return '\t\t\tThis field is required';
@@ -198,6 +202,7 @@ class _RegistrationPageState extends State<RegistrationPage>
             decoration: InputDecoration(
               border: InputBorder.none,
               hintText: "Password",
+              counterText: "",
             ),
           ),
         ),
@@ -306,11 +311,7 @@ class _RegistrationPageState extends State<RegistrationPage>
           }
           return null;
         },
-        maxLength: hint == "Phone Number"
-            ? 11
-            : hint == "Password"
-                ? 20
-                : TextField.noMaxLength,
+        maxLength: hint == "Phone Number" ? 11 : TextField.noMaxLength,
         controller: controller,
         textAlign: TextAlign.center,
         decoration: InputDecoration(

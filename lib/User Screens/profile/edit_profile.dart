@@ -10,6 +10,7 @@ import 'package:interview_bot/login_register/loginpage.dart';
 import 'package:interview_bot/login_register/registrationpage.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:interview_bot/login_register/splash_page.dart';
 
 class EditProfilePage extends StatefulWidget {
   final UserData userData;
@@ -89,7 +90,7 @@ class _EditProfilePageState extends State<EditProfilePage>
         Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (context) => LoginPage(),
+            builder: (context) => SplashPage(),
           ),
         );
         showDialog(
