@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:http/http.dart' as http;
+import 'package:interview_bot/Services/Storage.dart';
 
 import 'package:interview_bot/User%20Screens/aboutUs/aboutus_list_screen.dart';
 import 'package:interview_bot/User%20Screens/contactUs/ContactUs.dart';
@@ -12,23 +13,27 @@ import 'package:interview_bot/User%20Screens/jobOffers/jobOfferings.dart';
 import 'package:interview_bot/User%20Screens/profile/edit_profile.dart';
 import 'package:interview_bot/login_register/color.dart';
 import 'package:interview_bot/login_register/loginpage.dart';
+import 'package:interview_bot/login_register/splash_page.dart';
 
 class HomePage extends StatefulWidget {
-  final UserData userData;
-  HomePage(this.userData);
-
   @override
-  _HomePageState createState() => _HomePageState(userData);
+  _HomePageState createState() => _HomePageState();
 }
 
 class _HomePageState extends State<HomePage> {
-  UserData userData;
+  final SecureStorage secureStorage = SecureStorage();
   late Future<int> totalSavedJobs, totalAppliedJobs;
-  _HomePageState(this.userData);
+
+  @override
+  void initState() {
+    totalSavedJobs = fetchSavedJobs();
+    totalAppliedJobs = fetchAppliedJobs();
+    super.initState();
+  }
 
   Future<int> fetchSavedJobs() async {
     final url =
-        "http://10.0.2.2:8000/api/" + userData.id.toString() + "/saved-jobs/";
+        "http://10.0.2.2:8000/api/" + finalUserId.toString() + "/saved-jobs/";
     final response = await http.get(Uri.parse(url));
     List<dynamic> responseMap = json.decode(response.body);
     if (response.statusCode == 200) {
@@ -40,8 +45,9 @@ class _HomePageState extends State<HomePage> {
 
   Future<int> fetchAppliedJobs() async {
     final url = "http://10.0.2.2:8000/api/user/" +
-        userData.id.toString() +
+        finalUserId.toString() +
         "/applied-jobs/";
+
     final response = await http.get(Uri.parse(url));
     List<dynamic> responseMap = json.decode(response.body);
     if (response.statusCode == 200) {
@@ -50,13 +56,6 @@ class _HomePageState extends State<HomePage> {
     } else {
       throw Exception('Failed to load applied jobs');
     }
-  }
-
-  @override
-  void initState() {
-    totalSavedJobs = fetchSavedJobs();
-    totalAppliedJobs = fetchAppliedJobs();
-    super.initState();
   }
 
   @override
@@ -100,14 +99,16 @@ class _HomePageState extends State<HomePage> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: <Widget>[
                               Text(
-                                '${userData.firstname} ${userData.lastname}',
+                                finalFirstName.toString() +
+                                    " " +
+                                    finalLastName.toString(),
                                 style: TextStyle(
                                     fontFamily: 'GothamBook Bold',
                                     color: Colors.white,
                                     fontSize: 20),
                               ),
                               Text(
-                                '${userData.email}',
+                                finalEmail.toString(),
                                 style: TextStyle(
                                     fontFamily: 'GothamBook Regular',
                                     color: Colors.white,
@@ -247,125 +248,125 @@ class _HomePageState extends State<HomePage> {
           ],
         ),
       ),
-      persistentFooterButtons: [
-        Column(
-          children: [
-            Flexible(
-              child: Wrap(
-                spacing: 7.0,
-                children: <Widget>[
-                  ElevatedButton(
-                    onPressed: () {},
-                    style: ElevatedButton.styleFrom(
-                        primary: Colors.white,
-                        onPrimary: maroon,
-                        padding:
-                            EdgeInsets.symmetric(horizontal: 5, vertical: 0),
-                        textStyle: TextStyle(
-                            fontSize: 15, fontWeight: FontWeight.bold)),
-                    child: Column(
-                      mainAxisSize: MainAxisSize.min,
-                      children: <Widget>[
-                        new Icon(Icons.home),
-                        new Text('Home'),
-                      ],
-                    ),
-                  ),
-                  ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                        primary: Colors.white,
-                        onPrimary: Colors.black,
-                        padding:
-                            EdgeInsets.symmetric(horizontal: 5, vertical: 0),
-                        textStyle: TextStyle(
-                            fontSize: 15, fontWeight: FontWeight.normal)),
-                    onPressed: () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => Master(userData)));
-                    },
-                    child: Column(
-                      mainAxisSize: MainAxisSize.min,
-                      children: <Widget>[
-                        new Icon(Icons.search),
-                        new Text('Job Offers'),
-                      ],
-                    ),
-                  ),
-                  ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                        primary: Colors.white,
-                        onPrimary: Colors.black,
-                        padding:
-                            EdgeInsets.symmetric(horizontal: 5, vertical: 0),
-                        textStyle: TextStyle(
-                            fontSize: 15, fontWeight: FontWeight.normal)),
-                    onPressed: () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) =>
-                                  AboutusListScreen(userData)));
-                    },
-                    child: Column(
-                      mainAxisSize: MainAxisSize.min,
-                      children: <Widget>[
-                        new Icon(Icons.info),
-                        new Text('About Us'),
-                      ],
-                    ),
-                  ),
-                  ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                        primary: Colors.white,
-                        onPrimary: Colors.black,
-                        padding:
-                            EdgeInsets.symmetric(horizontal: 5, vertical: 0),
-                        textStyle: TextStyle(
-                            fontSize: 15, fontWeight: FontWeight.normal)),
-                    onPressed: () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => ContactUs(userData)));
-                    },
-                    child: Column(
-                      mainAxisSize: MainAxisSize.min,
-                      children: <Widget>[
-                        new Icon(Icons.message),
-                        new Text('Contact Us'),
-                      ],
-                    ),
-                  ),
-                  ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                        primary: Colors.white,
-                        onPrimary: Colors.black,
-                        padding:
-                            EdgeInsets.symmetric(horizontal: 5, vertical: 0),
-                        textStyle: TextStyle(
-                            fontSize: 15, fontWeight: FontWeight.normal)),
-                    onPressed: () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => EditProfilePage(userData)));
-                    },
-                    child: Column(
-                      mainAxisSize: MainAxisSize.min,
-                      children: <Widget>[
-                        new Icon(Icons.person),
-                        new Text('Me'),
-                      ],
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ],
-        ),
-      ],
+      // persistentFooterButtons: [
+      //   Column(
+      //     children: [
+      //       Flexible(
+      //         child: Wrap(
+      //           spacing: 7.0,
+      //           children: <Widget>[
+      //             ElevatedButton(
+      //               onPressed: () {},
+      //               style: ElevatedButton.styleFrom(
+      //                   primary: Colors.white,
+      //                   onPrimary: maroon,
+      //                   padding:
+      //                       EdgeInsets.symmetric(horizontal: 5, vertical: 0),
+      //                   textStyle: TextStyle(
+      //                       fontSize: 15, fontWeight: FontWeight.bold)),
+      //               child: Column(
+      //                 mainAxisSize: MainAxisSize.min,
+      //                 children: <Widget>[
+      //                   new Icon(Icons.home),
+      //                   new Text('Home'),
+      //                 ],
+      //               ),
+      //             ),
+      //             ElevatedButton(
+      //               style: ElevatedButton.styleFrom(
+      //                   primary: Colors.white,
+      //                   onPrimary: Colors.black,
+      //                   padding:
+      //                       EdgeInsets.symmetric(horizontal: 5, vertical: 0),
+      //                   textStyle: TextStyle(
+      //                       fontSize: 15, fontWeight: FontWeight.normal)),
+      //               onPressed: () {
+      //                 Navigator.push(
+      //                     context,
+      //                     MaterialPageRoute(
+      //                         builder: (context) => Master(userData)));
+      //               },
+      //               child: Column(
+      //                 mainAxisSize: MainAxisSize.min,
+      //                 children: <Widget>[
+      //                   new Icon(Icons.search),
+      //                   new Text('Job Offers'),
+      //                 ],
+      //               ),
+      //             ),
+      //             ElevatedButton(
+      //               style: ElevatedButton.styleFrom(
+      //                   primary: Colors.white,
+      //                   onPrimary: Colors.black,
+      //                   padding:
+      //                       EdgeInsets.symmetric(horizontal: 5, vertical: 0),
+      //                   textStyle: TextStyle(
+      //                       fontSize: 15, fontWeight: FontWeight.normal)),
+      //               onPressed: () {
+      //                 Navigator.push(
+      //                     context,
+      //                     MaterialPageRoute(
+      //                         builder: (context) =>
+      //                             AboutusListScreen(userData)));
+      //               },
+      //               child: Column(
+      //                 mainAxisSize: MainAxisSize.min,
+      //                 children: <Widget>[
+      //                   new Icon(Icons.info),
+      //                   new Text('About Us'),
+      //                 ],
+      //               ),
+      //             ),
+      //             ElevatedButton(
+      //               style: ElevatedButton.styleFrom(
+      //                   primary: Colors.white,
+      //                   onPrimary: Colors.black,
+      //                   padding:
+      //                       EdgeInsets.symmetric(horizontal: 5, vertical: 0),
+      //                   textStyle: TextStyle(
+      //                       fontSize: 15, fontWeight: FontWeight.normal)),
+      //               onPressed: () {
+      //                 Navigator.push(
+      //                     context,
+      //                     MaterialPageRoute(
+      //                         builder: (context) => ContactUs(userData)));
+      //               },
+      //               child: Column(
+      //                 mainAxisSize: MainAxisSize.min,
+      //                 children: <Widget>[
+      //                   new Icon(Icons.message),
+      //                   new Text('Contact Us'),
+      //                 ],
+      //               ),
+      //             ),
+      //             ElevatedButton(
+      //               style: ElevatedButton.styleFrom(
+      //                   primary: Colors.white,
+      //                   onPrimary: Colors.black,
+      //                   padding:
+      //                       EdgeInsets.symmetric(horizontal: 5, vertical: 0),
+      //                   textStyle: TextStyle(
+      //                       fontSize: 15, fontWeight: FontWeight.normal)),
+      //               onPressed: () {
+      //                 Navigator.push(
+      //                     context,
+      //                     MaterialPageRoute(
+      //                         builder: (context) => EditProfilePage(userData)));
+      //               },
+      //               child: Column(
+      //                 mainAxisSize: MainAxisSize.min,
+      //                 children: <Widget>[
+      //                   new Icon(Icons.person),
+      //                   new Text('Me'),
+      //                 ],
+      //               ),
+      //             ),
+      //           ],
+      //         ),
+      //       ),
+      //     ],
+      //   ),
+      // ],
     );
   }
 }

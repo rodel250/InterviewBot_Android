@@ -3,7 +3,7 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:interview_bot/login_register/color.dart';
+import 'package:interview_bot/login_register/splash_page.dart';
 
 import 'package:interview_bot/model/appliedJobs.dart';
 
@@ -23,7 +23,9 @@ class AppliedJobsListState extends State<AppliedJobsList> {
   }
 
   Future<List<AppliedJobs>> getAppliedJobsList() async {
-    final url = "http://10.0.2.2:8000/api/2/applied-jobs/details/";
+    final url = "http://10.0.2.2:8000/api/+ " +
+        finalUserId.toString() +
+        "/applied-jobs/details/";
     final response = await http.get(Uri.parse(url));
     final items = json.decode(response.body).cast<Map<String, dynamic>>();
 

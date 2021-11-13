@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:interview_bot/login_register/splash_page.dart';
 import 'package:interview_bot/model/jobOfferings.dart';
 
 class SavedJobsList extends StatefulWidget {
@@ -21,7 +22,9 @@ class SavedJobListState extends State<SavedJobsList> {
   }
 
   Future<List<JobOfferings>> getJobOfferingsList() async {
-    final url = "http://10.0.2.2:8000/api/2/saved-jobs/details/";
+    final url = "http://10.0.2.2:8000/api/" +
+        finalUserId.toString() +
+        "/saved-jobs/details/";
     final response = await http.get(Uri.parse(url));
     final items = json.decode(response.body).cast<Map<String, dynamic>>();
 
