@@ -2,7 +2,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:interview_bot/Admin%20Screens/nav.dart';
 import 'package:interview_bot/Services/Storage.dart';
-import 'package:interview_bot/User%20Screens/homePage/homePage.dart';
+import 'package:interview_bot/User%20Screens/user_nav.dart';
 import 'package:interview_bot/login_register/color.dart';
 import 'package:interview_bot/login_register/loginpage.dart';
 import 'package:page_transition/page_transition.dart';
@@ -74,7 +74,7 @@ class _SplashPageState extends State<SplashPage> {
                   ? LoginPage()
                   : finalIsAdmin == "true"
                       ? AdminNav()
-                      : HomePage(),
+                      : UserNav(),
               type: PageTransitionType.rightToLeftWithFade));
     });
   }

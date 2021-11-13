@@ -5,14 +5,9 @@ import 'package:flutter_svg/svg.dart';
 import 'package:http/http.dart' as http;
 import 'package:interview_bot/Services/Storage.dart';
 
-import 'package:interview_bot/User%20Screens/aboutUs/aboutus_list_screen.dart';
-import 'package:interview_bot/User%20Screens/contactUs/ContactUs.dart';
 import 'package:interview_bot/User%20Screens/homePage/appliedJobsList.dart';
 import 'package:interview_bot/User%20Screens/homePage/savedJobsList.dart';
-import 'package:interview_bot/User%20Screens/jobOffers/jobOfferings.dart';
-import 'package:interview_bot/User%20Screens/profile/edit_profile.dart';
 import 'package:interview_bot/login_register/color.dart';
-import 'package:interview_bot/login_register/loginpage.dart';
 import 'package:interview_bot/login_register/splash_page.dart';
 
 class HomePage extends StatefulWidget {
@@ -248,125 +243,6 @@ class _HomePageState extends State<HomePage> {
           ],
         ),
       ),
-      // persistentFooterButtons: [
-      //   Column(
-      //     children: [
-      //       Flexible(
-      //         child: Wrap(
-      //           spacing: 7.0,
-      //           children: <Widget>[
-      //             ElevatedButton(
-      //               onPressed: () {},
-      //               style: ElevatedButton.styleFrom(
-      //                   primary: Colors.white,
-      //                   onPrimary: maroon,
-      //                   padding:
-      //                       EdgeInsets.symmetric(horizontal: 5, vertical: 0),
-      //                   textStyle: TextStyle(
-      //                       fontSize: 15, fontWeight: FontWeight.bold)),
-      //               child: Column(
-      //                 mainAxisSize: MainAxisSize.min,
-      //                 children: <Widget>[
-      //                   new Icon(Icons.home),
-      //                   new Text('Home'),
-      //                 ],
-      //               ),
-      //             ),
-      //             ElevatedButton(
-      //               style: ElevatedButton.styleFrom(
-      //                   primary: Colors.white,
-      //                   onPrimary: Colors.black,
-      //                   padding:
-      //                       EdgeInsets.symmetric(horizontal: 5, vertical: 0),
-      //                   textStyle: TextStyle(
-      //                       fontSize: 15, fontWeight: FontWeight.normal)),
-      //               onPressed: () {
-      //                 Navigator.push(
-      //                     context,
-      //                     MaterialPageRoute(
-      //                         builder: (context) => Master(userData)));
-      //               },
-      //               child: Column(
-      //                 mainAxisSize: MainAxisSize.min,
-      //                 children: <Widget>[
-      //                   new Icon(Icons.search),
-      //                   new Text('Job Offers'),
-      //                 ],
-      //               ),
-      //             ),
-      //             ElevatedButton(
-      //               style: ElevatedButton.styleFrom(
-      //                   primary: Colors.white,
-      //                   onPrimary: Colors.black,
-      //                   padding:
-      //                       EdgeInsets.symmetric(horizontal: 5, vertical: 0),
-      //                   textStyle: TextStyle(
-      //                       fontSize: 15, fontWeight: FontWeight.normal)),
-      //               onPressed: () {
-      //                 Navigator.push(
-      //                     context,
-      //                     MaterialPageRoute(
-      //                         builder: (context) =>
-      //                             AboutusListScreen(userData)));
-      //               },
-      //               child: Column(
-      //                 mainAxisSize: MainAxisSize.min,
-      //                 children: <Widget>[
-      //                   new Icon(Icons.info),
-      //                   new Text('About Us'),
-      //                 ],
-      //               ),
-      //             ),
-      //             ElevatedButton(
-      //               style: ElevatedButton.styleFrom(
-      //                   primary: Colors.white,
-      //                   onPrimary: Colors.black,
-      //                   padding:
-      //                       EdgeInsets.symmetric(horizontal: 5, vertical: 0),
-      //                   textStyle: TextStyle(
-      //                       fontSize: 15, fontWeight: FontWeight.normal)),
-      //               onPressed: () {
-      //                 Navigator.push(
-      //                     context,
-      //                     MaterialPageRoute(
-      //                         builder: (context) => ContactUs(userData)));
-      //               },
-      //               child: Column(
-      //                 mainAxisSize: MainAxisSize.min,
-      //                 children: <Widget>[
-      //                   new Icon(Icons.message),
-      //                   new Text('Contact Us'),
-      //                 ],
-      //               ),
-      //             ),
-      //             ElevatedButton(
-      //               style: ElevatedButton.styleFrom(
-      //                   primary: Colors.white,
-      //                   onPrimary: Colors.black,
-      //                   padding:
-      //                       EdgeInsets.symmetric(horizontal: 5, vertical: 0),
-      //                   textStyle: TextStyle(
-      //                       fontSize: 15, fontWeight: FontWeight.normal)),
-      //               onPressed: () {
-      //                 Navigator.push(
-      //                     context,
-      //                     MaterialPageRoute(
-      //                         builder: (context) => EditProfilePage(userData)));
-      //               },
-      //               child: Column(
-      //                 mainAxisSize: MainAxisSize.min,
-      //                 children: <Widget>[
-      //                   new Icon(Icons.person),
-      //                   new Text('Me'),
-      //                 ],
-      //               ),
-      //             ),
-      //           ],
-      //         ),
-      //       ),
-      //     ],
-      //   ),
-      // ],
     );
   }
 }

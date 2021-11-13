@@ -2,8 +2,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:interview_bot/Admin%20Screens/nav.dart';
 import 'package:interview_bot/Services/Storage.dart';
+import 'package:interview_bot/User%20Screens/user_nav.dart';
 import 'package:interview_bot/login_register/registrationpage.dart';
-import 'package:interview_bot/User%20Screens/homePage/homePage.dart';
 import 'package:interview_bot/login_register/splash_page.dart';
 import 'package:interview_bot/widgets/button.dart';
 import 'package:interview_bot/widgets/header.dart';
@@ -77,7 +77,7 @@ class _LoginPageState extends State<LoginPage> {
           Navigator.push(
             context,
             MaterialPageRoute(
-              builder: (context) => HomePage(),
+              builder: (context) => UserNav(),
             ),
           );
         }
