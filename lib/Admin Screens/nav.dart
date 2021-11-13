@@ -1,13 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:interview_bot/Admin%20Screens/admin_dashboard.dart';
-import 'package:interview_bot/login_register/loginpage.dart';
 
 import 'admin_joblist.dart';
 
 class AdminNav extends StatefulWidget {
-  final UserData userData;
-  AdminNav(this.userData);
-
   @override
   _NavState createState() => _NavState();
 }

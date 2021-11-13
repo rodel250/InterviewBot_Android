@@ -1,28 +1,22 @@
 import 'dart:convert';
 
-import 'package:flutter/services.dart';
-import 'package:interview_bot/User%20Screens/aboutUs/aboutus_list_screen.dart';
-import 'package:interview_bot/User%20Screens/contactUs/ContactUs.dart';
-import 'package:interview_bot/User%20Screens/homePage/homePage.dart';
-import 'package:interview_bot/User%20Screens/jobOffers/jobOfferings.dart';
-import 'package:interview_bot/login_register/color.dart';
-import 'package:interview_bot/login_register/loginpage.dart';
-import 'package:interview_bot/login_register/registrationpage.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:http/http.dart' as http;
 
-class EditProfilePage extends StatefulWidget {
-  final UserData userData;
-  EditProfilePage(this.userData);
+import 'package:interview_bot/Services/Storage.dart';
+import 'package:interview_bot/login_register/color.dart';
+import 'package:interview_bot/login_register/registrationpage.dart';
+import 'package:interview_bot/login_register/splash_page.dart';
 
+class EditProfilePage extends StatefulWidget {
   @override
-  _EditProfilePageState createState() => _EditProfilePageState(userData);
+  _EditProfilePageState createState() => _EditProfilePageState();
 }
 
 class _EditProfilePageState extends State<EditProfilePage>
     with InputValidationMixin {
-  final UserData userData;
-  _EditProfilePageState(this.userData);
+  final SecureStorage secureStorage = SecureStorage();
   final _formKey = GlobalKey<FormState>();
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
@@ -34,12 +28,10 @@ class _EditProfilePageState extends State<EditProfilePage>
   @override
   void initState() {
     super.initState();
-    emailController = new TextEditingController(text: '${userData.email}');
-    firstnameController =
-        new TextEditingController(text: '${userData.firstname}');
-    lastnameController =
-        new TextEditingController(text: '${userData.lastname}');
-    phoneController = new TextEditingController(text: '${userData.phone}');
+    emailController = new TextEditingController(text: finalEmail);
+    firstnameController = new TextEditingController(text: finalFirstName);
+    lastnameController = new TextEditingController(text: finalLastName);
+    phoneController = new TextEditingController(text: finalPhone);
   }
 
   void save(id, firstname, lastname, phone, password) async {
@@ -53,13 +45,13 @@ class _EditProfilePageState extends State<EditProfilePage>
     }).then((response) {
       Map<String, dynamic> responseMap = json.decode(response.body);
       if (response.statusCode == 200) {
-        userData.firstname = firstname;
-        userData.lastname = lastname;
-        userData.phone = phone;
+        finalFirstName = firstname;
+        finalLastName = lastname;
+        finalPhone = phone;
         Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (context) => EditProfilePage(userData),
+            builder: (context) => EditProfilePage(),
           ),
         );
         showDialog(
@@ -81,15 +73,16 @@ class _EditProfilePageState extends State<EditProfilePage>
     });
   }
 
-  void logout(key) async {
+  void logout() async {
     final url = "http://10.0.2.2:8000/api/logout/";
-    await http.post(Uri.parse(url), body: {'key': key}).then((response) {
+    await http.post(Uri.parse(url), body: {'key': finalToken}).then((response) {
       Map<String, dynamic> responseMap = json.decode(response.body);
       if (response.statusCode == 200) {
+        secureStorage.deleteAllSecureData();
         Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (context) => LoginPage(),
+            builder: (context) => SplashPage(),
           ),
         );
         showDialog(
@@ -115,7 +108,7 @@ class _EditProfilePageState extends State<EditProfilePage>
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
-        padding: EdgeInsets.only(left: 16, top: 50, right: 16),
+        padding: EdgeInsets.only(left: 16, top: 16, right: 16),
         child: GestureDetector(
           onTap: () {
             FocusScope.of(context).unfocus();
@@ -123,15 +116,15 @@ class _EditProfilePageState extends State<EditProfilePage>
           child: ListView(
             children: [
               Row(
+                mainAxisAlignment: MainAxisAlignment.start,
                 children: [
                   ElevatedButton(
                     onPressed: () {
-                      logout("${userData.token}");
+                      logout();
                     },
                     style: ElevatedButton.styleFrom(
-                      primary: Color(0xFFFFCC00),
-                      padding: EdgeInsets.symmetric(horizontal: 10),
-                      elevation: 2,
+                      primary: maroon,
+                      onPrimary: Colors.white,
                       shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(20)),
                     ),
@@ -143,6 +136,9 @@ class _EditProfilePageState extends State<EditProfilePage>
                     ),
                   ),
                 ],
+              ),
+              SizedBox(
+                height: 15,
               ),
               Form(
                 key: _formKey,
@@ -189,7 +185,7 @@ class _EditProfilePageState extends State<EditProfilePage>
                           editable: true,
                           isPasswordTextField: true),
                       SizedBox(
-                        height: 10,
+                        height: 30,
                       ),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
@@ -200,7 +196,7 @@ class _EditProfilePageState extends State<EditProfilePage>
                             onPressed: () {
                               if (_formKey.currentState!.validate()) {
                                 save(
-                                    "${userData.id}",
+                                    finalUserId,
                                     firstnameController.text,
                                     lastnameController.text,
                                     phoneController.text,
@@ -232,125 +228,6 @@ class _EditProfilePageState extends State<EditProfilePage>
           ),
         ),
       ),
-      persistentFooterButtons: [
-        Column(
-          children: [
-            Flexible(
-              child: Wrap(
-                spacing: 7.0,
-                children: <Widget>[
-                  ElevatedButton(
-                    onPressed: () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => HomePage(userData)));
-                    },
-                    style: ElevatedButton.styleFrom(
-                        primary: Colors.white,
-                        onPrimary: Colors.black,
-                        padding:
-                            EdgeInsets.symmetric(horizontal: 5, vertical: 0),
-                        textStyle: TextStyle(
-                            fontSize: 15, fontWeight: FontWeight.normal)),
-                    child: Column(
-                      mainAxisSize: MainAxisSize.min,
-                      children: <Widget>[
-                        new Icon(Icons.home),
-                        new Text('Home'),
-                      ],
-                    ),
-                  ),
-                  ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                        primary: Colors.white,
-                        onPrimary: Colors.black,
-                        padding:
-                            EdgeInsets.symmetric(horizontal: 5, vertical: 0),
-                        textStyle: TextStyle(
-                            fontSize: 15, fontWeight: FontWeight.normal)),
-                    onPressed: () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => Master(userData)));
-                    },
-                    child: Column(
-                      mainAxisSize: MainAxisSize.min,
-                      children: <Widget>[
-                        new Icon(Icons.search),
-                        new Text('Job Offers'),
-                      ],
-                    ),
-                  ),
-                  ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                        primary: Colors.white,
-                        onPrimary: Colors.black,
-                        padding:
-                            EdgeInsets.symmetric(horizontal: 5, vertical: 0),
-                        textStyle: TextStyle(
-                            fontSize: 15, fontWeight: FontWeight.normal)),
-                    onPressed: () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) =>
-                                  AboutusListScreen(userData)));
-                    },
-                    child: Column(
-                      mainAxisSize: MainAxisSize.min,
-                      children: <Widget>[
-                        new Icon(Icons.info),
-                        new Text('About Us'),
-                      ],
-                    ),
-                  ),
-                  ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                        primary: Colors.white,
-                        onPrimary: Colors.black,
-                        padding:
-                            EdgeInsets.symmetric(horizontal: 5, vertical: 0),
-                        textStyle: TextStyle(
-                            fontSize: 15, fontWeight: FontWeight.normal)),
-                    onPressed: () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => ContactUs(userData)));
-                    },
-                    child: Column(
-                      mainAxisSize: MainAxisSize.min,
-                      children: <Widget>[
-                        new Icon(Icons.message),
-                        new Text('Contact Us'),
-                      ],
-                    ),
-                  ),
-                  ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                        primary: Colors.white,
-                        onPrimary: maroon,
-                        padding:
-                            EdgeInsets.symmetric(horizontal: 5, vertical: 0),
-                        textStyle: TextStyle(
-                            fontSize: 15, fontWeight: FontWeight.bold)),
-                    onPressed: () {},
-                    child: Column(
-                      mainAxisSize: MainAxisSize.min,
-                      children: <Widget>[
-                        new Icon(Icons.person),
-                        new Text('Me'),
-                      ],
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ],
-        ),
-      ],
     );
   }
 

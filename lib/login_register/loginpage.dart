@@ -1,8 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:interview_bot/Admin%20Screens/nav.dart';
+import 'package:interview_bot/Services/Storage.dart';
+import 'package:interview_bot/User%20Screens/user_nav.dart';
 import 'package:interview_bot/login_register/registrationpage.dart';
-import 'package:interview_bot/User%20Screens/homePage/homePage.dart';
+import 'package:interview_bot/login_register/splash_page.dart';
 import 'package:interview_bot/widgets/button.dart';
 import 'package:interview_bot/widgets/header.dart';
 import 'package:http/http.dart' as http;
@@ -32,41 +34,11 @@ class LoginPage extends StatefulWidget {
   _LoginPageState createState() => _LoginPageState();
 }
 
-class _LoginData {
-  String email = '';
-  String password = '';
-}
-
-class UserData extends _LoginData {
-  int id = 0;
-  bool isAdmin = false;
-  bool isStaff = false;
-  bool isActive = false;
-  String firstname = '';
-  String lastname = '';
-  String gender = '';
-  String phone = '';
-  String token = '';
-
-  void addData(Map<String, dynamic> responseMap) {
-    this.id = responseMap['user_id'];
-    this.isAdmin = responseMap['is_admin'];
-    this.isStaff = responseMap['is_staff'];
-    this.isActive = responseMap['is_active'];
-    this.email = responseMap['email'];
-    this.firstname = responseMap['firstname'];
-    this.lastname = responseMap['lastname'];
-    this.gender = responseMap['gender'];
-    this.phone = responseMap['phone'];
-    this.token = responseMap['token'];
-  }
-}
-
 class _LoginPageState extends State<LoginPage> {
+  final SecureStorage secureStorage = SecureStorage();
   final GlobalKey<FormState> _formKey = new GlobalKey<FormState>();
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
-  UserData userData = new UserData();
 
   void login(email, password) async {
     final url = "http://10.0.2.2:8000/api/login/";
@@ -74,19 +46,38 @@ class _LoginPageState extends State<LoginPage> {
         body: {"email": email, "password": password}).then((response) {
       Map<String, dynamic> responseMap = json.decode(response.body);
       if (response.statusCode == 200) {
-        userData.addData(responseMap);
+        secureStorage.writeSecureData('user_id', responseMap['user_id']);
+        secureStorage.writeSecureData('is_admin', responseMap['is_admin']);
+        secureStorage.writeSecureData('is_staff', responseMap['is_staff']);
+        secureStorage.writeSecureData('is_active', responseMap['is_active']);
+        secureStorage.writeSecureData('email', responseMap['email']);
+        secureStorage.writeSecureData('firstname', responseMap['firstname']);
+        secureStorage.writeSecureData('lastname', responseMap['lastname']);
+        secureStorage.writeSecureData('gender', responseMap['gender']);
+        secureStorage.writeSecureData('phone', responseMap['phone']);
+        secureStorage.writeSecureData('token', responseMap['token']);
+
+        finalToken = responseMap['token'];
+        finalUserId = responseMap['user_id'].toString();
+        finalFirstName = responseMap['firstname'];
+        finalLastName = responseMap['lastname'];
+        finalEmail = responseMap['email'];
+        finalPhone = responseMap['phone'];
+        finalGender = responseMap['gender'];
+        finalIsAdmin = responseMap['is_admin'].toString();
+
         if (responseMap['is_admin'] == true) {
           Navigator.push(
             context,
             MaterialPageRoute(
-              builder: (context) => AdminNav(userData),
+              builder: (context) => AdminNav(),
             ),
           );
         } else {
           Navigator.push(
             context,
             MaterialPageRoute(
-              builder: (context) => HomePage(userData),
+              builder: (context) => UserNav(),
             ),
           );
         }

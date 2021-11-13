@@ -1,11 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:interview_bot/User%20Screens/aboutUs/aboutus_list_screen.dart';
-import 'package:interview_bot/User%20Screens/homePage/homePage.dart';
-import 'package:interview_bot/User%20Screens/jobOffers/jobOfferings.dart';
-import 'package:interview_bot/User%20Screens/profile/edit_profile.dart';
-import 'package:interview_bot/login_register/color.dart';
-import 'package:interview_bot/login_register/loginpage.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 _sendingMails() async {
@@ -18,9 +12,6 @@ _sendingMails() async {
 }
 
 class ContactUs extends StatelessWidget {
-  final UserData userData;
-  ContactUs(this.userData);
-
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -72,126 +63,6 @@ class ContactUs extends StatelessWidget {
             ),
           ),
         ),
-        persistentFooterButtons: [
-          Column(
-            children: [
-              Flexible(
-                child: Wrap(
-                  spacing: 7.0,
-                  children: <Widget>[
-                    ElevatedButton(
-                      onPressed: () {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => HomePage(userData)));
-                      },
-                      style: ElevatedButton.styleFrom(
-                          primary: Colors.white,
-                          onPrimary: Colors.black,
-                          padding:
-                              EdgeInsets.symmetric(horizontal: 5, vertical: 0),
-                          textStyle: TextStyle(
-                              fontSize: 15, fontWeight: FontWeight.normal)),
-                      child: Column(
-                        mainAxisSize: MainAxisSize.min,
-                        children: <Widget>[
-                          new Icon(Icons.home),
-                          new Text('Home'),
-                        ],
-                      ),
-                    ),
-                    ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                          primary: Colors.white,
-                          onPrimary: Colors.black,
-                          padding:
-                              EdgeInsets.symmetric(horizontal: 5, vertical: 0),
-                          textStyle: TextStyle(
-                              fontSize: 15, fontWeight: FontWeight.normal)),
-                      onPressed: () {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => Master(userData)));
-                      },
-                      child: Column(
-                        mainAxisSize: MainAxisSize.min,
-                        children: <Widget>[
-                          new Icon(Icons.search),
-                          new Text('Job Offers'),
-                        ],
-                      ),
-                    ),
-                    ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                          primary: Colors.white,
-                          onPrimary: Colors.black,
-                          padding:
-                              EdgeInsets.symmetric(horizontal: 5, vertical: 0),
-                          textStyle: TextStyle(
-                              fontSize: 15, fontWeight: FontWeight.normal)),
-                      onPressed: () {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) =>
-                                    AboutusListScreen(userData)));
-                      },
-                      child: Column(
-                        mainAxisSize: MainAxisSize.min,
-                        children: <Widget>[
-                          new Icon(Icons.info),
-                          new Text('About Us'),
-                        ],
-                      ),
-                    ),
-                    ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                          primary: Colors.white,
-                          onPrimary: maroon,
-                          padding:
-                              EdgeInsets.symmetric(horizontal: 5, vertical: 0),
-                          textStyle: TextStyle(
-                              fontSize: 15, fontWeight: FontWeight.bold)),
-                      onPressed: () {},
-                      child: Column(
-                        mainAxisSize: MainAxisSize.min,
-                        children: <Widget>[
-                          new Icon(Icons.message),
-                          new Text('Contact Us'),
-                        ],
-                      ),
-                    ),
-                    ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                          primary: Colors.white,
-                          onPrimary: Colors.black,
-                          padding:
-                              EdgeInsets.symmetric(horizontal: 5, vertical: 0),
-                          textStyle: TextStyle(
-                              fontSize: 15, fontWeight: FontWeight.normal)),
-                      onPressed: () {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) =>
-                                    EditProfilePage(userData)));
-                      },
-                      child: Column(
-                        mainAxisSize: MainAxisSize.min,
-                        children: <Widget>[
-                          new Icon(Icons.person),
-                          new Text('Me'),
-                        ],
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ],
-          ),
-        ],
       ),
     );
   }
