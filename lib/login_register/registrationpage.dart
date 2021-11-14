@@ -131,18 +131,19 @@ class _RegistrationPageState extends State<RegistrationPage>
         _textInput(controller: _phone, hint: "Phone Number"),
         SizedBox(height: 10),
         Container(
-          height: 40,
-          width: 400,
+          height: 50,
+          width: 450,
           alignment: Alignment.center,
-          padding: EdgeInsets.only(
-            top: 10,
-            left: 10,
-            right: 10,
-            bottom: 10,
-          ),
+          padding: const EdgeInsets.all(7),
+          //padding: EdgeInsets.only(
+          //  top: 10,
+          //  left: 10,
+          //  right: 10,
+          //  bottom: 10,
+          //),
           decoration: BoxDecoration(
             color: Color(0xFFFFCC00),
-            borderRadius: BorderRadius.circular(25.0),
+            borderRadius: BorderRadius.circular(20.0),
             border: Border.all(
                 color: Color(0xFFFFCC00), style: BorderStyle.solid, width: 0.0),
           ),
@@ -178,8 +179,9 @@ class _RegistrationPageState extends State<RegistrationPage>
         ),
         _textInput(controller: _email, hint: "Email Address"),
         Container(
-          margin: EdgeInsets.only(top: 7),
-          height: 40,
+          //margin: EdgeInsets.only(top: 7),
+          height: 50,
+          margin: EdgeInsets.all(7),
           decoration: BoxDecoration(
             borderRadius: BorderRadius.all(Radius.circular(20)),
             color: gold,
@@ -203,12 +205,15 @@ class _RegistrationPageState extends State<RegistrationPage>
               border: InputBorder.none,
               hintText: "Password",
               counterText: "",
+              errorStyle: TextStyle(height: 1),
+              hintStyle: TextStyle(height: 0),
             ),
           ),
         ),
         Container(
-          margin: EdgeInsets.only(top: 7),
-          height: 40,
+          //margin: EdgeInsets.only(top: 7),
+          height: 50,
+          margin: EdgeInsets.all(7),
           decoration: BoxDecoration(
             borderRadius: BorderRadius.all(Radius.circular(20)),
             color: gold,
@@ -230,6 +235,8 @@ class _RegistrationPageState extends State<RegistrationPage>
             decoration: InputDecoration(
               border: InputBorder.none,
               hintText: "Confirm Password",
+              errorStyle: TextStyle(height: 1),
+              hintStyle: TextStyle(height: 0),
             ),
           ),
         ),
@@ -285,8 +292,9 @@ class _RegistrationPageState extends State<RegistrationPage>
 
   Widget _textInput({controller, hint}) {
     return Container(
-      margin: EdgeInsets.only(top: 7),
-      height: 40,
+      margin: EdgeInsets.all(7),
+      height: 50,
+      //padding: EdgeInsets.only(bottom: 7),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.all(Radius.circular(20)),
         color: gold,
@@ -295,15 +303,13 @@ class _RegistrationPageState extends State<RegistrationPage>
       child: TextFormField(
         validator: (value) {
           if (value == null || value.isEmpty) {
-            return '\t\t\tThis field is required';
+            return "\t\t\tThis field is required";
           }
-
           if (hint == "Email Address") {
             if (!(isEmailValid(value))) {
               return "\t\t\tEnter a valid email";
             }
           }
-
           if (hint == "Phone Number") {
             if (!(isPhoneValid(value))) {
               return "\t\t\tEnter a valid phone number";
@@ -314,10 +320,13 @@ class _RegistrationPageState extends State<RegistrationPage>
         // maxLength: hint == "Phone Number" ? 11 : TextField.noMaxLength,
         controller: controller,
         textAlign: TextAlign.center,
+        textAlignVertical: TextAlignVertical.center,
         decoration: InputDecoration(
           border: InputBorder.none,
           hintText: hint,
-          counterText: "",
+          errorStyle: TextStyle(height: 1),
+          hintStyle: TextStyle(height: 0),
+          //counterText: "",
         ),
       ),
     );
