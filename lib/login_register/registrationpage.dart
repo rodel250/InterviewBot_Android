@@ -1,6 +1,5 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 
 import 'package:interview_bot/model/accounts.dart';
 import 'package:interview_bot/widgets/button.dart';
@@ -26,6 +25,10 @@ class _RegistrationPageState extends State<RegistrationPage>
   final TextEditingController _password2 = TextEditingController();
   Future<Account>? _futureAccount;
   String? dropdownValue;
+
+  // Future<Account> getAccountEmailAddress() async {
+
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -252,15 +255,25 @@ class _RegistrationPageState extends State<RegistrationPage>
                   if (_formKey.currentState!.validate()) {
                     setState(() {
                       _futureAccount = createAccount(
-                          _email.text,
-                          false,
-                          false,
-                          false,
-                          _firstname.text,
-                          _lastname.text,
-                          _phone.text,
-                          _password.text,
-                          dropdownValue);
+                              _email.text,
+                              false,
+                              false,
+                              false,
+                              _firstname.text,
+                              _lastname.text,
+                              _phone.text,
+                              _password.text,
+                              dropdownValue)
+                          .then((value) {
+                        throw Exception('Some arbitrary error');
+                      }).catchError((onError) {
+                        showDialog(
+                            context: context,
+                            builder: (BuildContext context) => getAlertDialog(
+                                "Registration Failed",
+                                "Email address is already taken",
+                                context));
+                      });
                     });
                   }
                 },
@@ -282,7 +295,7 @@ class _RegistrationPageState extends State<RegistrationPage>
                   " successfully registered.\n Please activate your account.",
               textAlign: TextAlign.center);
         } else if (snapshot.hasError) {
-          return Text('${snapshot.error}');
+          return Text('REGISTRATION FAILED');
         }
 
         return Center(child: CircularProgressIndicator());

@@ -14,7 +14,7 @@ import 'color.dart';
 
 AlertDialog getAlertDialog(title, content, context) {
   return AlertDialog(
-    title: Text("Login failed"),
+    title: Text(title),
     content: Text('$content'),
     actions: <Widget>[
       TextButton(

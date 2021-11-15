@@ -204,7 +204,7 @@ class _EditProfilePageState extends State<EditProfilePage>
                               }
                             },
                             style: ElevatedButton.styleFrom(
-                              primary: Color(0xFFFFCC00),
+                              primary: gold,
                               padding: EdgeInsets.symmetric(horizontal: 50),
                               elevation: 2,
                               shape: RoundedRectangleBorder(
