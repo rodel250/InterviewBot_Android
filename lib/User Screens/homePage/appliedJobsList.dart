@@ -64,7 +64,7 @@ class AppliedJobsListState extends State<AppliedJobsList> {
                       size: 45.0,
                     ),
                     title: Text(
-                      "Job ID: " + data.jobId.toString(),
+                      data.job.title.toString(),
                       style: TextStyle(fontSize: 18),
                     ),
                     subtitle: Text(
