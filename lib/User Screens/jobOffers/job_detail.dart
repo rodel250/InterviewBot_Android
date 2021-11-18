@@ -1,11 +1,37 @@
+import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 
-import 'data.dart';
+import 'package:interview_bot/User%20Screens/user_nav.dart';
+import 'package:interview_bot/login_register/splash_page.dart';
 
+// ignore: must_be_immutable
 class JobDetail extends StatelessWidget {
-  final Job job;
+  final int jobId;
+  final String jobTitle,
+      jobDescription,
+      adminEmail,
+      adminFirstName,
+      adminLastName;
 
-  JobDetail({required this.job});
+  JobDetail(
+      {required this.jobId,
+      required this.jobTitle,
+      required this.jobDescription,
+      required this.adminEmail,
+      required this.adminFirstName,
+      required this.adminLastName});
+
+  Future<void> saveJobOffering(context) async {
+    final url = "http://10.0.2.2:8000/api/saved-jobs/create/";
+    final response = await http.post(Uri.parse(url),
+        body: {"user": finalUserId.toString(), "job": jobId.toString()});
+    if (response.statusCode == 201) {
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => UserNav()),
+      );
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -16,7 +42,7 @@ class JobDetail extends StatelessWidget {
         elevation: 0,
         centerTitle: true,
         title: Text(
-          job.company,
+          jobTitle,
           style: TextStyle(
             color: Colors.black,
           ),
@@ -46,11 +72,11 @@ class JobDetail extends StatelessWidget {
             children: [
               Center(
                 child: Container(
-                  height: 50,
-                  width: 50,
+                  height: 90,
+                  width: 90,
                   decoration: BoxDecoration(
                     image: DecorationImage(
-                      image: AssetImage(job.logo),
+                      image: AssetImage("assets/images/citLogo.png"),
                       fit: BoxFit.fitWidth,
                     ),
                     borderRadius: BorderRadius.all(
@@ -60,125 +86,101 @@ class JobDetail extends StatelessWidget {
                 ),
               ),
               SizedBox(
-                height: 32,
+                height: 10,
               ),
               Center(
                 child: Text(
-                  job.position,
+                  jobTitle,
+                  textAlign: TextAlign.center,
                   style: TextStyle(
-                    fontSize: 32,
+                    fontSize: 24,
                     fontFamily: 'Gotham Bold',
                   ),
                 ),
               ),
               SizedBox(
-                height: 16,
+                height: 5,
               ),
               Center(
                 child: Text(
-                  job.city,
+                  jobDescription,
+                  textAlign: TextAlign.center,
                   style: TextStyle(
-                    fontSize: 18,
+                    fontSize: 14,
                     fontFamily: 'Gotham Bold',
                     color: Colors.grey,
                   ),
                 ),
               ),
               SizedBox(
-                height: 32,
-              ),
-              Row(
-                children: [
-                  Expanded(
-                    child: Container(
-                      height: 45,
-                      decoration: BoxDecoration(
-                        color: Colors.grey[200],
-                        borderRadius: BorderRadius.all(
-                          Radius.circular(12),
-                        ),
-                      ),
-                      child: Center(
-                        child: Text(
-                          job.concept,
-                          style: TextStyle(
-                            fontSize: 16,
-                            fontFamily: 'Gotham Bold',
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-                  Expanded(
-                    child: Container(
-                      child: Center(
-                        child: Text(
-                          r"P" + job.price + "/hr",
-                          style: TextStyle(
-                            fontSize: 36,
-                            fontFamily: 'GothamBook Regular',
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-              SizedBox(
-                height: 32,
+                height: 25,
               ),
               Text(
-                "Basic Requirements",
+                "Job Owner",
                 style: TextStyle(
                   fontSize: 18,
                   fontFamily: 'Gotham Bold',
                 ),
               ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    adminFirstName + " " + adminLastName,
+                    style: TextStyle(
+                      fontSize: 15,
+                      fontFamily: 'GothamBook Regular',
+                    ),
+                  ),
+                  Text(
+                    adminEmail,
+                    style: TextStyle(
+                      fontSize: 15,
+                      fontFamily: 'GothamBook Regular',
+                    ),
+                  ),
+                ],
+              ),
               SizedBox(
                 height: 16,
-              ),
-              Expanded(
-                child: SingleChildScrollView(
-                  physics: BouncingScrollPhysics(),
-                  child: Column(
-                    children: buildRequirements(),
-                  ),
-                ),
               ),
               SizedBox(
                 height: 16,
               ),
               Row(
                 children: [
-                  Container(
-                    height: 60,
-                    width: 60,
-                    child: Center(
-                      child: Icon(
-                        Icons.favorite_border,
-                        size: 28,
-                      ),
-                    ),
-                  ),
-                  SizedBox(
-                    width: 16,
-                  ),
+                  // Container(
+                  //   height: 60,
+                  //   width: 60,
+                  //   child: Center(
+                  //     child: Icon(
+                  //       Icons.favorite_border,
+                  //       size: 28,
+                  //     ),
+                  //   ),
+                  // ),
+                  // SizedBox(
+                  //   width: 16,
+                  // ),
                   Expanded(
-                    child: Container(
-                      height: 60,
-                      decoration: BoxDecoration(
-                        color: Colors.red[500],
-                        borderRadius: BorderRadius.all(
-                          Radius.circular(12),
+                    child: InkWell(
+                      onTap: () => {saveJobOffering(context)},
+                      child: Container(
+                        height: 60,
+                        decoration: BoxDecoration(
+                          color: Colors.red[500],
+                          borderRadius: BorderRadius.all(
+                            Radius.circular(12),
+                          ),
                         ),
-                      ),
-                      child: Center(
-                        child: Text(
-                          "APPLY",
-                          style: TextStyle(
-                            fontSize: 18,
-                            fontFamily: 'Gotham Bold',
-                            color: Colors.white,
+                        child: Center(
+                          child: Text(
+                            "SAVE",
+                            style: TextStyle(
+                              fontSize: 18,
+                              fontFamily: 'Gotham Bold',
+                              color: Colors.white,
+                            ),
                           ),
                         ),
                       ),
@@ -189,45 +191,6 @@ class JobDetail extends StatelessWidget {
             ],
           ),
         ),
-      ),
-    );
-  }
-
-  List<Widget> buildRequirements() {
-    List<Widget> list = [];
-    for (var i = 0; i < getJobsRequirements().length; i++) {
-      list.add(buildRequirement(getJobsRequirements()[i]));
-    }
-    return list;
-  }
-
-  Widget buildRequirement(String requirement) {
-    return Container(
-      margin: EdgeInsets.symmetric(vertical: 8),
-      child: Row(
-        children: [
-          Container(
-            width: 4,
-            height: 4,
-            decoration: BoxDecoration(
-              color: Colors.grey,
-              shape: BoxShape.circle,
-            ),
-          ),
-          SizedBox(
-            width: 16,
-          ),
-          Flexible(
-            child: Text(
-              requirement,
-              style: TextStyle(
-                fontSize: 14,
-                fontFamily: 'Gotham Bold',
-                color: Colors.grey,
-              ),
-            ),
-          ),
-        ],
       ),
     );
   }

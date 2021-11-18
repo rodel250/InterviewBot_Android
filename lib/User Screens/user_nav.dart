@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:interview_bot/User%20Screens/aboutUs/aboutus_list_screen.dart';
 import 'package:interview_bot/User%20Screens/contactUs/ContactUs.dart';
 import 'package:interview_bot/User%20Screens/homePage/homePage.dart';
-import 'package:interview_bot/User%20Screens/jobOffers/jobOfferings.dart';
+import 'package:interview_bot/User%20Screens/jobOffers/job_offerings.dart';
 import 'package:interview_bot/User%20Screens/profile/edit_profile.dart';
 
 class UserNav extends StatefulWidget {

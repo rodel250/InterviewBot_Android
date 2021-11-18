@@ -1,8 +1,12 @@
+import 'dart:convert';
+
+import 'package:http/http.dart' as http;
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:interview_bot/User%20Screens/jobOffers/data.dart';
+
 import 'package:interview_bot/User%20Screens/jobOffers/job_detail.dart';
-import 'package:interview_bot/login_register/color.dart';
+import 'package:interview_bot/login_register/splash_page.dart';
+import 'package:interview_bot/model/jobOfferings.dart';
 
 class Jobs extends StatefulWidget {
   @override
@@ -10,40 +14,33 @@ class Jobs extends StatefulWidget {
 }
 
 class _JobsState extends State<Jobs> {
-  List<Job> jobs = getJobs();
+  late Future<List<JobOfferings>> jobOfferings;
   bool isSearching = false;
+
+  @override
+  void initState() {
+    super.initState();
+    jobOfferings = getJobOfferingsList();
+  }
+
+  Future<List<JobOfferings>> getJobOfferingsList() async {
+    final url = "http://10.0.2.2:8000/api/" +
+        finalUserId.toString() +
+        "/job-offerings/details/";
+    final response = await http.get(Uri.parse(url));
+    final items = json.decode(response.body).cast<Map<String, dynamic>>();
+
+    List<JobOfferings> jobOfferings = items.map<JobOfferings>((json) {
+      return JobOfferings.fromJson(json);
+    }).toList();
+
+    return jobOfferings;
+  }
 
   @override
   Widget build(BuildContext context) {
     return Column(
       children: [
-        Padding(
-          padding: EdgeInsets.only(right: 20, left: 20, top: 40, bottom: 10),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              IconButton(
-                icon: Icon(Icons.menu),
-                onPressed: () {},
-              ),
-              Row(
-                children: [
-                  IconButton(
-                    icon: Icon(Icons.search),
-                    onPressed: () {
-                      setState(() {
-                        this.isSearching = !this.isSearching;
-                      });
-                    },
-                  ),
-                  SizedBox(
-                    width: 5,
-                  ),
-                ],
-              ),
-            ],
-          ),
-        ),
         Expanded(
           child: SingleChildScrollView(
             physics: BouncingScrollPhysics(),
@@ -52,284 +49,79 @@ class _JobsState extends State<Jobs> {
               children: [
                 Padding(
                   padding:
-                      EdgeInsets.only(right: 32, left: 32, top: 8, bottom: 20),
+                      EdgeInsets.only(right: 32, left: 32, top: 50, bottom: 0),
                   child: Text(
-                    "Hi User, \nFind your Dream Job",
+                    "Hi " +
+                        finalFirstName! +
+                        ", \nPractice your interview skills",
                     style: TextStyle(
-                        fontSize: 30, fontFamily: 'Gotham Bold', height: 1.2),
+                        fontSize: 20, fontFamily: 'Gotham Bold', height: 1.2),
                   ),
                 ),
                 Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 32, vertical: 16),
-                  child: Wrap(
-                    crossAxisAlignment: WrapCrossAlignment.start,
-                    spacing: 16,
-                    runSpacing: 16,
-                    children: [
-                      buildFilterOption("Customer Service Representative"),
-                      buildFilterOption("Cebu, Philippines"),
-                      buildFilterOption(r"P85 - 125/hr"),
-                      buildFilterOption("Full-Time"),
-                    ],
-                  ),
-                ),
-                Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 32, vertical: 16),
-                  child: Text(
-                    "Recommended jobs for you",
-                    style: TextStyle(
-                      fontSize: 18,
-                      fontFamily: 'Gotham Bold',
-                    ),
-                  ),
-                ),
-                Container(
-                  height: 190,
-                  child: ListView(
-                    physics: BouncingScrollPhysics(),
-                    scrollDirection: Axis.horizontal,
-                    children: buildRecommendations(),
-                  ),
-                ),
-                Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 32, vertical: 16),
-                  child: Text(
-                    "Recently added",
-                    style: TextStyle(
-                      fontSize: 18,
-                      fontFamily: 'Gotham Bold',
-                    ),
-                  ),
-                ),
-                Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 32),
-                  child: Column(
-                    children: buildLastJobs(),
-                  ),
+                  padding: EdgeInsets.symmetric(horizontal: 15),
+                  child: FutureBuilder<List<JobOfferings>>(
+                      future: jobOfferings,
+                      builder: (BuildContext context, AsyncSnapshot snapshot) {
+                        // By default, show a loading spinner.
+                        if (!snapshot.hasData)
+                          return CircularProgressIndicator();
+                        // Render saved jobs lists
+                        return ListView.builder(
+                          physics: BouncingScrollPhysics(),
+                          scrollDirection: Axis.vertical,
+                          shrinkWrap: true,
+                          itemCount: snapshot.data.length,
+                          itemBuilder: (BuildContext context, int index) {
+                            var data = snapshot.data[index];
+                            return Card(
+                              child: ListTile(
+                                  leading: Container(
+                                    height: 45,
+                                    width: 45,
+                                    decoration: BoxDecoration(
+                                      image: DecorationImage(
+                                        image: AssetImage(
+                                            "assets/images/citLogo.png"),
+                                        fit: BoxFit.fitWidth,
+                                      ),
+                                      borderRadius: BorderRadius.all(
+                                        Radius.circular(12),
+                                      ),
+                                    ),
+                                  ),
+                                  title: Text(
+                                    data.title,
+                                    style: TextStyle(
+                                        fontSize: 18,
+                                        fontFamily: "GothamBook Regular"),
+                                  ),
+                                  onTap: () => {
+                                        Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                                builder: (context) => JobDetail(
+                                                    jobId: data.id,
+                                                    jobTitle: data.title,
+                                                    jobDescription:
+                                                        data.description,
+                                                    adminEmail:
+                                                        data.admin.email,
+                                                    adminFirstName:
+                                                        data.admin.firstname,
+                                                    adminLastName:
+                                                        data.admin.lastname)))
+                                      }),
+                            );
+                          },
+                        );
+                      }),
                 ),
               ],
             ),
           ),
         ),
       ],
-    );
-  }
-
-  Widget buildFilterOption(String text) {
-    return Container(
-      decoration: BoxDecoration(
-        gradient: LinearGradient(colors: [gold, gold]),
-        borderRadius: BorderRadius.all(
-          Radius.circular(5),
-        ),
-      ),
-      child: Container(
-        padding: EdgeInsets.symmetric(
-          horizontal: 12,
-          vertical: 8,
-        ),
-        child: Row(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Text(
-              text,
-              style: TextStyle(
-                fontSize: 14,
-                fontFamily: 'Gotham Bold',
-              ),
-            ),
-            SizedBox(
-              width: 8,
-            ),
-            Icon(
-              Icons.clear,
-              size: 18,
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-
-  List<Widget> buildRecommendations() {
-    List<Widget> list = [];
-    list.add(SizedBox(
-      width: 32,
-    ));
-    for (var i = 0; i < jobs.length; i++) {
-      list.add(buildRecommendation(jobs[i]));
-    }
-    list.add(SizedBox(
-      width: 16,
-    ));
-    return list;
-  }
-
-  Widget buildRecommendation(Job job) {
-    return GestureDetector(
-      onTap: () {
-        Navigator.push(
-          context,
-          MaterialPageRoute(builder: (context) => JobDetail(job: job)),
-        );
-      },
-      child: Container(
-        width: 200,
-        decoration: BoxDecoration(
-          gradient: LinearGradient(colors: [maroon, maroon]),
-          borderRadius: BorderRadius.all(
-            Radius.circular(12),
-          ),
-        ),
-        padding: EdgeInsets.all(16),
-        margin: EdgeInsets.only(right: 16),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Container(
-                  height: 50,
-                  width: 50,
-                  decoration: BoxDecoration(
-                    image: DecorationImage(
-                      image: AssetImage(job.logo),
-                      fit: BoxFit.fitWidth,
-                    ),
-                    borderRadius: BorderRadius.all(
-                      Radius.circular(12),
-                    ),
-                  ),
-                ),
-                Container(
-                  decoration: BoxDecoration(
-                    color: Colors.grey[200],
-                    borderRadius: BorderRadius.all(
-                      Radius.circular(12),
-                    ),
-                  ),
-                  child: Padding(
-                    padding: EdgeInsets.symmetric(
-                      horizontal: 12,
-                      vertical: 4,
-                    ),
-                    child: Text(
-                      job.concept,
-                      style: TextStyle(
-                        fontFamily: 'Gotham Bold',
-                        fontSize: 14,
-                      ),
-                    ),
-                  ),
-                ),
-              ],
-            ),
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: [
-                  Text(
-                    job.position,
-                    style: TextStyle(
-                      fontFamily: 'Gotham Bold',
-                      fontSize: 16,
-                    ),
-                  ),
-                  SizedBox(
-                    height: 8,
-                  ),
-                  Text(
-                    r"P" + job.price + "/hr",
-                    style: TextStyle(
-                      fontFamily: 'Gotham Bold',
-                      fontSize: 24,
-                    ),
-                  ),
-                ],
-              ),
-            )
-          ],
-        ),
-      ),
-    );
-  }
-
-  List<Widget> buildLastJobs() {
-    List<Widget> list = [];
-    for (var i = jobs.length - 1; i > -1; i--) {
-      list.add(buildLastJob(jobs[i]));
-    }
-    return list;
-  }
-
-  Widget buildLastJob(Job job) {
-    return GestureDetector(
-      onTap: () {
-        Navigator.push(
-          context,
-          MaterialPageRoute(builder: (context) => JobDetail(job: job)),
-        );
-      },
-      child: Container(
-        decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.all(
-            Radius.circular(12),
-          ),
-        ),
-        padding: EdgeInsets.all(16),
-        margin: EdgeInsets.only(bottom: 16),
-        child: Row(
-          children: [
-            Container(
-              height: 45,
-              width: 45,
-              decoration: BoxDecoration(
-                image: DecorationImage(
-                  image: AssetImage(job.logo),
-                  fit: BoxFit.fitWidth,
-                ),
-                borderRadius: BorderRadius.all(
-                  Radius.circular(12),
-                ),
-              ),
-            ),
-            Expanded(
-                child: Padding(
-              padding: EdgeInsets.symmetric(horizontal: 24),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    job.position,
-                    style: TextStyle(
-                      fontSize: 16,
-                      fontFamily: 'Gotham Bold',
-                    ),
-                  ),
-                  Text(
-                    job.company,
-                    style: TextStyle(
-                      fontSize: 14,
-                      fontFamily: 'Gotham Bold',
-                      color: Colors.grey,
-                    ),
-                  ),
-                ],
-              ),
-            )),
-            Text(
-              r"P" + job.price + "/hr",
-              style: TextStyle(
-                fontSize: 18,
-                fontFamily: 'GothamBook Regular',
-              ),
-            ),
-          ],
-        ),
-      ),
     );
   }
 }

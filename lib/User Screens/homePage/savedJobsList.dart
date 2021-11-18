@@ -3,12 +3,11 @@ import 'dart:convert';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
-import 'package:interview_bot/User%20Screens/user_nav.dart';
 
+import 'package:interview_bot/User%20Screens/user_nav.dart';
 import 'package:interview_bot/login_register/color.dart';
 import 'package:interview_bot/login_register/splash_page.dart';
 import 'package:interview_bot/model/savedJobs.dart';
-import 'package:page_transition/page_transition.dart';
 
 class SavedJobsList extends StatefulWidget {
   @override
@@ -16,16 +15,16 @@ class SavedJobsList extends StatefulWidget {
 }
 
 class SavedJobListState extends State<SavedJobsList> {
-  late Future<List<SavedJobs>> jobOfferings;
+  late Future<List<SavedJobs>> savedJobs;
   final jobOffersListKey = GlobalKey<SavedJobListState>();
 
   @override
   void initState() {
     super.initState();
-    jobOfferings = getJobOfferingsList();
+    savedJobs = getSavedJobsList();
   }
 
-  Future<List<SavedJobs>> getJobOfferingsList() async {
+  Future<List<SavedJobs>> getSavedJobsList() async {
     final url = "http://10.0.2.2:8000/api/" +
         finalUserId.toString() +
         "/saved-jobs/details/";
@@ -94,11 +93,11 @@ class SavedJobListState extends State<SavedJobsList> {
       ),
       body: Center(
         child: FutureBuilder<List<SavedJobs>>(
-          future: jobOfferings,
+          future: savedJobs,
           builder: (BuildContext context, AsyncSnapshot snapshot) {
             // By default, show a loading spinner.
             if (!snapshot.hasData) return CircularProgressIndicator();
-            // Render job offerings lists
+            // Render saved jobs lists
             return ListView.builder(
               itemCount: snapshot.data.length,
               itemBuilder: (BuildContext context, int index) {
