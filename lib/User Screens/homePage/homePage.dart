@@ -27,8 +27,9 @@ class _HomePageState extends State<HomePage> {
   }
 
   Future<int> fetchSavedJobs() async {
-    final url =
-        "http://10.0.2.2:8000/api/" + finalUserId.toString() + "/saved-jobs/";
+    final url = "http://10.0.2.2:8000/api/" +
+        finalUserId.toString() +
+        "/saved-jobs/details/";
     final response = await http.get(Uri.parse(url));
     List<dynamic> responseMap = json.decode(response.body);
     if (response.statusCode == 200) {
@@ -39,9 +40,9 @@ class _HomePageState extends State<HomePage> {
   }
 
   Future<int> fetchAppliedJobs() async {
-    final url = "http://10.0.2.2:8000/api/user/" +
+    final url = "http://10.0.2.2:8000/api/" +
         finalUserId.toString() +
-        "/applied-jobs/";
+        "/applied-jobs/details/";
 
     final response = await http.get(Uri.parse(url));
     List<dynamic> responseMap = json.decode(response.body);

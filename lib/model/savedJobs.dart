@@ -1,13 +1,12 @@
-class JobOfferings {
+class SavedJobs {
   final int id;
   final String title;
   final String description;
 
-  JobOfferings(
-      {required this.id, required this.title, required this.description});
+  SavedJobs({required this.id, required this.title, required this.description});
 
-  factory JobOfferings.fromJson(Map<String, dynamic> json) {
-    return JobOfferings(
+  factory SavedJobs.fromJson(Map<String, dynamic> json) {
+    return SavedJobs(
         id: json['id'], title: json['title'], description: json['description']);
   }
 

@@ -7,7 +7,7 @@ import 'package:interview_bot/User%20Screens/user_nav.dart';
 
 import 'package:interview_bot/login_register/color.dart';
 import 'package:interview_bot/login_register/splash_page.dart';
-import 'package:interview_bot/model/jobOfferings.dart';
+import 'package:interview_bot/model/savedJobs.dart';
 import 'package:page_transition/page_transition.dart';
 
 class SavedJobsList extends StatefulWidget {
@@ -16,7 +16,7 @@ class SavedJobsList extends StatefulWidget {
 }
 
 class SavedJobListState extends State<SavedJobsList> {
-  late Future<List<JobOfferings>> jobOfferings;
+  late Future<List<SavedJobs>> jobOfferings;
   final jobOffersListKey = GlobalKey<SavedJobListState>();
 
   @override
@@ -25,18 +25,18 @@ class SavedJobListState extends State<SavedJobsList> {
     jobOfferings = getJobOfferingsList();
   }
 
-  Future<List<JobOfferings>> getJobOfferingsList() async {
+  Future<List<SavedJobs>> getJobOfferingsList() async {
     final url = "http://10.0.2.2:8000/api/" +
         finalUserId.toString() +
         "/saved-jobs/details/";
     final response = await http.get(Uri.parse(url));
     final items = json.decode(response.body).cast<Map<String, dynamic>>();
 
-    List<JobOfferings> jobOfferings = items.map<JobOfferings>((json) {
-      return JobOfferings.fromJson(json);
+    List<SavedJobs> savedJobs = items.map<SavedJobs>((json) {
+      return SavedJobs.fromJson(json);
     }).toList();
 
-    return jobOfferings;
+    return savedJobs;
   }
 
   Future<void> unsaveJobOffering(id) async {
@@ -93,7 +93,7 @@ class SavedJobListState extends State<SavedJobsList> {
         backgroundColor: maroon,
       ),
       body: Center(
-        child: FutureBuilder<List<JobOfferings>>(
+        child: FutureBuilder<List<SavedJobs>>(
           future: jobOfferings,
           builder: (BuildContext context, AsyncSnapshot snapshot) {
             // By default, show a loading spinner.
