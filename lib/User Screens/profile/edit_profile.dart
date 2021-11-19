@@ -10,7 +10,7 @@ import 'package:interview_bot/login_register/color.dart';
 import 'package:interview_bot/login_register/registrationpage.dart';
 import 'package:interview_bot/login_register/splash_page.dart';
 
-import '../globals.dart' as globals;
+import '../../Services/globals.dart' as globals;
 
 class EditProfilePage extends StatefulWidget {
   @override

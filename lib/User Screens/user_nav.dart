@@ -6,7 +6,7 @@ import 'package:interview_bot/User%20Screens/homePage/homePage.dart';
 import 'package:interview_bot/User%20Screens/jobOffers/job_offerings.dart';
 import 'package:interview_bot/User%20Screens/profile/edit_profile.dart';
 
-import 'globals.dart' as globals;
+import '../Services/globals.dart' as globals;
 
 class UserNav extends StatefulWidget {
   @override

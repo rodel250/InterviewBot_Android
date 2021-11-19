@@ -1,8 +1,6 @@
-import 'dart:convert';
-
-import 'package:http/http.dart' as http;
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:interview_bot/Services/RESTServices.dart';
 
 import 'package:interview_bot/User%20Screens/jobOffers/job_detail.dart';
 import 'package:interview_bot/login_register/splash_page.dart';
@@ -15,26 +13,11 @@ class Jobs extends StatefulWidget {
 
 class _JobsState extends State<Jobs> {
   late Future<List<JobOfferings>> jobOfferings;
-  bool isSearching = false;
 
   @override
   void initState() {
     super.initState();
     jobOfferings = getJobOfferingsList();
-  }
-
-  Future<List<JobOfferings>> getJobOfferingsList() async {
-    final url = "http://10.0.2.2:8000/api/" +
-        finalUserId.toString() +
-        "/job-offerings/details/";
-    final response = await http.get(Uri.parse(url));
-    final items = json.decode(response.body).cast<Map<String, dynamic>>();
-
-    List<JobOfferings> jobOfferings = items.map<JobOfferings>((json) {
-      return JobOfferings.fromJson(json);
-    }).toList();
-
-    return jobOfferings;
   }
 
   @override

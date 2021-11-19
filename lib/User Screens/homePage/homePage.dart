@@ -1,10 +1,8 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:http/http.dart' as http;
-import 'package:interview_bot/Services/Storage.dart';
+import 'package:interview_bot/Services/RESTServices.dart';
 
+import 'package:interview_bot/Services/Storage.dart';
 import 'package:interview_bot/User%20Screens/homePage/appliedJobsList.dart';
 import 'package:interview_bot/User%20Screens/homePage/savedJobsList.dart';
 import 'package:interview_bot/login_register/color.dart';
@@ -24,34 +22,6 @@ class _HomePageState extends State<HomePage> {
     totalSavedJobs = fetchSavedJobs();
     totalAppliedJobs = fetchAppliedJobs();
     super.initState();
-  }
-
-  Future<int> fetchSavedJobs() async {
-    final url = "http://10.0.2.2:8000/api/" +
-        finalUserId.toString() +
-        "/saved-jobs/details/";
-    final response = await http.get(Uri.parse(url));
-    List<dynamic> responseMap = json.decode(response.body);
-    if (response.statusCode == 200) {
-      return responseMap.length;
-    } else {
-      throw Exception('Failed to load applied jobs');
-    }
-  }
-
-  Future<int> fetchAppliedJobs() async {
-    final url = "http://10.0.2.2:8000/api/" +
-        finalUserId.toString() +
-        "/applied-jobs/details/";
-
-    final response = await http.get(Uri.parse(url));
-    List<dynamic> responseMap = json.decode(response.body);
-    if (response.statusCode == 200) {
-      responseMap = json.decode(response.body);
-      return responseMap.length;
-    } else {
-      throw Exception('Failed to load applied jobs');
-    }
   }
 
   @override

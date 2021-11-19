@@ -1,13 +1,10 @@
-import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 
-import 'package:interview_bot/User%20Screens/user_nav.dart';
-import 'package:interview_bot/login_register/splash_page.dart';
-
-import '../globals.dart' as globals;
+import 'package:interview_bot/Services/RESTServices.dart';
 
 // ignore: must_be_immutable
 class JobDetail extends StatelessWidget {
+  late Future<int> totalSavedJobs;
   final int jobId;
   final String jobTitle,
       jobDescription,
@@ -22,19 +19,6 @@ class JobDetail extends StatelessWidget {
       required this.adminEmail,
       required this.adminFirstName,
       required this.adminLastName});
-
-  Future<void> saveJobOffering(context) async {
-    final url = "http://10.0.2.2:8000/api/saved-jobs/create/";
-    final response = await http.post(Uri.parse(url),
-        body: {"user": finalUserId.toString(), "job": jobId.toString()});
-    if (response.statusCode == 201) {
-      globals.selectedIndex = 1;
-      Navigator.push(
-        context,
-        MaterialPageRoute(builder: (context) => UserNav()),
-      );
-    }
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -167,7 +151,7 @@ class JobDetail extends StatelessWidget {
                   // ),
                   Expanded(
                     child: InkWell(
-                      onTap: () => {saveJobOffering(context)},
+                      onTap: () => {saveJobOffering(context, jobId)},
                       child: Container(
                         height: 60,
                         decoration: BoxDecoration(

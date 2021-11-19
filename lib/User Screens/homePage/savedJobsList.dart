@@ -1,12 +1,8 @@
-import 'dart:convert';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
+import 'package:interview_bot/Services/RESTServices.dart';
 
-import 'package:interview_bot/User%20Screens/user_nav.dart';
 import 'package:interview_bot/login_register/color.dart';
-import 'package:interview_bot/login_register/splash_page.dart';
 import 'package:interview_bot/model/savedJobs.dart';
 
 class SavedJobsList extends StatefulWidget {
@@ -22,29 +18,6 @@ class SavedJobListState extends State<SavedJobsList> {
   void initState() {
     super.initState();
     savedJobs = getSavedJobsList();
-  }
-
-  Future<List<SavedJobs>> getSavedJobsList() async {
-    final url = "http://10.0.2.2:8000/api/" +
-        finalUserId.toString() +
-        "/saved-jobs/details/";
-    final response = await http.get(Uri.parse(url));
-    final items = json.decode(response.body).cast<Map<String, dynamic>>();
-
-    List<SavedJobs> savedJobs = items.map<SavedJobs>((json) {
-      return SavedJobs.fromJson(json);
-    }).toList();
-
-    return savedJobs;
-  }
-
-  Future<void> unsaveJobOffering(id) async {
-    final url = "http://10.0.2.2:8000/api/saved-jobs/" + id + "/delete/";
-    final response = await http.delete(Uri.parse(url));
-    if (response.statusCode == 204) {
-      Navigator.pushReplacement(context,
-          MaterialPageRoute(builder: (BuildContext context) => UserNav()));
-    }
   }
 
   void _showDialog(String id, String title) {
@@ -64,7 +37,7 @@ class SavedJobListState extends State<SavedJobsList> {
                 backgroundColor: Colors.blue,
               ),
               onPressed: () {
-                unsaveJobOffering(id);
+                unsaveJobOffering(id, context);
               },
             ),
             new TextButton(
@@ -104,17 +77,28 @@ class SavedJobListState extends State<SavedJobsList> {
                 var data = snapshot.data[index];
                 return Card(
                   child: ListTile(
-                    leading: Icon(
-                      Icons.bookmarks_sharp,
-                      color: maroon,
-                      size: 35.0,
+                    leading: Container(
+                      height: 65,
+                      width: 65,
+                      decoration: BoxDecoration(
+                        image: DecorationImage(
+                          image: AssetImage("assets/images/citLogo.png"),
+                          fit: BoxFit.fitWidth,
+                        ),
+                        borderRadius: BorderRadius.all(
+                          Radius.circular(12),
+                        ),
+                      ),
                     ),
+                    isThreeLine: true,
                     title: Text(
                       data.title,
-                      style: TextStyle(fontSize: 20),
+                      maxLines: 1,
+                      style: TextStyle(fontSize: 18),
                     ),
                     subtitle: Text(
                       data.description,
+                      maxLines: 2,
                       style: TextStyle(fontSize: 14),
                     ),
                     trailing: Row(

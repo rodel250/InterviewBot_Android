@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:interview_bot/Admin%20Screens/nav.dart';
+import 'package:interview_bot/Services/RESTServices.dart';
 import 'package:interview_bot/Services/Storage.dart';
 import 'package:interview_bot/User%20Screens/user_nav.dart';
 import 'package:interview_bot/login_register/registrationpage.dart';
@@ -11,21 +12,6 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 
 import 'color.dart';
-
-AlertDialog getAlertDialog(title, content, context) {
-  return AlertDialog(
-    title: Text(title),
-    content: Text('$content'),
-    actions: <Widget>[
-      TextButton(
-        child: Text('Close'),
-        onPressed: () {
-          Navigator.of(context).pop();
-        },
-      ),
-    ],
-  );
-}
 
 class LoginPage extends StatefulWidget {
   const LoginPage({Key? key}) : super(key: key);

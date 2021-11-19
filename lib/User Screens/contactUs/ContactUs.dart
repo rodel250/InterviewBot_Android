@@ -47,14 +47,17 @@ class ContactUs extends StatelessWidget {
                 Container(
                   height: 10.0,
                 ),
-                RaisedButton(
+                ElevatedButton(
                   onPressed: _sendingMails,
                   child: Text(
                     'Click here',
                     style: TextStyle(fontFamily: "assets/fonts/Gotham Regular"),
                   ),
-                  textColor: Colors.black,
-                  padding: const EdgeInsets.all(5.0),
+                  style: ElevatedButton.styleFrom(
+                    primary: Colors.white70,
+                    onPrimary: Colors.black,
+                    padding: const EdgeInsets.all(5.0),
+                  ),
                 ),
                 Container(
                   height: 20.0,
