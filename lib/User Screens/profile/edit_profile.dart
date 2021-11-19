@@ -5,9 +5,12 @@ import 'package:flutter/services.dart';
 import 'package:http/http.dart' as http;
 
 import 'package:interview_bot/Services/Storage.dart';
+import 'package:interview_bot/User%20Screens/user_nav.dart';
 import 'package:interview_bot/login_register/color.dart';
 import 'package:interview_bot/login_register/registrationpage.dart';
 import 'package:interview_bot/login_register/splash_page.dart';
+
+import '../globals.dart' as globals;
 
 class EditProfilePage extends StatefulWidget {
   @override
@@ -48,10 +51,11 @@ class _EditProfilePageState extends State<EditProfilePage>
         finalFirstName = firstname;
         finalLastName = lastname;
         finalPhone = phone;
+        globals.selectedIndex = 4;
         Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (context) => EditProfilePage(),
+            builder: (context) => UserNav(),
           ),
         );
         showDialog(

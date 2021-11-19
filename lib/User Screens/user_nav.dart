@@ -6,14 +6,14 @@ import 'package:interview_bot/User%20Screens/homePage/homePage.dart';
 import 'package:interview_bot/User%20Screens/jobOffers/job_offerings.dart';
 import 'package:interview_bot/User%20Screens/profile/edit_profile.dart';
 
+import 'globals.dart' as globals;
+
 class UserNav extends StatefulWidget {
   @override
   _NavState createState() => _NavState();
 }
 
 class _NavState extends State<UserNav> {
-  int _selectedIndex = 0;
-
   @override
   void initState() {
     super.initState();
@@ -29,7 +29,7 @@ class _NavState extends State<UserNav> {
 
   void _onItemTap(int index) {
     setState(() {
-      _selectedIndex = index;
+      globals.selectedIndex = index;
     });
   }
 
@@ -37,7 +37,7 @@ class _NavState extends State<UserNav> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Center(
-        child: _widgetOptions.elementAt(_selectedIndex),
+        child: _widgetOptions.elementAt(globals.selectedIndex),
       ),
       bottomNavigationBar: BottomNavigationBar(
         items: const <BottomNavigationBarItem>[
@@ -67,7 +67,7 @@ class _NavState extends State<UserNav> {
             backgroundColor: Color(0xFF8C383E),
           ),
         ],
-        currentIndex: _selectedIndex,
+        currentIndex: globals.selectedIndex,
         onTap: _onItemTap,
         selectedItemColor: Color(0xFFFFCC00),
       ),

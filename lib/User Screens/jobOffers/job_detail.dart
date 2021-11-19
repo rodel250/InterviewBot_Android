@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:interview_bot/User%20Screens/user_nav.dart';
 import 'package:interview_bot/login_register/splash_page.dart';
 
+import '../globals.dart' as globals;
+
 // ignore: must_be_immutable
 class JobDetail extends StatelessWidget {
   final int jobId;
@@ -26,6 +28,7 @@ class JobDetail extends StatelessWidget {
     final response = await http.post(Uri.parse(url),
         body: {"user": finalUserId.toString(), "job": jobId.toString()});
     if (response.statusCode == 201) {
+      globals.selectedIndex = 1;
       Navigator.push(
         context,
         MaterialPageRoute(builder: (context) => UserNav()),
