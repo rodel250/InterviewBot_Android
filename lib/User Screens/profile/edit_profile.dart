@@ -83,6 +83,7 @@ class _EditProfilePageState extends State<EditProfilePage>
       Map<String, dynamic> responseMap = json.decode(response.body);
       if (response.statusCode == 200) {
         secureStorage.deleteAllSecureData();
+        globals.selectedIndex = 0;
         Navigator.push(
           context,
           MaterialPageRoute(

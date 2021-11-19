@@ -1,4 +1,6 @@
 import 'dart:convert';
+import 'package:url_launcher/url_launcher.dart';
+
 import 'globals.dart' as globals;
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
@@ -31,6 +33,15 @@ AlertDialog getAlertDialog(title, content, context) {
       ),
     ],
   );
+}
+
+void toResetPasswordWebsite() async {
+  const url = 'http://10.0.2.2:8000/password_reset/';
+  if (await canLaunch(url)) {
+    await launch(url);
+  } else {
+    throw 'Could not launch $url';
+  }
 }
 
 Future<int> fetchSavedJobs() async {

@@ -1,5 +1,10 @@
+import 'color.dart';
+import 'dart:convert';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
+
 import 'package:interview_bot/Admin%20Screens/nav.dart';
 import 'package:interview_bot/Services/RESTServices.dart';
 import 'package:interview_bot/Services/Storage.dart';
@@ -8,14 +13,9 @@ import 'package:interview_bot/login_register/registrationpage.dart';
 import 'package:interview_bot/login_register/splash_page.dart';
 import 'package:interview_bot/widgets/button.dart';
 import 'package:interview_bot/widgets/header.dart';
-import 'package:http/http.dart' as http;
-import 'dart:convert';
-
-import 'color.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({Key? key}) : super(key: key);
-
   @override
   _LoginPageState createState() => _LoginPageState();
 }
@@ -113,11 +113,7 @@ class _LoginPageState extends State<LoginPage> {
                               children: [
                                 InkWell(
                                   onTap: () {
-                                    // Navigator.push(
-                                    //     context,
-                                    //     MaterialPageRoute(
-                                    //         builder: (context) =>
-                                    //             RegistrationPage()));
+                                    toResetPasswordWebsite();
                                   },
                                   child: Container(
                                     //margin: EdgeInsets.only(top:10),
