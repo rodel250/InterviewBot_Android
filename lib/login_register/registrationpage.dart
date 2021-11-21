@@ -133,10 +133,10 @@ class _RegistrationPageState extends State<RegistrationPage>
         _textInput(controller: _firstname, hint: "First Name"),
         _textInput(controller: _lastname, hint: "Last Name"),
         _textInput(controller: _phone, hint: "Phone Number"),
-        SizedBox(height: 10),
+        SizedBox(height: 3),
         Container(
           height: 50,
-          width: 450,
+          width: 400,
           alignment: Alignment.center,
           padding: const EdgeInsets.all(7),
           //padding: EdgeInsets.only(
@@ -153,9 +153,11 @@ class _RegistrationPageState extends State<RegistrationPage>
           ),
           child: Center(
             child: DropdownButton<String>(
+              isExpanded: true,
               value: dropdownValue,
               style: TextStyle(color: Colors.black, fontSize: 16),
               elevation: 16,
+              itemHeight: 50,
               hint: Center(
                   child: new Text(
                 'Gender',
@@ -171,21 +173,27 @@ class _RegistrationPageState extends State<RegistrationPage>
                   .map<DropdownMenuItem<String>>((String value) {
                 return DropdownMenuItem(
                   value: value,
-                  child: Text(value),
+                  child: Center(
+                    child: Text(
+                        value,
+                        textAlign: TextAlign.center
+                    ),
+                  )
                 );
               }).toList(),
               underline: DropdownButtonHideUnderline(child: Container()),
               dropdownColor: Color(0xFFFFFFFF),
               iconEnabledColor: Color(0xFFFFFFFF),
-              isExpanded: true,
+              //isExpanded: true,
             ),
           ),
         ),
+        SizedBox(height: 3),
         _textInput(controller: _email, hint: "Email Address"),
         Container(
           //margin: EdgeInsets.only(top: 7),
           height: 50,
-          margin: EdgeInsets.all(7),
+          margin: EdgeInsets.all(3),
           decoration: BoxDecoration(
             borderRadius: BorderRadius.all(Radius.circular(20)),
             color: gold,
@@ -217,7 +225,7 @@ class _RegistrationPageState extends State<RegistrationPage>
         Container(
           //margin: EdgeInsets.only(top: 7),
           height: 50,
-          margin: EdgeInsets.all(7),
+          margin: EdgeInsets.all(3),
           decoration: BoxDecoration(
             borderRadius: BorderRadius.all(Radius.circular(20)),
             color: gold,
@@ -244,7 +252,7 @@ class _RegistrationPageState extends State<RegistrationPage>
             ),
           ),
         ),
-        SizedBox(height: 20),
+        SizedBox(height: 15),
         Container(
             child: Column(
           children: [
@@ -306,7 +314,7 @@ class _RegistrationPageState extends State<RegistrationPage>
 
   Widget _textInput({controller, hint}) {
     return Container(
-      margin: EdgeInsets.all(7),
+      margin: EdgeInsets.only(top:3, bottom: 3),
       height: 50,
       //padding: EdgeInsets.only(bottom: 7),
       decoration: BoxDecoration(
@@ -361,7 +369,7 @@ mixin InputValidationMixin {
 
   bool isEmailValid(String email) {
     RegExp regex = new RegExp(
-        r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+");
+        r"^[a-zA-Z0-9.a-zA-Z0-9!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+");
     return regex.hasMatch(email);
   }
 
