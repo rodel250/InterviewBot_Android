@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:interview_bot/Admin%20Screens/admin_dashboard.dart';
-
-import 'admin_joblist.dart';
+import 'package:interview_bot/Admin%20Screens/admin_joblist.dart';
+import 'package:interview_bot/User%20Screens/profile/edit_profile.dart';
+import 'admin_dashboard.dart';
 
 class AdminNav extends StatefulWidget {
   @override
@@ -13,7 +13,7 @@ class _NavState extends State<AdminNav> {
   List<Widget> _widgetOptions = <Widget>[
     Dashboard(),
     JobList(),
-    Text('Settings'),
+    EditProfilePage(),
   ];
 
   void _onItemTap(int index) {
