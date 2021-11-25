@@ -27,10 +27,6 @@ class _RegistrationPageState extends State<RegistrationPage>
   Future<Account>? _futureAccount;
   String? dropdownValue;
 
-  // Future<Account> getAccountEmailAddress() async {
-
-  // }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -172,14 +168,10 @@ class _RegistrationPageState extends State<RegistrationPage>
               items: <String>['Male', 'Female']
                   .map<DropdownMenuItem<String>>((String value) {
                 return DropdownMenuItem(
-                  value: value,
-                  child: Center(
-                    child: Text(
-                        value,
-                        textAlign: TextAlign.center
-                    ),
-                  )
-                );
+                    value: value,
+                    child: Center(
+                      child: Text(value, textAlign: TextAlign.center),
+                    ));
               }).toList(),
               underline: DropdownButtonHideUnderline(child: Container()),
               dropdownColor: Color(0xFFFFFFFF),
@@ -240,7 +232,7 @@ class _RegistrationPageState extends State<RegistrationPage>
               }
 
               if (val != _password.text) {
-                return 'Password does not match';
+                return '\t\t\tPassword does not match';
               }
               return null;
             },
@@ -262,8 +254,17 @@ class _RegistrationPageState extends State<RegistrationPage>
                 btnText: "REGISTER",
                 onClick: () {
                   if (_formKey.currentState!.validate()) {
-                    setState(() {
-                      _futureAccount = createAccount(
+                    isEmailExist(_email.text).then((value) {
+                      if (value) {
+                        showDialog(
+                            context: context,
+                            builder: (BuildContext context) => getAlertDialog(
+                                "Registration Failed",
+                                "Email address is already taken",
+                                context));
+                      } else {
+                        setState(() {
+                          _futureAccount = createAccount(
                               _email.text,
                               false,
                               false,
@@ -272,17 +273,9 @@ class _RegistrationPageState extends State<RegistrationPage>
                               _lastname.text,
                               _phone.text,
                               _password.text,
-                              dropdownValue)
-                          .then((value) {
-                        throw Exception('Some arbitrary error');
-                      }).catchError((onError) {
-                        showDialog(
-                            context: context,
-                            builder: (BuildContext context) => getAlertDialog(
-                                "Registration Failed",
-                                "Email address is already taken",
-                                context));
-                      });
+                              dropdownValue);
+                        });
+                      }
                     });
                   }
                 },
@@ -314,7 +307,7 @@ class _RegistrationPageState extends State<RegistrationPage>
 
   Widget _textInput({controller, hint}) {
     return Container(
-      margin: EdgeInsets.only(top:3, bottom: 3),
+      margin: EdgeInsets.only(top: 3, bottom: 3),
       height: 50,
       //padding: EdgeInsets.only(bottom: 7),
       decoration: BoxDecoration(
@@ -352,6 +345,16 @@ class _RegistrationPageState extends State<RegistrationPage>
         ),
       ),
     );
+  }
+
+  Future<bool> isEmailExist(String email) async {
+    List<Account> listOfAccounts = await fetchAccounts();
+    for (var acc in listOfAccounts) {
+      if (acc.email == email) {
+        return Future<bool>.value(true);
+      }
+    }
+    return Future<bool>.value(false);
   }
 }
 

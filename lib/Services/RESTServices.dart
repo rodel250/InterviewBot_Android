@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:interview_bot/model/accounts.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import 'globals.dart' as globals;
@@ -16,6 +17,8 @@ const String SAVE_JOB = "saved-jobs/create/";
 const String SAVED_JOB_DETAILS = "/saved-jobs/details/";
 const String APPLIED_JOB_DETAILS = "/applied-jobs/details/";
 const String JOB_OFFERINGS_DETAILS = "/job-offerings/details/";
+const String GET_ALL_ACCOUNTS = "accounts/";
+const String USER_REGISTRATION = "user-registration/";
 
 AlertDialog getAlertDialog(title, content, context) {
   return AlertDialog(
@@ -42,6 +45,53 @@ void toResetPasswordWebsite() async {
   } else {
     throw 'Could not launch $url';
   }
+}
+
+Future<Account> createAccount(
+    String email,
+    dynamic isActive,
+    dynamic staff,
+    dynamic admin,
+    String firstname,
+    String lastname,
+    String phone,
+    String password,
+    String? gender) async {
+  final response = await http.post(
+    Uri.parse(BASE_URL + USER_REGISTRATION),
+    headers: <String, String>{
+      'Content-Type': 'application/json; charset=UTF-8',
+    },
+    body: jsonEncode(<dynamic, dynamic>{
+      'email': email,
+      'is_active': isActive,
+      'staff': staff,
+      'admin': admin,
+      'firstname': firstname,
+      'lastname': lastname,
+      'phone': phone,
+      'password': password,
+      'gender': gender,
+    }),
+  );
+
+  if (response.statusCode == 201) {
+    return Account.fromJson(jsonDecode(response.body));
+  } else {
+    throw Exception('Failed to create account.');
+  }
+}
+
+Future<List<Account>> fetchAccounts() async {
+  final url = BASE_URL + GET_ALL_ACCOUNTS;
+  final response = await http.get(Uri.parse(url));
+  final items = json.decode(response.body).cast<Map<String, dynamic>>();
+
+  List<Account> accounts = items.map<Account>((json) {
+    return Account.fromJson(json);
+  }).toList();
+
+  return accounts;
 }
 
 Future<int> fetchSavedJobs() async {
