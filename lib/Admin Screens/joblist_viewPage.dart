@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:interview_bot/login_register/splash_page.dart';
 
+// ignore: must_be_immutable
 class JobListViewPage extends StatelessWidget {
   String title="";
   String description="";

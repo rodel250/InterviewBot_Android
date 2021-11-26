@@ -34,7 +34,7 @@ class _JobListState extends State<JobList> {
                     itemCount: snapshot.data.length,
                     itemBuilder: (context, index) {
                       return Container(
-                        margin: EdgeInsets.all(16),
+                        margin: EdgeInsets.fromLTRB(16,10,16,0),
                         child: Stack(
                           children: <Widget>[
                             InkWell(
@@ -50,7 +50,7 @@ class _JobListState extends State<JobList> {
                               color: Colors.white,
                               child: Container(
                                 padding: const EdgeInsets.symmetric(
-                                    horizontal: 24.0, vertical: 36),
+                                    horizontal: 24.0, vertical: 20),
                                 decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(24),
                                   gradient: LinearGradient(
