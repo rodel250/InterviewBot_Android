@@ -11,6 +11,7 @@ import 'package:interview_bot/model/jobOfferings.dart';
 import 'package:interview_bot/model/savedJobs.dart';
 import 'package:interview_bot/User%20Screens/user_nav.dart';
 import 'package:interview_bot/login_register/splash_page.dart';
+import 'package:interview_bot/model/createdJobs.dart';
 
 const String BASE_URL = "http://10.0.2.2:8000/api/";
 const String SAVE_JOB = "saved-jobs/create/";
@@ -19,6 +20,8 @@ const String APPLIED_JOB_DETAILS = "/applied-jobs/details/";
 const String JOB_OFFERINGS_DETAILS = "/job-offerings/details/";
 const String GET_ALL_ACCOUNTS = "accounts/";
 const String USER_REGISTRATION = "user-registration/";
+
+const String ADMIN_JOB_OFFERING = "/job-offerings/";
 
 AlertDialog getAlertDialog(title, content, context) {
   return AlertDialog(
@@ -183,3 +186,6 @@ Future<List<JobOfferings>> getJobOfferingsList() async {
 
   return jobOfferings;
 }
+
+
+

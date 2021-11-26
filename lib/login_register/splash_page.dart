@@ -62,6 +62,7 @@ class _SplashPageState extends State<SplashPage> {
           finalIsAdmin = value.toString();
         });
       }
+      //secureStorage.deleteAllSecureData();
     });
 
     // secureStorage.deleteAllSecureData();
