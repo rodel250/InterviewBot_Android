@@ -187,5 +187,16 @@ Future<List<JobOfferings>> getJobOfferingsList() async {
   return jobOfferings;
 }
 
+Future<List<CreatedJobs>> getAdminJobOfferings() async {
+  final url = BASE_URL+ "admin/" + finalUserId.toString() + ADMIN_JOB_OFFERING;
+  final response = await http.get(Uri.parse(url));
+  final items = json.decode(response.body);
+  List<CreatedJobs> createdJobs = items.map<CreatedJobs>((json) {
+    return CreatedJobs.fromJson(json);
+  }).toList();
+
+  return createdJobs;
+}
+
 
 

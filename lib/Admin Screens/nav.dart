@@ -40,11 +40,11 @@ class _NavState extends State<AdminNav> {
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
             icon: Icon(Icons.search),
-            label: 'Job List',
+            label: 'Dashboard',
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.dashboard),
-            label: 'Dashboard',
+            label: 'Joblist',
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.account_circle),
