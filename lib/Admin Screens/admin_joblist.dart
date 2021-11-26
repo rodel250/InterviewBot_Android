@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:interview_bot/Admin%20Screens/joblist_viewPage.dart';
 import 'package:interview_bot/model/createdJobs.dart';
 import 'package:interview_bot/Services/RESTServices.dart';
 
@@ -33,7 +34,12 @@ class _JobListState extends State<JobList> {
                         margin: EdgeInsets.all(16),
                         child: Stack(
                           children: <Widget>[
-                            Card(
+                            InkWell(
+                              onTap: (){
+                                Navigator.push(context, MaterialPageRoute(
+                                  builder: (context) => JobListViewPage()));
+                              },
+                              child: Card(
                               elevation: 12,
                               shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(24),
@@ -50,7 +56,19 @@ class _JobListState extends State<JobList> {
                                 child: Row(
                                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                   children: <Widget>[
-                                    FlutterLogo(size: 48),
+                                    Container(
+                                      height: 80,
+                                      width: 80,
+                                      decoration: BoxDecoration(
+                                        image: DecorationImage(
+                                          image: AssetImage("assets/images/citLogo.png"),
+                                          fit: BoxFit.fitWidth,
+                                        ),
+                                        borderRadius: BorderRadius.all(
+                                          Radius.circular(12),
+                                        ),
+                                      ),
+                                    ),
                                     SizedBox(
                                       width: 16,
                                     ),
@@ -61,17 +79,27 @@ class _JobListState extends State<JobList> {
                                         children: <Widget>[
                                           Text(
                                               jobTitle(snapshot.data[index]),
-                                              style: Theme.of(context)
-                                                  .textTheme
-                                                  .headline5
+                                              style: TextStyle(
+                                                fontSize: 22,
+                                                fontFamily: 'Gotham Bold',
+                                                color: Colors.black,
+                                              ),
                                           ),
-                                          Text(jobDescription(snapshot.data[index]),
-                                              style: Theme.of(context)
-                                                  .textTheme
-                                                  .headline6
-                                          )],
+                                          RichText(
+                                            overflow: TextOverflow.ellipsis,
+                                            maxLines: 2,
+                                            text: TextSpan(
+                                              text: jobDescription(snapshot.data[index]),
+                                                style: TextStyle(
+                                                  fontSize: 16,
+                                                  fontFamily: 'Gotham Regular',
+                                                  color: Colors.black,
+                                                ),
+                                            ),
+                                          ),],
                                       ),
                                     ),
+
                                     Icon(
                                       Icons.navigate_next,
                                       size: 36,
@@ -81,6 +109,7 @@ class _JobListState extends State<JobList> {
                                 ),
                               ),
                             ),
+                            )
                           ],
                         ),
                       );

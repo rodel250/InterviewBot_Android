@@ -103,7 +103,7 @@ class _LoginPageState extends State<LoginPage> {
                       mainAxisSize: MainAxisSize.max,
                       children: <Widget>[
                         _emailInput(
-                            controller: emailController, hint: "Email Address"),
+                            controller: emailController, hint: "Email "),
                         _passInput(
                             controller: passwordController, hint: "Password"),
                         SizedBox(height: 10),

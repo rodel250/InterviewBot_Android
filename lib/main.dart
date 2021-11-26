@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'login_register/splash_page.dart';
+import 'package:interview_bot/login_register/loginpage.dart';
 
 void main() {
   runApp(MyApp());
@@ -10,7 +10,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: SplashPage(),
+      home: LoginPage(),
     );
   }
 }
