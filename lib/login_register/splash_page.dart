@@ -21,7 +21,8 @@ String? finalToken,
     finalEmail,
     finalPhone,
     finalGender,
-    finalIsAdmin;
+    finalIsAdmin,
+    finalIsStaff;
 
 class _SplashPageState extends State<SplashPage> {
   final SecureStorage secureStorage = SecureStorage();
@@ -61,6 +62,10 @@ class _SplashPageState extends State<SplashPage> {
         secureStorage.readSecureData('is_admin').then((value) {
           finalIsAdmin = value.toString();
         });
+
+        secureStorage.readSecureData('is_staff').then((value) {
+          finalIsStaff = value.toString();
+        });
       }
     });
 
@@ -72,7 +77,7 @@ class _SplashPageState extends State<SplashPage> {
           PageTransition(
               child: finalToken == null
                   ? LoginPage()
-                  : finalIsAdmin == "true"
+                  : finalIsStaff == "true"
                       ? AdminNav()
                       : UserNav(),
               type: PageTransitionType.rightToLeftWithFade));

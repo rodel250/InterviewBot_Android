@@ -50,9 +50,9 @@ class _LoginPageState extends State<LoginPage> {
         finalEmail = responseMap['email'];
         finalPhone = responseMap['phone'];
         finalGender = responseMap['gender'];
-        finalIsAdmin = responseMap['is_admin'].toString();
+        finalIsStaff = responseMap['is_staff'].toString();
 
-        if (responseMap['is_admin'] == true) {
+        if (responseMap['is_staff'] == true) {
           Navigator.push(
             context,
             MaterialPageRoute(
