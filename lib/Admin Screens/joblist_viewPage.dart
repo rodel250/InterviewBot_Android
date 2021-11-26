@@ -1,7 +1,14 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:interview_bot/login_register/splash_page.dart';
 
 class JobListViewPage extends StatelessWidget {
+  String title="";
+  String description="";
+  JobListViewPage(String title,String description){
+  this.title = title;
+  this.description=description;
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -63,7 +70,7 @@ class JobListViewPage extends StatelessWidget {
               ),
               Center(
                 child: Text(
-                  "Job Title",
+                  title,
                   textAlign: TextAlign.center,
                   style: TextStyle(
                     fontSize: 24,
@@ -74,7 +81,7 @@ class JobListViewPage extends StatelessWidget {
               ),
               Center(
                 child: Text(
-                  "Job Creator",
+                  finalFirstName.toString(),
                   textAlign: TextAlign.center,
                   style: TextStyle(
                     fontSize: 18,
@@ -97,7 +104,7 @@ class JobListViewPage extends StatelessWidget {
                 height: 10,
               ),
               Text(
-                "butang description dri",
+                description,
                 style: TextStyle(
                   fontSize: 16,
                   fontFamily: 'Gotham Regular',

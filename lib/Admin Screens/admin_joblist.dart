@@ -17,6 +17,9 @@ String jobDescription(CreatedJobs job){
   return ""+job.description;
 }
 
+int adminId(CreatedJobs job){
+  return job.adminId;
+}
 class _JobListState extends State<JobList> {
   @override
   Widget build(BuildContext context) {
@@ -37,7 +40,7 @@ class _JobListState extends State<JobList> {
                             InkWell(
                               onTap: (){
                                 Navigator.push(context, MaterialPageRoute(
-                                  builder: (context) => JobListViewPage()));
+                                  builder: (context) => JobListViewPage(jobTitle(snapshot.data[index]),jobDescription(snapshot.data[index]))));
                               },
                               child: Card(
                               elevation: 12,
