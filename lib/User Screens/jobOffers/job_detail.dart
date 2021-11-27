@@ -29,7 +29,7 @@ class JobDetail extends StatelessWidget {
         elevation: 0,
         centerTitle: true,
         title: Text(
-          jobTitle,
+          "Full Description",
           style: TextStyle(
             color: Colors.black,
           ),

@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:interview_bot/Admin%20Screens/admin_joblist.dart';
-import 'package:interview_bot/Admin%20Screens/dashboard/admin_dashboard.dart';
 
+import 'package:interview_bot/Admin%20Screens/dashboard/admin_dashboard.dart';
+import 'package:interview_bot/Admin%20Screens/joblist/admin_joblist.dart';
 import 'package:interview_bot/User%20Screens/profile/edit_profile.dart';
+import 'package:interview_bot/login_register/splash_page.dart';
 
 class AdminNav extends StatefulWidget {
   @override
@@ -26,13 +27,6 @@ class _NavState extends State<AdminNav> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Color(0xFF8C383E),
-        title: Text(
-          'Interview Bot',
-          style: TextStyle(color: Colors.white),
-        ),
-      ),
       body: Center(
         child: _widgetOptions.elementAt(_selectedIndex),
       ),

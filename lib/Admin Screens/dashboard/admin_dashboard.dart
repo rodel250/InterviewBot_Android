@@ -9,27 +9,27 @@ import 'package:interview_bot/login_register/color.dart';
 class Dashboard extends StatelessWidget {
   final List<JobApplicantsPerJobOfferSeries> data = [
     JobApplicantsPerJobOfferSeries(
-      jobTitle: "2017",
+      jobTitle: "Static Job",
       applicants: 2,
       barColor: charts.ColorUtil.fromDartColor(maroon),
     ),
     JobApplicantsPerJobOfferSeries(
-      jobTitle: "2018",
+      jobTitle: "Job",
       applicants: 1,
       barColor: charts.ColorUtil.fromDartColor(maroon),
     ),
     JobApplicantsPerJobOfferSeries(
-      jobTitle: "2019",
+      jobTitle: "Job 2",
       applicants: 0,
       barColor: charts.ColorUtil.fromDartColor(maroon),
     ),
     JobApplicantsPerJobOfferSeries(
-      jobTitle: "2020",
+      jobTitle: "Job 3",
       applicants: 5,
       barColor: charts.ColorUtil.fromDartColor(maroon),
     ),
     JobApplicantsPerJobOfferSeries(
-      jobTitle: "2021",
+      jobTitle: "Job 4",
       applicants: 7,
       barColor: charts.ColorUtil.fromDartColor(maroon),
     ),

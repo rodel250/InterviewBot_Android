@@ -4,11 +4,11 @@ import 'package:interview_bot/login_register/splash_page.dart';
 
 // ignore: must_be_immutable
 class JobListViewPage extends StatelessWidget {
-  String title="";
-  String description="";
-  JobListViewPage(String title,String description){
-  this.title = title;
-  this.description=description;
+  String title = "";
+  String description = "";
+  JobListViewPage(String title, String description) {
+    this.title = title;
+    this.description = description;
   }
   @override
   Widget build(BuildContext context) {
@@ -38,7 +38,8 @@ class JobListViewPage extends StatelessWidget {
       body: Container(
         decoration: BoxDecoration(
             color: Colors.white,
-            gradient: LinearGradient(colors: [Colors.yellow.shade700, Colors.yellow.shade300]),
+            gradient: LinearGradient(
+                colors: [Colors.yellow.shade700, Colors.yellow.shade300]),
             borderRadius: BorderRadius.only(
               topLeft: Radius.circular(50),
               topRight: Radius.circular(50),
@@ -82,7 +83,7 @@ class JobListViewPage extends StatelessWidget {
               ),
               Center(
                 child: Text(
-                  finalFirstName.toString(),
+                  finalFirstName.toString() + " " + finalLastName.toString(),
                   textAlign: TextAlign.center,
                   style: TextStyle(
                     fontSize: 18,

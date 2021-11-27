@@ -10,6 +10,10 @@ class SavedJobsList extends StatefulWidget {
   State<StatefulWidget> createState() => SavedJobListState();
 }
 
+String jobDescription(SavedJobs job) {
+  return "" + job.description;
+}
+
 class SavedJobListState extends State<SavedJobsList> {
   late Future<List<SavedJobs>> savedJobs;
   final jobOffersListKey = GlobalKey<SavedJobListState>();
@@ -94,10 +98,15 @@ class SavedJobListState extends State<SavedJobsList> {
                       maxLines: 1,
                       style: TextStyle(fontSize: 18),
                     ),
-                    subtitle: Text(
-                      data.description,
+                    subtitle: RichText(
+                      overflow: TextOverflow.ellipsis,
                       maxLines: 2,
-                      style: TextStyle(fontSize: 14),
+                      text: TextSpan(
+                          text: jobDescription(snapshot.data[index]),
+                          style: TextStyle(
+                            fontSize: 14,
+                            color: Colors.black,
+                          )),
                     ),
                     trailing: Row(
                       mainAxisSize: MainAxisSize.min,
