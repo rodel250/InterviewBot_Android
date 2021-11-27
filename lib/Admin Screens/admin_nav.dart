@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 
-import 'package:interview_bot/Admin%20Screens/dashboard/admin_dashboard.dart';
-import 'package:interview_bot/Admin%20Screens/joblist/admin_joblist.dart';
-import 'package:interview_bot/User%20Screens/profile/edit_profile.dart';
-import 'package:interview_bot/login_register/splash_page.dart';
+import 'package:interview_bot/Admin%20Screens/admin_joblist.dart';
+import 'package:interview_bot/profile/edit_profile.dart';
+import 'admin_dashboard.dart';
+
+import '../Services/globals.dart' as globals;
 
 class AdminNav extends StatefulWidget {
   @override
@@ -11,7 +12,6 @@ class AdminNav extends StatefulWidget {
 }
 
 class _NavState extends State<AdminNav> {
-  int _selectedIndex = 0;
   List<Widget> _widgetOptions = <Widget>[
     Dashboard(),
     JobList(),
@@ -20,7 +20,7 @@ class _NavState extends State<AdminNav> {
 
   void _onItemTap(int index) {
     setState(() {
-      _selectedIndex = index;
+      globals.selectedIndex = index;
     });
   }
 
@@ -28,25 +28,25 @@ class _NavState extends State<AdminNav> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Center(
-        child: _widgetOptions.elementAt(_selectedIndex),
+        child: _widgetOptions.elementAt(globals.selectedIndex),
       ),
       bottomNavigationBar: BottomNavigationBar(
         backgroundColor: Color(0xFF8C383E),
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
-            icon: Icon(Icons.search),
+            icon: Icon(Icons.dashboard),
             label: 'Dashboard',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.dashboard),
-            label: 'Joblist',
+            icon: Icon(Icons.search),
+            label: 'Job List',
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.account_circle),
             label: 'Account',
           ),
         ],
-        currentIndex: _selectedIndex,
+        currentIndex: globals.selectedIndex,
         onTap: _onItemTap,
         selectedItemColor: Color(0xFFFFCC00),
       ),

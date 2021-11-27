@@ -1,5 +1,3 @@
-import 'package:interview_bot/Admin%20Screens/admin_nav.dart';
-
 import 'color.dart';
 import 'dart:convert';
 
@@ -7,6 +5,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
+import 'package:interview_bot/Admin%20Screens/admin_nav.dart';
 import 'package:interview_bot/Services/RESTServices.dart';
 import 'package:interview_bot/Services/Storage.dart';
 import 'package:interview_bot/User%20Screens/user_nav.dart';
@@ -51,9 +50,9 @@ class _LoginPageState extends State<LoginPage> {
         finalEmail = responseMap['email'];
         finalPhone = responseMap['phone'];
         finalGender = responseMap['gender'];
-        finalIsAdmin = responseMap['is_admin'].toString();
+        finalIsStaff = responseMap['is_staff'].toString();
 
-        if (responseMap['is_admin'] == true) {
+        if (responseMap['is_staff'] == true) {
           Navigator.push(
             context,
             MaterialPageRoute(

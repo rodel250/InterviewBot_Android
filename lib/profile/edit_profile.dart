@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:http/http.dart' as http;
+import 'package:interview_bot/Admin%20Screens/admin_nav.dart';
 
 import 'package:interview_bot/Services/Storage.dart';
 import 'package:interview_bot/User%20Screens/user_nav.dart';
@@ -51,13 +52,24 @@ class _EditProfilePageState extends State<EditProfilePage>
         finalFirstName = firstname;
         finalLastName = lastname;
         finalPhone = phone;
-        globals.selectedIndex = 4;
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (context) => UserNav(),
-          ),
-        );
+        if (finalIsStaff == "true") {
+          globals.selectedIndex = 2;
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => AdminNav(),
+            ),
+          );
+        } else {
+          globals.selectedIndex = 4;
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => UserNav(),
+            ),
+          );
+        }
+
         showDialog(
             context: context,
             builder: (BuildContext context) => getAlertDialog(
