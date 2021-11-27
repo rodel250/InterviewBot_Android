@@ -4,9 +4,14 @@ import 'package:charts_flutter/flutter.dart' as charts;
 
 import 'package:interview_bot/Admin%20Screens/dashboard/buildChart.dart';
 import 'package:interview_bot/Admin%20Screens/dashboard/chartModel.dart';
+import 'package:interview_bot/Services/RESTServices.dart';
 import 'package:interview_bot/login_register/color.dart';
+import 'package:interview_bot/model/jobOfferings.dart';
 
 class Dashboard extends StatelessWidget {
+  Future<List<JobOfferings>> jobOfferings = getJobOfferingsList();
+  // final Future<List<JobApplicantsPerJobOfferSeries>> data;
+
   final List<JobApplicantsPerJobOfferSeries> data = [
     JobApplicantsPerJobOfferSeries(
       jobTitle: "Static Job",
@@ -39,11 +44,19 @@ class Dashboard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
         body: Padding(
-      padding:
-          EdgeInsets.only(left: 20.0, top: 20.0, right: 20.0, bottom: 10.0),
-      child: Center(
-        child: BuildChart(data: data),
-      ),
-    ));
+            padding: EdgeInsets.only(
+                left: 20.0, top: 35.0, right: 20.0, bottom: 10.0),
+            child: Column(
+              children: <Widget>[
+                Text(
+                  "Total Number of Applicants per Job Offering",
+                  style: TextStyle(
+                    fontFamily: "Gotham Bold",
+                    fontSize: 16,
+                  ),
+                ),
+                Expanded(child: BuildChart(data: data))
+              ],
+            )));
   }
 }

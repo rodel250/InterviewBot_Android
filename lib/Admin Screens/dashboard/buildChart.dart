@@ -11,7 +11,7 @@ class BuildChart extends StatelessWidget {
   Widget build(BuildContext context) {
     List<charts.Series<JobApplicantsPerJobOfferSeries, String>> series = [
       charts.Series(
-          id: "developers",
+          id: "applicants",
           data: data,
           domainFn: (JobApplicantsPerJobOfferSeries series, _) =>
               series.jobTitle,

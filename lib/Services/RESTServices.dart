@@ -123,7 +123,10 @@ Future<int> fetchAppliedJobs() async {
 Future<List<AppliedJobs>> getAppliedJobsList() async {
   final url = BASE_URL + finalUserId.toString() + APPLIED_JOB_DETAILS;
   final response = await http.get(Uri.parse(url));
-  final items = json.decode(response.body).cast<Map<String, dynamic>>();
+  final items = json
+      .decode(
+          utf8.decode(response.bodyBytes)) // utf8.decode for special characters
+      .cast<Map<String, dynamic>>();
 
   List<AppliedJobs> appliedJobs = items.map<AppliedJobs>((json) {
     return AppliedJobs.fromJson(json);
@@ -135,7 +138,10 @@ Future<List<AppliedJobs>> getAppliedJobsList() async {
 Future<List<SavedJobs>> getSavedJobsList() async {
   final url = BASE_URL + finalUserId.toString() + SAVED_JOB_DETAILS;
   final response = await http.get(Uri.parse(url));
-  final items = json.decode(response.body).cast<Map<String, dynamic>>();
+  final items = json
+      .decode(
+          utf8.decode(response.bodyBytes)) // utf8.decode for special characters
+      .cast<Map<String, dynamic>>();
 
   List<SavedJobs> savedJobs = items.map<SavedJobs>((json) {
     return SavedJobs.fromJson(json);
@@ -178,7 +184,10 @@ Future<void> unsaveJobOffering(id, context) async {
 Future<List<JobOfferings>> getJobOfferingsList() async {
   final url = BASE_URL + finalUserId.toString() + JOB_OFFERINGS_DETAILS;
   final response = await http.get(Uri.parse(url));
-  final items = json.decode(response.body).cast<Map<String, dynamic>>();
+  final items = json
+      .decode(
+          utf8.decode(response.bodyBytes)) // utf8.decode for special characters
+      .cast<Map<String, dynamic>>();
 
   List<JobOfferings> jobOfferings = items.map<JobOfferings>((json) {
     return JobOfferings.fromJson(json);
@@ -188,15 +197,13 @@ Future<List<JobOfferings>> getJobOfferingsList() async {
 }
 
 Future<List<CreatedJobs>> getAdminJobOfferings() async {
-  final url = BASE_URL+ "admin/" + finalUserId.toString() + ADMIN_JOB_OFFERING;
+  final url = BASE_URL + "admin/" + finalUserId.toString() + ADMIN_JOB_OFFERING;
   final response = await http.get(Uri.parse(url));
-  final items = json.decode(response.body);
+  final items = json.decode(
+      utf8.decode(response.bodyBytes)); // utf8.decode for special characters
   List<CreatedJobs> createdJobs = items.map<CreatedJobs>((json) {
     return CreatedJobs.fromJson(json);
   }).toList();
 
   return createdJobs;
 }
-
-
-
