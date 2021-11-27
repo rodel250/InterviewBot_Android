@@ -20,15 +20,13 @@ class SavedJobListState extends State<SavedJobsList> {
     savedJobs = getSavedJobsList();
   }
 
-  void _showDialog(String id, String title) {
+  void _showDialog(String id, String title, String description) {
     showDialog(
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
           title: new Text(title),
-          content: new Text(
-              "Are you sure you want to unsave this job offering?",
-              textAlign: TextAlign.center),
+          content: new Text(description, textAlign: TextAlign.center),
           actions: <Widget>[
             new TextButton(
               child: new Text("UNSAVE"),
@@ -107,7 +105,8 @@ class SavedJobListState extends State<SavedJobsList> {
                       children: [
                         IconButton(
                             onPressed: () {
-                              _showDialog(data.id.toString(), data.title);
+                              _showDialog(data.id.toString(), data.title,
+                                  data.description);
                             },
                             icon: Icon(
                               Icons.delete,
