@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:interview_bot/Admin%20Screens/dashboard/admin_dashboard.dart';
+import 'package:interview_bot/Admin%20Screens/joblist/admin_joblist.dart';
 
-import 'package:interview_bot/Admin%20Screens/admin_joblist.dart';
 import 'package:interview_bot/profile/edit_profile.dart';
-import 'admin_dashboard.dart';
 
 import '../Services/globals.dart' as globals;
 
