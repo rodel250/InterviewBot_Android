@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+
 import 'package:interview_bot/Admin%20Screens/admin_joblist.dart';
 import 'package:interview_bot/profile/edit_profile.dart';
 import 'admin_dashboard.dart';
@@ -33,12 +34,12 @@ class _NavState extends State<AdminNav> {
         backgroundColor: Color(0xFF8C383E),
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
-            icon: Icon(Icons.search),
-            label: 'Job List',
-          ),
-          BottomNavigationBarItem(
             icon: Icon(Icons.dashboard),
             label: 'Dashboard',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.search),
+            label: 'Job List',
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.account_circle),

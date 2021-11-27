@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'login_register/splash_page.dart';
+import 'package:interview_bot/login_register/splash_page.dart';
 
 void main() {
   runApp(MyApp());

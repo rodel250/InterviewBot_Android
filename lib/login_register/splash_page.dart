@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
+
 import 'package:interview_bot/Admin%20Screens/admin_nav.dart';
 import 'package:interview_bot/Services/Storage.dart';
 import 'package:interview_bot/User%20Screens/user_nav.dart';
@@ -67,6 +68,7 @@ class _SplashPageState extends State<SplashPage> {
           finalIsStaff = value.toString();
         });
       }
+      //secureStorage.deleteAllSecureData();
     });
 
     // secureStorage.deleteAllSecureData();
