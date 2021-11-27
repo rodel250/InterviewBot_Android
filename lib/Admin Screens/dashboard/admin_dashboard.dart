@@ -9,7 +9,7 @@ import 'package:interview_bot/login_register/color.dart';
 import 'package:interview_bot/model/jobOfferings.dart';
 
 class Dashboard extends StatelessWidget {
-  Future<List<JobOfferings>> jobOfferings = getJobOfferingsList();
+  // Future<List<JobOfferings>> jobOfferings = getJobOfferingsList();
   // final Future<List<JobApplicantsPerJobOfferSeries>> data;
 
   final List<JobApplicantsPerJobOfferSeries> data = [

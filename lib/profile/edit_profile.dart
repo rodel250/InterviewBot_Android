@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:http/http.dart' as http;
 import 'package:interview_bot/Admin%20Screens/admin_nav.dart';
+import 'package:interview_bot/Services/RESTServices.dart';
 
 import 'package:interview_bot/Services/Storage.dart';
 import 'package:interview_bot/User%20Screens/user_nav.dart';
@@ -39,7 +40,7 @@ class _EditProfilePageState extends State<EditProfilePage>
   }
 
   void save(id, firstname, lastname, phone, password) async {
-    final url = "http://10.0.2.2:8000/api/update-account/";
+    final url = BASE_URL + UPDATE_ACCOUNT;
     await http.post(Uri.parse(url), body: {
       'id': id,
       'firstname': firstname,
@@ -90,7 +91,7 @@ class _EditProfilePageState extends State<EditProfilePage>
   }
 
   void logout() async {
-    final url = "http://10.0.2.2:8000/api/logout/";
+    final url = BASE_URL + LOGOUT;
     await http.post(Uri.parse(url), body: {'key': finalToken}).then((response) {
       Map<String, dynamic> responseMap = json.decode(response.body);
       if (response.statusCode == 200) {

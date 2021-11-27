@@ -13,7 +13,10 @@ import 'package:interview_bot/User%20Screens/user_nav.dart';
 import 'package:interview_bot/login_register/splash_page.dart';
 import 'package:interview_bot/model/createdJobs.dart';
 
-const String BASE_URL = "http://10.0.2.2:8000/api/";
+const String BASE_URL = "https://citu-interviewbot.herokuapp.com/api/";
+const String LOGIN = "login/";
+const String LOGOUT = "logout/";
+const String UPDATE_ACCOUNT = "update-account/";
 const String SAVE_JOB = "saved-jobs/create/";
 const String SAVED_JOB_DETAILS = "/saved-jobs/details/";
 const String APPLIED_JOB_DETAILS = "/applied-jobs/details/";
@@ -42,7 +45,7 @@ AlertDialog getAlertDialog(title, content, context) {
 }
 
 void toResetPasswordWebsite() async {
-  const url = 'http://10.0.2.2:8000/password_reset/';
+  const url = 'https://citu-interviewbot.herokuapp.com/password_reset/';
   if (await canLaunch(url)) {
     await launch(url);
   } else {

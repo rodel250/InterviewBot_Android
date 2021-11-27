@@ -27,7 +27,7 @@ class _LoginPageState extends State<LoginPage> {
   TextEditingController passwordController = TextEditingController();
 
   void login(email, password) async {
-    final url = "http://10.0.2.2:8000/api/login/";
+    final url = BASE_URL + LOGIN;
     await http.post(Uri.parse(url),
         body: {"email": email, "password": password}).then((response) {
       Map<String, dynamic> responseMap = json.decode(response.body);
