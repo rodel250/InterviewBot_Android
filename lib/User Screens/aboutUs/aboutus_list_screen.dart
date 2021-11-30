@@ -24,7 +24,7 @@ class AboutusListScreen extends StatelessWidget {
                       padding: const EdgeInsets.all(35.0),
                       child: Text(
                         aboutUs.title,
-                        style: TextStyle(fontSize: 14),
+                        style: TextStyle(fontSize: 14, fontFamily: "Gotham"),
                       ),
                     ),
                     leading: Image.network(aboutUs.imageUrl2),

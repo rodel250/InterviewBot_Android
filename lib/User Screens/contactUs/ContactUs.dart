@@ -30,7 +30,7 @@ class ContactUs extends StatelessWidget {
                       fontSize: 28.0,
                       color: Color(0xFF8C383E),
                       fontWeight: FontWeight.bold,
-                      fontFamily: "assets/fonts/Gotham Bold"),
+                      fontFamily: "Gotham"),
                 ),
                 Container(
                   height: 20.0,
@@ -40,7 +40,7 @@ class ContactUs extends StatelessWidget {
                   style: TextStyle(
                       fontSize: 18.0,
                       color: Color(0xFF8C383E),
-                      fontFamily: "assets/fonts/Gotham Regular"
+                      fontFamily: "Gotham"
                       //fontWeight: FontWeight.bold,
                       ),
                 ),
@@ -51,7 +51,7 @@ class ContactUs extends StatelessWidget {
                   onPressed: _sendingMails,
                   child: Text(
                     'Click here',
-                    style: TextStyle(fontFamily: "assets/fonts/Gotham Regular"),
+                    style: TextStyle(fontFamily: "Gotham"),
                   ),
                   style: ElevatedButton.styleFrom(
                     primary: Colors.white70,
