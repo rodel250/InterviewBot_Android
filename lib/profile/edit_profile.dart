@@ -156,7 +156,7 @@ class _EditProfilePageState extends State<EditProfilePage>
                 ],
               ),
               SizedBox(
-                height: 15,
+                height: 80,
               ),
               Form(
                 key: _formKey,
