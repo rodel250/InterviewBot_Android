@@ -26,6 +26,8 @@ const String USER_REGISTRATION = "user-registration/";
 
 const String ADMIN_JOB_OFFERING = "/job-offerings/";
 
+const String CHECK_EMAILS_TOKEN = "checkifemailexists51cb6db01c3fc3a5b2943";
+
 AlertDialog getAlertDialog(title, content, context) {
   return AlertDialog(
     title: Text(title),
@@ -90,7 +92,11 @@ Future<Account> createAccount(
 
 Future<List<Account>> fetchAccounts() async {
   final url = BASE_URL + GET_ALL_ACCOUNTS;
-  final response = await http.get(Uri.parse(url));
+  final response = await http.get(Uri.parse(url), headers: {
+    'Content-type': 'application/json',
+    'Accept': 'application/json',
+    'Authorization': 'Token ' + CHECK_EMAILS_TOKEN,
+  });
   final items = json.decode(response.body).cast<Map<String, dynamic>>();
 
   List<Account> accounts = items.map<Account>((json) {
@@ -102,7 +108,11 @@ Future<List<Account>> fetchAccounts() async {
 
 Future<int> fetchSavedJobs() async {
   final url = BASE_URL + finalUserId.toString() + SAVED_JOB_DETAILS;
-  final response = await http.get(Uri.parse(url));
+  final response = await http.get(Uri.parse(url), headers: {
+    'Content-type': 'application/json',
+    'Accept': 'application/json',
+    'Authorization': 'Token ' + finalToken!,
+  });
   List<dynamic> responseMap = json.decode(response.body);
   if (response.statusCode == 200) {
     return responseMap.length;
@@ -113,7 +123,11 @@ Future<int> fetchSavedJobs() async {
 
 Future<int> fetchAppliedJobs() async {
   final url = BASE_URL + finalUserId.toString() + APPLIED_JOB_DETAILS;
-  final response = await http.get(Uri.parse(url));
+  final response = await http.get(Uri.parse(url), headers: {
+    'Content-type': 'application/json',
+    'Accept': 'application/json',
+    'Authorization': 'Token ' + finalToken!,
+  });
   List<dynamic> responseMap = json.decode(response.body);
   if (response.statusCode == 200) {
     responseMap = json.decode(response.body);
@@ -125,7 +139,11 @@ Future<int> fetchAppliedJobs() async {
 
 Future<List<AppliedJobs>> getAppliedJobsList() async {
   final url = BASE_URL + finalUserId.toString() + APPLIED_JOB_DETAILS;
-  final response = await http.get(Uri.parse(url));
+  final response = await http.get(Uri.parse(url), headers: {
+    'Content-type': 'application/json',
+    'Accept': 'application/json',
+    'Authorization': 'Token ' + finalToken!,
+  });
   final items = json
       .decode(
           utf8.decode(response.bodyBytes)) // utf8.decode for special characters
@@ -140,7 +158,11 @@ Future<List<AppliedJobs>> getAppliedJobsList() async {
 
 Future<List<SavedJobs>> getSavedJobsList() async {
   final url = BASE_URL + finalUserId.toString() + SAVED_JOB_DETAILS;
-  final response = await http.get(Uri.parse(url));
+  final response = await http.get(Uri.parse(url), headers: {
+    'Content-type': 'application/json',
+    'Accept': 'application/json',
+    'Authorization': 'Token ' + finalToken!,
+  });
   final items = json
       .decode(
           utf8.decode(response.bodyBytes)) // utf8.decode for special characters
@@ -163,8 +185,14 @@ Future<void> saveJobOffering(context, jobId) async {
             'YOU CAN ONLY SAVE AT MOST 5 JOB OFFERINGS.', context));
   } else {
     final url = BASE_URL + SAVE_JOB;
-    final response = await http.post(Uri.parse(url),
-        body: {"user": finalUserId.toString(), "job": jobId.toString()});
+    final response = await http.post(Uri.parse(url), body: {
+      "user": finalUserId.toString(),
+      "job": jobId.toString()
+    }, headers: {
+      'Content-type': 'application/json',
+      'Accept': 'application/json',
+      'Authorization': 'Token ' + finalToken!,
+    });
     if (response.statusCode == 201) {
       globals.selectedIndex = 1;
       Navigator.push(
@@ -177,7 +205,11 @@ Future<void> saveJobOffering(context, jobId) async {
 
 Future<void> unsaveJobOffering(id, context) async {
   final url = BASE_URL + "saved-jobs/" + id + "/delete/";
-  final response = await http.delete(Uri.parse(url));
+  final response = await http.delete(Uri.parse(url), headers: {
+    'Content-type': 'application/json',
+    'Accept': 'application/json',
+    'Authorization': 'Token ' + finalToken!,
+  });
   if (response.statusCode == 204) {
     Navigator.pushReplacement(context,
         MaterialPageRoute(builder: (BuildContext context) => UserNav()));
@@ -186,7 +218,11 @@ Future<void> unsaveJobOffering(id, context) async {
 
 Future<List<JobOfferings>> getJobOfferingsList() async {
   final url = BASE_URL + finalUserId.toString() + JOB_OFFERINGS_DETAILS;
-  final response = await http.get(Uri.parse(url));
+  final response = await http.get(Uri.parse(url), headers: {
+    'Content-type': 'application/json',
+    'Accept': 'application/json',
+    'Authorization': 'Token ' + finalToken!,
+  });
   final items = json
       .decode(
           utf8.decode(response.bodyBytes)) // utf8.decode for special characters
@@ -201,7 +237,11 @@ Future<List<JobOfferings>> getJobOfferingsList() async {
 
 Future<List<CreatedJobs>> getAdminJobOfferings() async {
   final url = BASE_URL + "admin/" + finalUserId.toString() + ADMIN_JOB_OFFERING;
-  final response = await http.get(Uri.parse(url));
+  final response = await http.get(Uri.parse(url), headers: {
+    'Content-type': 'application/json',
+    'Accept': 'application/json',
+    'Authorization': 'Token ' + finalToken!,
+  });
   final items = json.decode(
       utf8.decode(response.bodyBytes)); // utf8.decode for special characters
   List<CreatedJobs> createdJobs = items.map<CreatedJobs>((json) {

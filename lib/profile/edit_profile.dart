@@ -41,7 +41,9 @@ class _EditProfilePageState extends State<EditProfilePage>
 
   void save(id, firstname, lastname, phone, password) async {
     final url = BASE_URL + UPDATE_ACCOUNT;
-    await http.post(Uri.parse(url), body: {
+    await http.post(Uri.parse(url), headers: {
+      'Authorization': 'Token ' + finalToken!,
+    }, body: {
       'id': id,
       'firstname': firstname,
       'lastname': lastname,
@@ -92,7 +94,11 @@ class _EditProfilePageState extends State<EditProfilePage>
 
   void logout() async {
     final url = BASE_URL + LOGOUT;
-    await http.post(Uri.parse(url), body: {'key': finalToken}).then((response) {
+    await http.post(Uri.parse(url), body: {
+      'key': finalToken
+    }, headers: {
+      'Authorization': 'Token ' + finalToken!,
+    }).then((response) {
       Map<String, dynamic> responseMap = json.decode(response.body);
       if (response.statusCode == 200) {
         secureStorage.deleteAllSecureData();
