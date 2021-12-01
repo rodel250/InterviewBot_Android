@@ -110,7 +110,6 @@ class JobDetail extends StatelessWidget {
                 ),
               ),
               Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
                     adminFirstName + " " + adminLastName,
@@ -119,6 +118,10 @@ class JobDetail extends StatelessWidget {
                       fontFamily: 'GothamBook Regular',
                     ),
                   ),
+                ],
+              ),
+              Row(
+                children: [
                   Text(
                     adminEmail,
                     style: TextStyle(

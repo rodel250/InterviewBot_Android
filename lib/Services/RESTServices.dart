@@ -93,8 +93,6 @@ Future<Account> createAccount(
 Future<List<Account>> fetchAccounts() async {
   final url = BASE_URL + GET_ALL_ACCOUNTS;
   final response = await http.get(Uri.parse(url), headers: {
-    'Content-type': 'application/json',
-    'Accept': 'application/json',
     'Authorization': 'Token ' + CHECK_EMAILS_TOKEN,
   });
   final items = json.decode(response.body).cast<Map<String, dynamic>>();
@@ -109,8 +107,6 @@ Future<List<Account>> fetchAccounts() async {
 Future<int> fetchSavedJobs() async {
   final url = BASE_URL + finalUserId.toString() + SAVED_JOB_DETAILS;
   final response = await http.get(Uri.parse(url), headers: {
-    'Content-type': 'application/json',
-    'Accept': 'application/json',
     'Authorization': 'Token ' + finalToken!,
   });
   List<dynamic> responseMap = json.decode(response.body);
@@ -124,8 +120,6 @@ Future<int> fetchSavedJobs() async {
 Future<int> fetchAppliedJobs() async {
   final url = BASE_URL + finalUserId.toString() + APPLIED_JOB_DETAILS;
   final response = await http.get(Uri.parse(url), headers: {
-    'Content-type': 'application/json',
-    'Accept': 'application/json',
     'Authorization': 'Token ' + finalToken!,
   });
   List<dynamic> responseMap = json.decode(response.body);
@@ -140,8 +134,6 @@ Future<int> fetchAppliedJobs() async {
 Future<List<AppliedJobs>> getAppliedJobsList() async {
   final url = BASE_URL + finalUserId.toString() + APPLIED_JOB_DETAILS;
   final response = await http.get(Uri.parse(url), headers: {
-    'Content-type': 'application/json',
-    'Accept': 'application/json',
     'Authorization': 'Token ' + finalToken!,
   });
   final items = json
@@ -159,8 +151,6 @@ Future<List<AppliedJobs>> getAppliedJobsList() async {
 Future<List<SavedJobs>> getSavedJobsList() async {
   final url = BASE_URL + finalUserId.toString() + SAVED_JOB_DETAILS;
   final response = await http.get(Uri.parse(url), headers: {
-    'Content-type': 'application/json',
-    'Accept': 'application/json',
     'Authorization': 'Token ' + finalToken!,
   });
   final items = json
@@ -189,8 +179,6 @@ Future<void> saveJobOffering(context, jobId) async {
       "user": finalUserId.toString(),
       "job": jobId.toString()
     }, headers: {
-      'Content-type': 'application/json',
-      'Accept': 'application/json',
       'Authorization': 'Token ' + finalToken!,
     });
     if (response.statusCode == 201) {
@@ -206,8 +194,6 @@ Future<void> saveJobOffering(context, jobId) async {
 Future<void> unsaveJobOffering(id, context) async {
   final url = BASE_URL + "saved-jobs/" + id + "/delete/";
   final response = await http.delete(Uri.parse(url), headers: {
-    'Content-type': 'application/json',
-    'Accept': 'application/json',
     'Authorization': 'Token ' + finalToken!,
   });
   if (response.statusCode == 204) {
@@ -219,8 +205,6 @@ Future<void> unsaveJobOffering(id, context) async {
 Future<List<JobOfferings>> getJobOfferingsList() async {
   final url = BASE_URL + finalUserId.toString() + JOB_OFFERINGS_DETAILS;
   final response = await http.get(Uri.parse(url), headers: {
-    'Content-type': 'application/json',
-    'Accept': 'application/json',
     'Authorization': 'Token ' + finalToken!,
   });
   final items = json
@@ -238,8 +222,6 @@ Future<List<JobOfferings>> getJobOfferingsList() async {
 Future<List<CreatedJobs>> getAdminJobOfferings() async {
   final url = BASE_URL + "admin/" + finalUserId.toString() + ADMIN_JOB_OFFERING;
   final response = await http.get(Uri.parse(url), headers: {
-    'Content-type': 'application/json',
-    'Accept': 'application/json',
     'Authorization': 'Token ' + finalToken!,
   });
   final items = json.decode(
