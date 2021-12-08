@@ -4,7 +4,6 @@ import 'package:interview_bot/Services/RESTServices.dart';
 
 // ignore: must_be_immutable
 class JobDetail extends StatelessWidget {
-  late Future<int> totalSavedJobs;
   final int jobId;
   final String jobTitle,
       jobDescription,
@@ -137,6 +136,9 @@ class JobDetail extends StatelessWidget {
               SizedBox(
                 height: 16,
               ),
+              Expanded(
+                  child:
+                      Container()), //to fill the spaces after the description
               Row(
                 children: [
                   // Container(

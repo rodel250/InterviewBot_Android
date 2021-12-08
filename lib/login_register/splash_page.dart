@@ -68,7 +68,6 @@ class _SplashPageState extends State<SplashPage> {
           finalIsStaff = value.toString();
         });
       }
-      //secureStorage.deleteAllSecureData();
     });
 
     // secureStorage.deleteAllSecureData();

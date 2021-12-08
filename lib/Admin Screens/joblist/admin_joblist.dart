@@ -17,6 +17,10 @@ String jobDescription(CreatedJobs job) {
   return "" + job.description;
 }
 
+int jobId(CreatedJobs job) {
+  return job.id;
+}
+
 int adminId(CreatedJobs job) {
   return job.adminId;
 }
@@ -27,7 +31,7 @@ class _JobListState extends State<JobList> {
     return Scaffold(
       body: SafeArea(
         child: FutureBuilder<List<CreatedJobs>>(
-            future: getAdminJobOfferings(),
+            future: getAdminJobOfferings(context),
             builder: (BuildContext context, AsyncSnapshot snapshot) {
               if (snapshot.hasData) {
                 return ListView.builder(
@@ -43,9 +47,11 @@ class _JobListState extends State<JobList> {
                                     context,
                                     MaterialPageRoute(
                                         builder: (context) => JobListViewPage(
-                                            jobTitle(snapshot.data[index]),
-                                            jobDescription(
-                                                snapshot.data[index]))));
+                                              jobId(snapshot.data[index]),
+                                              jobTitle(snapshot.data[index]),
+                                              jobDescription(
+                                                  snapshot.data[index]),
+                                            )));
                               },
                               child: Card(
                                 elevation: 12,

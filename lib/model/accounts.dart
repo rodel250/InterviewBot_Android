@@ -34,4 +34,16 @@ class Account {
       gender: json['gender'],
     );
   }
+
+  Map<String, dynamic> toJson() => {
+        "is_active": isActive,
+        "staff": staff,
+        "admin": admin,
+        "email": email,
+        "firstname": firstname,
+        "lastname": lastname,
+        "gender": gender,
+        "phone": phone,
+        "password": password,
+      };
 }

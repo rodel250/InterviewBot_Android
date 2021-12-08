@@ -21,7 +21,7 @@ class SavedJobListState extends State<SavedJobsList> {
   @override
   void initState() {
     super.initState();
-    savedJobs = getSavedJobsList();
+    savedJobs = getSavedJobsList(context);
   }
 
   void _showDialog(String id, String title, String description) {

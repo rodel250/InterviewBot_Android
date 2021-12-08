@@ -19,8 +19,8 @@ class _HomePageState extends State<HomePage> {
 
   @override
   void initState() {
-    totalSavedJobs = fetchSavedJobs();
-    totalAppliedJobs = fetchAppliedJobs();
+    totalSavedJobs = fetchSavedJobs(context);
+    totalAppliedJobs = fetchAppliedJobs(context);
     super.initState();
   }
 

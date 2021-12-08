@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:interview_bot/Services/RESTServices.dart';
 
 import 'package:interview_bot/model/accounts.dart';
+import 'package:interview_bot/model/fewAccountDetails.dart';
 import 'package:interview_bot/widgets/button.dart';
 
 import 'color.dart';
@@ -348,7 +349,7 @@ class _RegistrationPageState extends State<RegistrationPage>
   }
 
   Future<bool> isEmailExist(String email) async {
-    List<Account> listOfAccounts = await fetchAccounts();
+    List<FewAccountDetails> listOfAccounts = await fetchAccounts();
     for (var acc in listOfAccounts) {
       if (acc.email == email) {
         return Future<bool>.value(true);

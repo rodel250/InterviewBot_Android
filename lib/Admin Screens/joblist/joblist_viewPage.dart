@@ -1,15 +1,23 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+
+import 'package:interview_bot/Admin%20Screens/joblist/job_applicants.dart';
+import 'package:interview_bot/Services/RESTServices.dart';
+import 'package:interview_bot/login_register/color.dart';
 import 'package:interview_bot/login_register/splash_page.dart';
 
 // ignore: must_be_immutable
 class JobListViewPage extends StatelessWidget {
+  int id = 0;
   String title = "";
   String description = "";
-  JobListViewPage(String title, String description) {
+
+  JobListViewPage(int id, String title, String description) {
+    this.id = id;
     this.title = title;
     this.description = description;
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -48,7 +56,7 @@ class JobListViewPage extends StatelessWidget {
           padding: EdgeInsets.all(40),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
+            children: <Widget>[
               Center(
                 child: Container(
                   height: 90,
@@ -65,10 +73,7 @@ class JobListViewPage extends StatelessWidget {
                 ),
               ),
               SizedBox(
-                height: 10,
-              ),
-              SizedBox(
-                height: 5,
+                height: 15,
               ),
               Center(
                 child: Text(
@@ -112,6 +117,29 @@ class JobListViewPage extends StatelessWidget {
                   fontFamily: 'Gotham Regular',
                 ),
               ),
+              Expanded(child: Container()),
+              FutureBuilder(
+                  future: isJobApplicantsEmpty(id, context),
+                  builder: (context, snapshot) {
+                    if (snapshot.data != null && snapshot.data == false) {
+                      return ElevatedButton(
+                          onPressed: () => {
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) =>
+                                            JobApplicants(id)))
+                              },
+                          child: Text("VIEW APPLICANTS"),
+                          style: ElevatedButton.styleFrom(
+                            primary: maroon,
+                            padding: EdgeInsets.symmetric(
+                                horizontal: 100, vertical: 15),
+                          ));
+                    } else {
+                      return Container();
+                    }
+                  })
             ],
           ),
         ),

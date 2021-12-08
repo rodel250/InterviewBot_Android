@@ -1,5 +1,10 @@
 import 'dart:convert';
+
+import 'package:interview_bot/Services/Storage.dart';
+import 'package:interview_bot/login_register/loginpage.dart';
 import 'package:interview_bot/model/accounts.dart';
+import 'package:interview_bot/model/fewAccountDetails.dart';
+import 'package:interview_bot/model/viewApplicants.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import 'globals.dart' as globals;
@@ -25,8 +30,9 @@ const String GET_ALL_ACCOUNTS = "accounts/";
 const String USER_REGISTRATION = "user-registration/";
 
 const String ADMIN_JOB_OFFERING = "/job-offerings/";
+const String ADMIN_VIEW_JOB_APPLICANTS = "applied-jobs/applicants/";
 
-const String CHECK_EMAILS_TOKEN = "checkifemailexists51cb6db01c3fc3a5b2943";
+final SecureStorage secureStorage = SecureStorage();
 
 AlertDialog getAlertDialog(title, content, context) {
   return AlertDialog(
@@ -53,6 +59,16 @@ void toResetPasswordWebsite() async {
   } else {
     throw 'Could not launch $url';
   }
+}
+
+void onNoSuchMethodError(context) {
+  secureStorage.deleteAllSecureData();
+  globals.selectedIndex = 0;
+  Navigator.push(context, MaterialPageRoute(builder: (context) => LoginPage()));
+  showDialog(
+      context: context,
+      builder: (BuildContext context) => getAlertDialog(
+          "ERROR", "Invalid token. Please login again", context));
 }
 
 Future<Account> createAccount(
@@ -90,83 +106,111 @@ Future<Account> createAccount(
   }
 }
 
-Future<List<Account>> fetchAccounts() async {
+Future<List<FewAccountDetails>> fetchAccounts() async {
   final url = BASE_URL + GET_ALL_ACCOUNTS;
-  final response = await http.get(Uri.parse(url), headers: {
-    'Authorization': 'Token ' + CHECK_EMAILS_TOKEN,
-  });
+  final response = await http.get(Uri.parse(url));
   final items = json.decode(response.body).cast<Map<String, dynamic>>();
 
-  List<Account> accounts = items.map<Account>((json) {
-    return Account.fromJson(json);
+  List<FewAccountDetails> accounts = items.map<FewAccountDetails>((json) {
+    return FewAccountDetails.fromJson(json);
   }).toList();
 
   return accounts;
 }
 
-Future<int> fetchSavedJobs() async {
+Future<int> fetchSavedJobs(context) async {
   final url = BASE_URL + finalUserId.toString() + SAVED_JOB_DETAILS;
-  final response = await http.get(Uri.parse(url), headers: {
-    'Authorization': 'Token ' + finalToken!,
-  });
-  List<dynamic> responseMap = json.decode(response.body);
-  if (response.statusCode == 200) {
-    return responseMap.length;
-  } else {
-    throw Exception('Failed to load applied jobs');
+
+  try {
+    final response = await http.get(Uri.parse(url), headers: {
+      'Authorization': 'Token ' + finalToken!,
+    });
+    final responseMap = json
+        .decode(utf8
+            .decode(response.bodyBytes)) // utf8.decode for special characters
+        .cast<Map<String, dynamic>>();
+    if (response.statusCode == 200) {
+      return responseMap.length;
+    } else {
+      throw Exception('Failed to load applied jobs');
+    }
+  } on NoSuchMethodError {
+    onNoSuchMethodError(context);
   }
+
+  return 0;
 }
 
-Future<int> fetchAppliedJobs() async {
+Future<int> fetchAppliedJobs(context) async {
   final url = BASE_URL + finalUserId.toString() + APPLIED_JOB_DETAILS;
-  final response = await http.get(Uri.parse(url), headers: {
-    'Authorization': 'Token ' + finalToken!,
-  });
-  List<dynamic> responseMap = json.decode(response.body);
-  if (response.statusCode == 200) {
-    responseMap = json.decode(response.body);
-    return responseMap.length;
-  } else {
-    throw Exception('Failed to load applied jobs');
+
+  try {
+    final response = await http.get(Uri.parse(url), headers: {
+      'Authorization': 'Token ' + finalToken!,
+    });
+    final responseMap = json
+        .decode(utf8
+            .decode(response.bodyBytes)) // utf8.decode for special characters
+        .cast<Map<String, dynamic>>();
+    if (response.statusCode == 200) {
+      return responseMap.length;
+    } else {
+      throw Exception('Failed to load applied jobs');
+    }
+  } on NoSuchMethodError {
+    onNoSuchMethodError(context);
   }
+
+  return 0;
 }
 
-Future<List<AppliedJobs>> getAppliedJobsList() async {
+Future<List<AppliedJobs>> getAppliedJobsList(context) async {
   final url = BASE_URL + finalUserId.toString() + APPLIED_JOB_DETAILS;
-  final response = await http.get(Uri.parse(url), headers: {
-    'Authorization': 'Token ' + finalToken!,
-  });
-  final items = json
-      .decode(
-          utf8.decode(response.bodyBytes)) // utf8.decode for special characters
-      .cast<Map<String, dynamic>>();
+  List<AppliedJobs> appliedJobs = [];
 
-  List<AppliedJobs> appliedJobs = items.map<AppliedJobs>((json) {
-    return AppliedJobs.fromJson(json);
-  }).toList();
+  try {
+    final response = await http.get(Uri.parse(url), headers: {
+      'Authorization': 'Token ' + finalToken!,
+    });
+    final items = json
+        .decode(utf8
+            .decode(response.bodyBytes)) // utf8.decode for special characters
+        .cast<Map<String, dynamic>>();
+
+    appliedJobs = items.map<AppliedJobs>((json) {
+      return AppliedJobs.fromJson(json);
+    }).toList();
+  } on NoSuchMethodError {
+    onNoSuchMethodError(context);
+  }
 
   return appliedJobs;
 }
 
-Future<List<SavedJobs>> getSavedJobsList() async {
+Future<List<SavedJobs>> getSavedJobsList(context) async {
   final url = BASE_URL + finalUserId.toString() + SAVED_JOB_DETAILS;
-  final response = await http.get(Uri.parse(url), headers: {
-    'Authorization': 'Token ' + finalToken!,
-  });
-  final items = json
-      .decode(
-          utf8.decode(response.bodyBytes)) // utf8.decode for special characters
-      .cast<Map<String, dynamic>>();
+  List<SavedJobs> savedJobs = [];
 
-  List<SavedJobs> savedJobs = items.map<SavedJobs>((json) {
-    return SavedJobs.fromJson(json);
-  }).toList();
+  try {
+    final response = await http.get(Uri.parse(url), headers: {
+      'Authorization': 'Token ' + finalToken!,
+    });
+    final items = json
+        .decode(utf8
+            .decode(response.bodyBytes)) // utf8.decode for special characters
+        .cast<Map<String, dynamic>>();
+    savedJobs = items.map<SavedJobs>((json) {
+      return SavedJobs.fromJson(json);
+    }).toList();
+  } on NoSuchMethodError {
+    onNoSuchMethodError(context);
+  }
 
   return savedJobs;
 }
 
 Future<void> saveJobOffering(context, jobId) async {
-  int count = await fetchSavedJobs();
+  int count = await fetchSavedJobs(context);
   print("TOTAL SAVED JOBS: " + count.toString());
   if (count == 5) {
     showDialog(
@@ -202,33 +246,80 @@ Future<void> unsaveJobOffering(id, context) async {
   }
 }
 
-Future<List<JobOfferings>> getJobOfferingsList() async {
+Future<List<JobOfferings>> getJobOfferingsList(context) async {
   final url = BASE_URL + finalUserId.toString() + JOB_OFFERINGS_DETAILS;
-  final response = await http.get(Uri.parse(url), headers: {
-    'Authorization': 'Token ' + finalToken!,
-  });
-  final items = json
-      .decode(
-          utf8.decode(response.bodyBytes)) // utf8.decode for special characters
-      .cast<Map<String, dynamic>>();
+  List<JobOfferings> jobOfferings = [];
 
-  List<JobOfferings> jobOfferings = items.map<JobOfferings>((json) {
-    return JobOfferings.fromJson(json);
-  }).toList();
+  try {
+    final response = await http.get(Uri.parse(url), headers: {
+      'Authorization': 'Token ' + finalToken!,
+    });
+
+    final items = json
+        .decode(utf8
+            .decode(response.bodyBytes)) // utf8.decode for special characters
+        .cast<Map<String, dynamic>>();
+
+    jobOfferings = items.map<JobOfferings>((json) {
+      return JobOfferings.fromJson(json);
+    }).toList();
+  } on NoSuchMethodError {
+    onNoSuchMethodError(context);
+  }
 
   return jobOfferings;
 }
 
-Future<List<CreatedJobs>> getAdminJobOfferings() async {
+Future<List<CreatedJobs>> getAdminJobOfferings(context) async {
   final url = BASE_URL + "admin/" + finalUserId.toString() + ADMIN_JOB_OFFERING;
-  final response = await http.get(Uri.parse(url), headers: {
-    'Authorization': 'Token ' + finalToken!,
-  });
-  final items = json.decode(
-      utf8.decode(response.bodyBytes)); // utf8.decode for special characters
-  List<CreatedJobs> createdJobs = items.map<CreatedJobs>((json) {
-    return CreatedJobs.fromJson(json);
-  }).toList();
+  List<CreatedJobs> createdJobs = [];
+
+  try {
+    final response = await http.get(Uri.parse(url), headers: {
+      'Authorization': 'Token ' + finalToken!,
+    });
+
+    final items = json
+        .decode(utf8
+            .decode(response.bodyBytes)) // utf8.decode for special characters
+        .cast<Map<String, dynamic>>();
+
+    createdJobs = items.map<CreatedJobs>((json) {
+      return CreatedJobs.fromJson(json);
+    }).toList();
+  } on NoSuchMethodError {
+    onNoSuchMethodError(context);
+  }
 
   return createdJobs;
+}
+
+Future<List<ViewApplicants>> getJobApplicants(jobId, context) async {
+  final url = BASE_URL + ADMIN_VIEW_JOB_APPLICANTS + jobId.toString() + "/";
+  List<ViewApplicants> jobApplicants = [];
+
+  try {
+    final response = await http.get(Uri.parse(url), headers: {
+      'Authorization': 'Token ' + finalToken!,
+    });
+
+    final items = json.decode(
+        utf8.decode(response.bodyBytes)); // utf8.decode for special characters
+
+    jobApplicants = items.map<ViewApplicants>((json) {
+      return ViewApplicants.fromJson(json);
+    }).toList();
+  } on NoSuchMethodError {
+    onNoSuchMethodError(context);
+  }
+
+  return jobApplicants;
+}
+
+Future<bool> isJobApplicantsEmpty(id, context) async {
+  List<ViewApplicants> jobApplicants = await getJobApplicants(id, context);
+  if (jobApplicants.isEmpty) {
+    return Future<bool>.value(true);
+  }
+  return Future<bool>.value(false);
 }

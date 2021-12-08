@@ -17,7 +17,7 @@ class AppliedJobsListState extends State<AppliedJobsList> {
   @override
   void initState() {
     super.initState();
-    appliedJobs = getAppliedJobsList();
+    appliedJobs = getAppliedJobsList(context);
   }
 
   @override
