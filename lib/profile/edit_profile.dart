@@ -132,7 +132,7 @@ class _EditProfilePageState extends State<EditProfilePage>
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
-        padding: EdgeInsets.only(left: 16, top: 16, right: 16),
+        padding: EdgeInsets.only(left: 30, top: 30, right: 30,),
         child: GestureDetector(
           onTap: () {
             FocusScope.of(context).unfocus();

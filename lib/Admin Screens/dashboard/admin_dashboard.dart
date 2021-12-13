@@ -4,9 +4,7 @@ import 'package:charts_flutter/flutter.dart' as charts;
 
 import 'package:interview_bot/Admin%20Screens/dashboard/buildChart.dart';
 import 'package:interview_bot/Admin%20Screens/dashboard/chartModel.dart';
-import 'package:interview_bot/Services/RESTServices.dart';
 import 'package:interview_bot/login_register/color.dart';
-import 'package:interview_bot/model/jobOfferings.dart';
 
 class Dashboard extends StatelessWidget {
   // Future<List<JobOfferings>> jobOfferings = getJobOfferingsList();

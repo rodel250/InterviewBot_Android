@@ -16,7 +16,7 @@ class AboutusListScreen extends StatelessWidget {
             return Padding(
               padding: const EdgeInsets.all(0.0),
               child: Card(
-                color: Color(0xFF8C383E),
+                color: Colors.yellow.shade700,
                 elevation: 5,
                 child: Container(
                   height: 80,
@@ -25,7 +25,7 @@ class AboutusListScreen extends StatelessWidget {
                       padding: const EdgeInsets.all(25.0),
                       child: Text(
                         aboutUs.title,
-                        style: TextStyle(fontSize: 18, fontFamily: "Gotham",color: Colors.white),
+                        style: TextStyle(fontSize: 18, fontFamily: "Gotham",color: Colors.black),
                       ),
                     ),
                     leading: Image.network(aboutUs.imageUrl2),

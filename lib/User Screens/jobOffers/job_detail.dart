@@ -46,7 +46,9 @@ class JobDetail extends StatelessWidget {
       ),
       body: Container(
         decoration: BoxDecoration(
-            color: Color(0xFF8C383E),
+            color: Colors.white,
+            gradient: LinearGradient(
+                colors: [Colors.yellow.shade700, Colors.yellow.shade300]),
             borderRadius: BorderRadius.only(
               topLeft: Radius.circular(50),
               topRight: Radius.circular(50),
@@ -79,8 +81,8 @@ class JobDetail extends StatelessWidget {
                   jobTitle,
                   textAlign: TextAlign.center,
                   style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 30,
+                    color: Colors.black,
+                    fontSize: 25,
                     fontFamily: 'Gotham Bold',
                   ),
                 ),
@@ -91,11 +93,11 @@ class JobDetail extends StatelessWidget {
               Center(
                 child: Text(
                   jobDescription,
-                  textAlign: TextAlign.center,
+                  textAlign: TextAlign.justify,
                   style: TextStyle(
                     fontSize: 16,
-                    fontFamily: 'Gotham Bold',
-                    color: Colors.white70,
+                    fontFamily: 'Gotham Regular',
+                    color: Colors.black,
                   ),
                 ),
               ),
@@ -105,8 +107,8 @@ class JobDetail extends StatelessWidget {
               Text(
                 "Job Owner",
                 style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 24,
+                  color: Colors.black,
+                  fontSize: 18,
                   fontFamily: 'Gotham Bold',
                 ),
               ),
@@ -118,7 +120,7 @@ class JobDetail extends StatelessWidget {
                   Text(
                     adminFirstName + " " + adminLastName,
                     style: TextStyle(
-                      color: Colors.white70,
+                      color: Colors.black54,
                       fontSize: 18,
                       fontFamily: 'GothamBook Regular',
                     ),
@@ -130,7 +132,7 @@ class JobDetail extends StatelessWidget {
                   Text(
                     adminEmail,
                     style: TextStyle(
-                      color: Colors.white70,
+                      color: Colors.black54,
                       fontSize: 15,
                       fontFamily: 'GothamBook Regular',
                     ),
@@ -148,28 +150,15 @@ class JobDetail extends StatelessWidget {
                       Container()), //to fill the spaces after the description
               Row(
                 children: [
-                  // Container(
-                  //   height: 60,
-                  //   width: 60,
-                  //   child: Center(
-                  //     child: Icon(
-                  //       Icons.favorite_border,
-                  //       size: 28,
-                  //     ),
-                  //   ),
-                  // ),
-                  // SizedBox(
-                  //   width: 16,
-                  // ),
                   Expanded(
                     child: InkWell(
                       onTap: () => {saveJobOffering(context, jobId)},
                       child: Container(
-                        height: 60,
+                        height: 50,
                         decoration: BoxDecoration(
-                          color: Color(0xFFFFCC00),
+                          color: Color(0xFF8C383E),
                           borderRadius: BorderRadius.all(
-                            Radius.circular(50),
+                            Radius.circular(15),
                           ),
                         ),
                         child: Center(
@@ -178,7 +167,7 @@ class JobDetail extends StatelessWidget {
                             style: TextStyle(
                               fontSize: 24,
                               fontFamily: 'Gotham Bold',
-                              color: Colors.black54,
+                              color: Colors.white,
                             ),
                           ),
                         ),
