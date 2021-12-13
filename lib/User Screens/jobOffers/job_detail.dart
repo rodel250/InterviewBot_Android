@@ -46,13 +46,13 @@ class JobDetail extends StatelessWidget {
       ),
       body: Container(
         decoration: BoxDecoration(
-            color: Colors.white,
+            color: Color(0xFF8C383E),
             borderRadius: BorderRadius.only(
               topLeft: Radius.circular(50),
               topRight: Radius.circular(50),
             )),
         child: Padding(
-          padding: EdgeInsets.all(40),
+          padding: EdgeInsets.all(30),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -72,48 +72,54 @@ class JobDetail extends StatelessWidget {
                 ),
               ),
               SizedBox(
-                height: 10,
+                height: 5,
               ),
               Center(
                 child: Text(
                   jobTitle,
                   textAlign: TextAlign.center,
                   style: TextStyle(
-                    fontSize: 24,
+                    color: Colors.white,
+                    fontSize: 30,
                     fontFamily: 'Gotham Bold',
                   ),
                 ),
               ),
               SizedBox(
-                height: 5,
+                height: 20,
               ),
               Center(
                 child: Text(
                   jobDescription,
                   textAlign: TextAlign.center,
                   style: TextStyle(
-                    fontSize: 14,
+                    fontSize: 16,
                     fontFamily: 'Gotham Bold',
-                    color: Colors.grey,
+                    color: Colors.white70,
                   ),
                 ),
               ),
               SizedBox(
-                height: 25,
+                height: 50,
               ),
               Text(
                 "Job Owner",
                 style: TextStyle(
-                  fontSize: 18,
+                  color: Colors.white,
+                  fontSize: 24,
                   fontFamily: 'Gotham Bold',
                 ),
+              ),
+              SizedBox(
+                height: 5,
               ),
               Row(
                 children: [
                   Text(
                     adminFirstName + " " + adminLastName,
                     style: TextStyle(
-                      fontSize: 15,
+                      color: Colors.white70,
+                      fontSize: 18,
                       fontFamily: 'GothamBook Regular',
                     ),
                   ),
@@ -124,6 +130,7 @@ class JobDetail extends StatelessWidget {
                   Text(
                     adminEmail,
                     style: TextStyle(
+                      color: Colors.white70,
                       fontSize: 15,
                       fontFamily: 'GothamBook Regular',
                     ),
@@ -160,18 +167,18 @@ class JobDetail extends StatelessWidget {
                       child: Container(
                         height: 60,
                         decoration: BoxDecoration(
-                          color: Colors.red[500],
+                          color: Color(0xFFFFCC00),
                           borderRadius: BorderRadius.all(
-                            Radius.circular(12),
+                            Radius.circular(50),
                           ),
                         ),
                         child: Center(
                           child: Text(
                             "SAVE",
                             style: TextStyle(
-                              fontSize: 18,
+                              fontSize: 24,
                               fontFamily: 'Gotham Bold',
-                              color: Colors.white,
+                              color: Colors.black54,
                             ),
                           ),
                         ),

@@ -36,10 +36,12 @@ class _JobsState extends State<Jobs> {
                   var data = snapshot.data[index];
                   return Card(
                     child: ListTile(
+                      tileColor: Color(0xFF8C383E),
                         leading: Container(
                           height: 45,
                           width: 45,
                           decoration: BoxDecoration(
+                            color: Color(0xFFFFCC00),
                             image: DecorationImage(
                               image: AssetImage("assets/images/citLogo.png"),
                               fit: BoxFit.fitWidth,
@@ -52,7 +54,9 @@ class _JobsState extends State<Jobs> {
                         title: Text(
                           data.title,
                           style: TextStyle(
-                              fontSize: 18, fontFamily: "GothamBook Regular"),
+                            color: Colors.white,
+                              fontSize: 18,
+                              fontFamily: "GothamBook Regular"),
                         ),
                         onTap: () => {
                               Navigator.push(

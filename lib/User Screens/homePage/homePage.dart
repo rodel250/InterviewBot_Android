@@ -73,6 +73,9 @@ class _HomePageState extends State<HomePage> {
                                     color: Colors.white,
                                     fontSize: 20),
                               ),
+                              SizedBox(
+                                height: 8,
+                              ),
                               Text(
                                 finalEmail.toString(),
                                 style: TextStyle(

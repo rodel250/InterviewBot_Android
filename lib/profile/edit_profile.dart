@@ -162,7 +162,7 @@ class _EditProfilePageState extends State<EditProfilePage>
                 ],
               ),
               SizedBox(
-                height: 80,
+                height: 35,
               ),
               Form(
                 key: _formKey,
@@ -172,9 +172,13 @@ class _EditProfilePageState extends State<EditProfilePage>
                       Text(
                         "Personal Information",
                         style: TextStyle(
+                          color: Color(0xFF8C383E),
                             fontSize: 25,
                             fontWeight: FontWeight.w500,
                             fontFamily: "assets/fonts/Gotham Bold"),
+                      ),
+                      SizedBox(
+                        height: 20,
                       ),
                       buildTextField(
                           controller: firstnameController,
@@ -194,9 +198,13 @@ class _EditProfilePageState extends State<EditProfilePage>
                       Text(
                         "\nAccount Information",
                         style: TextStyle(
+                          color: Color(0xFF8C383E),
                             fontSize: 25,
                             fontWeight: FontWeight.w500,
                             fontFamily: "assets/fonts/Gotham Bold"),
+                      ),
+                      SizedBox(
+                        height: 20,
                       ),
                       buildTextField(
                           controller: emailController,
@@ -209,7 +217,7 @@ class _EditProfilePageState extends State<EditProfilePage>
                           editable: true,
                           isPasswordTextField: true),
                       SizedBox(
-                        height: 30,
+                        height: 15,
                       ),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
@@ -229,17 +237,18 @@ class _EditProfilePageState extends State<EditProfilePage>
                             },
                             style: ElevatedButton.styleFrom(
                               primary: gold,
-                              padding: EdgeInsets.symmetric(horizontal: 50),
+                              padding: EdgeInsets.symmetric(vertical: 12,horizontal: 40),
                               elevation: 2,
-                              shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(20)),
+                              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(25)),
                             ),
                             child: Text(
                               "SAVE",
+                              textAlign: TextAlign.center,
                               style: TextStyle(
-                                  fontSize: 14,
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.bold,
                                   letterSpacing: 2.2,
-                                  color: Colors.white),
+                                  color: Colors.black54),
                             ),
                           )
                         ],

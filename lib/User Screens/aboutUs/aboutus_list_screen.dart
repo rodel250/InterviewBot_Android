@@ -14,17 +14,18 @@ class AboutusListScreen extends StatelessWidget {
           itemBuilder: (context, index) {
             AboutUs aboutUs = aboutusList[index];
             return Padding(
-              padding: const EdgeInsets.all(12.0),
+              padding: const EdgeInsets.all(0.0),
               child: Card(
-                elevation: 8,
+                color: Color(0xFF8C383E),
+                elevation: 5,
                 child: Container(
-                  height: 100,
+                  height: 80,
                   child: ListTile(
                     title: Padding(
-                      padding: const EdgeInsets.all(35.0),
+                      padding: const EdgeInsets.all(25.0),
                       child: Text(
                         aboutUs.title,
-                        style: TextStyle(fontSize: 14, fontFamily: "Gotham"),
+                        style: TextStyle(fontSize: 18, fontFamily: "Gotham",color: Colors.white),
                       ),
                     ),
                     leading: Image.network(aboutUs.imageUrl2),
