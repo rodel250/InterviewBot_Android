@@ -8,28 +8,47 @@ import 'aboutus_details_screen.dart';
 class AboutusListScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+
     return Scaffold(
+
       body: ListView.builder(
           itemCount: aboutusList.length,
           itemBuilder: (context, index) {
             AboutUs aboutUs = aboutusList[index];
             return Padding(
-              padding: const EdgeInsets.all(0.0),
+              padding: const EdgeInsets.all(10.0),
               child: Card(
-                color: Colors.yellow.shade700,
-                elevation: 5,
+                color: Colors.white,
+                elevation: 12,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(24),
+                ),
                 child: Container(
-                  height: 80,
+                  padding: const EdgeInsets.symmetric(
+                      horizontal: 24.0, vertical: 20),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(24),
+                    gradient: LinearGradient(colors: [
+                      Colors.yellow.shade700,
+                      Colors.yellow.shade300
+                    ]),
+                  ),
                   child: ListTile(
                     title: Padding(
-                      padding: const EdgeInsets.all(25.0),
+                      padding: const EdgeInsets.all(5.0),
                       child: Text(
                         aboutUs.title,
-                        style: TextStyle(fontSize: 18, fontFamily: "Gotham",color: Colors.black),
+                        style: TextStyle(fontSize: 16, fontFamily: "Gotham",color: Colors.black,fontWeight: FontWeight.bold),
+
                       ),
                     ),
+
                     leading: Image.asset(aboutUs.imageUrl2),
-                    trailing: Icon(Icons.arrow_forward_rounded),
+                    trailing: Icon(
+                      Icons.navigate_next,
+                      size: 24,
+                      color: Colors.white,
+                    ),
                     onTap: () {
                       Navigator.push(
                           context,
