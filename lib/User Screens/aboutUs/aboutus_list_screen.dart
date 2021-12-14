@@ -28,7 +28,7 @@ class AboutusListScreen extends StatelessWidget {
                         style: TextStyle(fontSize: 18, fontFamily: "Gotham",color: Colors.black),
                       ),
                     ),
-                    leading: Image.network(aboutUs.imageUrl2),
+                    leading: Image.asset(aboutUs.imageUrl2),
                     trailing: Icon(Icons.arrow_forward_rounded),
                     onTap: () {
                       Navigator.push(
