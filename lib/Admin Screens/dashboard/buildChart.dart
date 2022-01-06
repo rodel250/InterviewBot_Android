@@ -11,16 +11,18 @@ class BuildChart extends StatelessWidget {
   Widget build(BuildContext context) {
     List<charts.Series<JobApplicantsPerJobOfferSeries, String>> series = [
       charts.Series(
-          id: "applicants",
-          data: data,
-          domainFn: (JobApplicantsPerJobOfferSeries series, _) =>
-              series.jobTitle,
-          measureFn: (JobApplicantsPerJobOfferSeries series, _) =>
-              series.applicants,
-          colorFn: (JobApplicantsPerJobOfferSeries series, _) =>
-              series.barColor)
+        id: "applicants",
+        data: data,
+        domainFn: (JobApplicantsPerJobOfferSeries series, _) => series.jobTitle,
+        measureFn: (JobApplicantsPerJobOfferSeries series, _) =>
+            series.applicants,
+        colorFn: (JobApplicantsPerJobOfferSeries series, _) => series.barColor,
+      ),
     ];
 
-    return charts.BarChart(series, animate: true);
+    return charts.BarChart(series,
+        animate: true,
+        domainAxis: charts.OrdinalAxisSpec(
+            renderSpec: charts.SmallTickRendererSpec(labelRotation: 60)));
   }
 }

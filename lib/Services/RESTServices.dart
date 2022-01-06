@@ -1,7 +1,10 @@
 import 'dart:convert';
 
+import 'package:interview_bot/Admin%20Screens/dashboard/chartModel.dart';
 import 'package:interview_bot/Services/Storage.dart';
+import 'package:interview_bot/login_register/color.dart';
 import 'package:interview_bot/login_register/loginpage.dart';
+import 'package:interview_bot/model/AppliedJobIds.dart';
 import 'package:interview_bot/model/accounts.dart';
 import 'package:interview_bot/model/fewAccountDetails.dart';
 import 'package:interview_bot/model/viewApplicants.dart';
@@ -10,6 +13,7 @@ import 'package:url_launcher/url_launcher.dart';
 import 'globals.dart' as globals;
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:charts_flutter/flutter.dart' as charts;
 
 import 'package:interview_bot/model/appliedJobs.dart';
 import 'package:interview_bot/model/jobOfferings.dart';
@@ -31,6 +35,7 @@ const String USER_REGISTRATION = "user-registration/";
 
 const String ADMIN_JOB_OFFERING = "/job-offerings/";
 const String ADMIN_VIEW_JOB_APPLICANTS = "applied-jobs/applicants/";
+const String GET_ALL_APPLIED_JOB_ID = "applied-jobs/";
 
 final SecureStorage secureStorage = SecureStorage();
 
@@ -292,6 +297,60 @@ Future<List<CreatedJobs>> getAdminJobOfferings(context) async {
   }
 
   return createdJobs;
+}
+
+Future<List<JobApplicantsPerJobOfferSeries>> getDashboardData() async {
+  List<JobApplicantsPerJobOfferSeries> data = [];
+
+  final url1 =
+      BASE_URL + "admin/" + finalUserId.toString() + ADMIN_JOB_OFFERING;
+  final url2 = BASE_URL + GET_ALL_APPLIED_JOB_ID;
+
+  List<CreatedJobs> createdJobs = [];
+  List<AppliedJobIds> appliedJobs = [];
+
+  final response1 = await http.get(Uri.parse(url1), headers: {
+    'Authorization': 'Token ' + finalToken!,
+  });
+
+  final response2 = await http.get(Uri.parse(url2), headers: {
+    'Authorization': 'Token ' + finalToken!,
+  });
+
+  final createdJobs2 = json
+      .decode(utf8
+          .decode(response1.bodyBytes)) // utf8.decode for special characters
+      .cast<Map<String, dynamic>>();
+
+  final appliedJobs2 = json
+      .decode(utf8
+          .decode(response2.bodyBytes)) // utf8.decode for special characters
+      .cast<Map<String, dynamic>>();
+
+  createdJobs = createdJobs2.map<CreatedJobs>((json) {
+    return CreatedJobs.fromJson(json);
+  }).toList();
+
+  appliedJobs = appliedJobs2.map<AppliedJobIds>((json) {
+    return AppliedJobIds.fromJson(json);
+  }).toList();
+
+  for (int i = 0; i < createdJobs.length; i++) {
+    int count = 0;
+    for (int j = 0; j < appliedJobs.length; j++) {
+      if ((createdJobs.elementAt(i).id == appliedJobs.elementAt(j).jobId) &&
+          (appliedJobs.elementAt(j).finalScore != 0)) {
+        count++;
+      }
+    }
+
+    data.add(JobApplicantsPerJobOfferSeries(
+        jobTitle: createdJobs.elementAt(i).title,
+        applicants: count,
+        barColor: charts.ColorUtil.fromDartColor(maroon)));
+  }
+
+  return data;
 }
 
 Future<List<ViewApplicants>> getJobApplicants(jobId, context) async {

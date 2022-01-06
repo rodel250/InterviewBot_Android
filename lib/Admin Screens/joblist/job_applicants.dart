@@ -54,7 +54,7 @@ class _JobApplicantsState extends State<JobApplicants> {
               // By default, show a loading spinner.
               if (!snapshot.hasData)
                 return Center(child: CircularProgressIndicator());
-              // Render saved jobs lists
+              // Render applicants lists
               return ListView.builder(
                 itemCount: snapshot.data.length,
                 itemBuilder: (BuildContext context, int index) {
@@ -79,6 +79,7 @@ class _JobApplicantsState extends State<JobApplicants> {
                                   context,
                                   MaterialPageRoute(
                                       builder: (context) => JobApplicantDetail(
+                                          data.finalScore.toString(),
                                           data.user.firstname,
                                           data.user.lastname,
                                           data.user.gender,

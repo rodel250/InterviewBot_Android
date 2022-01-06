@@ -3,9 +3,15 @@ import 'package:flutter/material.dart';
 
 // ignore: must_be_immutable
 class JobApplicantDetail extends StatelessWidget {
-  String firstname = "", lastname = "", gender = "", phone = "", email = "";
+  String score = "",
+      firstname = "",
+      lastname = "",
+      gender = "",
+      phone = "",
+      email = "";
 
-  JobApplicantDetail(firstname, lastname, gender, email, phone) {
+  JobApplicantDetail(score, firstname, lastname, gender, email, phone) {
+    this.score = score;
     this.firstname = firstname;
     this.lastname = lastname;
     this.gender = gender;
@@ -54,6 +60,26 @@ class JobApplicantDetail extends StatelessWidget {
             children: [
               SizedBox(
                 height: 25,
+              ),
+              Text(
+                "Final Score",
+                style: TextStyle(
+                  fontSize: 24,
+                  fontFamily: 'Gotham Bold',
+                ),
+              ),
+              SizedBox(
+                height: 10,
+              ),
+              Text(
+                "     " + score + "%",
+                style: TextStyle(
+                  fontSize: 16,
+                  fontFamily: 'Gotham Regular',
+                ),
+              ),
+              SizedBox(
+                height: 50,
               ),
               Text(
                 "Profile",

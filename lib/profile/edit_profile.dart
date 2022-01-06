@@ -93,46 +93,65 @@ class _EditProfilePageState extends State<EditProfilePage>
   }
 
   void logout() async {
-    final url = BASE_URL + LOGOUT;
-    await http.post(Uri.parse(url), body: {
-      'key': finalToken
-    }, headers: {
-      'Authorization': 'Token ' + finalToken!,
-    }).then((response) {
-      Map<String, dynamic> responseMap = json.decode(response.body);
-      if (response.statusCode == 200) {
-        secureStorage.deleteAllSecureData();
-        globals.selectedIndex = 0;
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (context) => SplashPage(),
-          ),
-        );
-        showDialog(
-            context: context,
-            builder: (BuildContext context) => getAlertDialog(
-                "SUCCESS", '${responseMap["success"]}', context));
-      } else {
-        if (responseMap.containsKey("detail"))
-          showDialog(
-              context: context,
-              builder: (BuildContext context) => getAlertDialog(
-                  "Logout failed", '${responseMap["detail"]}', context));
-      }
-    }).catchError((err) {
-      showDialog(
-          context: context,
-          builder: (BuildContext context) =>
-              getAlertDialog("Logout failed", '${err.toString()}', context));
-    });
+    secureStorage.deleteAllSecureData();
+    globals.selectedIndex = 0;
+
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => SplashPage(),
+      ),
+    );
+
+    showDialog(
+        context: context,
+        builder: (BuildContext context) =>
+            getAlertDialog("SUCCESS", 'Successfully logged out', context));
+
+    // final url = BASE_URL + LOGOUT;
+    // await http.post(Uri.parse(url), body: {
+    //   'key': finalToken
+    // }, headers: {
+    //   'Authorization': 'Token ' + finalToken!,
+    // }).then((response) {
+    //   Map<String, dynamic> responseMap = json.decode(response.body);
+    //   if (response.statusCode == 200) {
+    //     secureStorage.deleteAllSecureData();
+    //     globals.selectedIndex = 0;
+    //     Navigator.push(
+    //       context,
+    //       MaterialPageRoute(
+    //         builder: (context) => SplashPage(),
+    //       ),
+    //     );
+    //     showDialog(
+    //         context: context,
+    //         builder: (BuildContext context) => getAlertDialog(
+    //             "SUCCESS", '${responseMap["success"]}', context));
+    //   } else {
+    //     if (responseMap.containsKey("detail"))
+    //       showDialog(
+    //           context: context,
+    //           builder: (BuildContext context) => getAlertDialog(
+    //               "Logout failed", '${responseMap["detail"]}', context));
+    //   }
+    // }).catchError((err) {
+    //   showDialog(
+    //       context: context,
+    //       builder: (BuildContext context) =>
+    //           getAlertDialog("Logout failed", '${err.toString()}', context));
+    // });
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
-        padding: EdgeInsets.only(left: 30, top: 30, right: 30,),
+        padding: EdgeInsets.only(
+          left: 30,
+          top: 30,
+          right: 30,
+        ),
         child: GestureDetector(
           onTap: () {
             FocusScope.of(context).unfocus();
@@ -172,7 +191,7 @@ class _EditProfilePageState extends State<EditProfilePage>
                       Text(
                         "Personal Information",
                         style: TextStyle(
-                          color: Color(0xFF8C383E),
+                            color: Color(0xFF8C383E),
                             fontSize: 25,
                             fontWeight: FontWeight.w500,
                             fontFamily: "assets/fonts/Gotham Bold"),
@@ -198,7 +217,7 @@ class _EditProfilePageState extends State<EditProfilePage>
                       Text(
                         "\nAccount Information",
                         style: TextStyle(
-                          color: Color(0xFF8C383E),
+                            color: Color(0xFF8C383E),
                             fontSize: 25,
                             fontWeight: FontWeight.w500,
                             fontFamily: "assets/fonts/Gotham Bold"),
@@ -237,9 +256,11 @@ class _EditProfilePageState extends State<EditProfilePage>
                             },
                             style: ElevatedButton.styleFrom(
                               primary: gold,
-                              padding: EdgeInsets.symmetric(vertical: 12,horizontal: 40),
+                              padding: EdgeInsets.symmetric(
+                                  vertical: 12, horizontal: 40),
                               elevation: 2,
-                              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(25)),
+                              shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(25)),
                             ),
                             child: Text(
                               "SAVE",
