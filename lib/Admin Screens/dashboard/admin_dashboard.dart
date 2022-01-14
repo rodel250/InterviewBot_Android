@@ -33,27 +33,31 @@ class _DashboardState extends State {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        body: Padding(
-            padding: EdgeInsets.only(
-                left: 20.0, top: 35.0, right: 20.0, bottom: 10.0),
-            child: Column(children: <Widget>[
-              Text(
-                "Total Number of Applicants per Job Offering",
-                style: TextStyle(
-                  fontFamily: "Gotham Bold",
-                  fontSize: 16,
-                ),
-              ),
-              FutureBuilder<List<JobApplicantsPerJobOfferSeries>>(
-                  future: data,
-                  builder: (BuildContext context, AsyncSnapshot snapshot) {
-                    if (!snapshot.hasData)
-                      return Flexible(
-                          child: Center(child: CircularProgressIndicator()));
+    return WillPopScope(
+        child: Scaffold(
+            body: Padding(
+                padding: EdgeInsets.only(
+                    left: 20.0, top: 35.0, right: 20.0, bottom: 10.0),
+                child: Column(children: <Widget>[
+                  Text(
+                    "Total Number of Applicants per Job Offering",
+                    style: TextStyle(
+                      fontFamily: "Gotham Bold",
+                      fontSize: 16,
+                    ),
+                  ),
+                  FutureBuilder<List<JobApplicantsPerJobOfferSeries>>(
+                      future: data,
+                      builder: (BuildContext context, AsyncSnapshot snapshot) {
+                        if (!snapshot.hasData)
+                          return Flexible(
+                              child:
+                                  Center(child: CircularProgressIndicator()));
 
-                    return Expanded(child: BuildChart(data: chartData));
-                  })
-            ])));
+                        return Expanded(child: BuildChart(data: chartData));
+                      })
+                ]))),
+        // block Back button
+        onWillPop: () => Future.value(false));
   }
 }

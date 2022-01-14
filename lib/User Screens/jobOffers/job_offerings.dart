@@ -20,12 +20,14 @@ class _MasterState extends State<Master> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.grey[200],
-      body: AnimatedSwitcher(
-        duration: Duration(milliseconds: 300),
-        child: currentWidgetView,
-      ),
-    );
+    return WillPopScope(
+        child: Scaffold(
+          backgroundColor: Colors.grey[200],
+          body: AnimatedSwitcher(
+            duration: Duration(milliseconds: 300),
+            child: currentWidgetView,
+          ),
+        ),
+        onWillPop: () => Future.value(false));
   }
 }

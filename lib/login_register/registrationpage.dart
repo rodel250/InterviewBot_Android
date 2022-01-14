@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:interview_bot/Services/RESTServices.dart';
 
 import 'package:interview_bot/model/accounts.dart';
@@ -195,9 +196,9 @@ class _RegistrationPageState extends State<RegistrationPage>
             controller: _password,
             obscureText: true,
             textAlign: TextAlign.center,
-            // maxLength: 20,
-            // maxLengthEnforcement:
-            // MaxLengthEnforcement.truncateAfterCompositionEnds,
+            maxLength: 20,
+            maxLengthEnforcement:
+                MaxLengthEnforcement.truncateAfterCompositionEnds,
             validator: (val) {
               if (val!.isEmpty) {
                 return '\t\t\tThis field is required';
@@ -333,7 +334,7 @@ class _RegistrationPageState extends State<RegistrationPage>
           }
           return null;
         },
-        // maxLength: hint == "Phone Number" ? 11 : TextField.noMaxLength,
+        maxLength: hint == "Phone Number" ? 11 : TextField.noMaxLength,
         controller: controller,
         textAlign: TextAlign.center,
         textAlignVertical: TextAlignVertical.center,
@@ -342,7 +343,7 @@ class _RegistrationPageState extends State<RegistrationPage>
           hintText: hint,
           errorStyle: TextStyle(height: 1),
           hintStyle: TextStyle(height: 0),
-          //counterText: "",
+          counterText: "",
         ),
       ),
     );
