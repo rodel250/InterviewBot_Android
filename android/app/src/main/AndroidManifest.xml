@@ -2,7 +2,7 @@
     package="com.example.interview_bot">
     <uses-permission android:name="android.permission.INTERNET"/>
    <application
-        android:label="interview_bot"
+        android:label="InterviewBot"
         android:icon="@mipmap/ib_launcher">
         <activity
             android:name=".MainActivity"
