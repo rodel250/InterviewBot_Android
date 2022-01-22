@@ -164,7 +164,8 @@ class _EditProfilePageState extends State<EditProfilePage>
                     children: [
                       ElevatedButton(
                         onPressed: () {
-                          logout();
+                          if(globals.isOnline==true)
+                            logout();
                         },
                         style: ElevatedButton.styleFrom(
                           primary: maroon,
