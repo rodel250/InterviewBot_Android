@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'color.dart';
 import 'dart:convert';
 
@@ -14,6 +16,9 @@ import 'package:interview_bot/login_register/splash_page.dart';
 import 'package:interview_bot/widgets/button.dart';
 import 'package:interview_bot/widgets/header.dart';
 
+import 'package:interview_bot/Services/InternetHandler.dart';
+import 'package:interview_bot/Services/globals.dart' as globals;
+
 class LoginPage extends StatefulWidget {
   const LoginPage({Key? key}) : super(key: key);
   @override
@@ -21,10 +26,29 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
+  late StreamSubscription _connectionChangeStream;
   final SecureStorage secureStorage = SecureStorage();
   final GlobalKey<FormState> _formKey = new GlobalKey<FormState>();
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
+
+  @override
+  void initState() {
+    super.initState();
+    //Create instance
+    ConnectionUtil connectionStatus = ConnectionUtil.getInstance();
+    //Initialize
+    connectionStatus.initialize();
+    //Listen for connection change
+    _connectionChangeStream = connectionStatus.connectionChange.listen((event) {
+      print(event);
+      final isOnline = event;
+      setState(() {
+        globals.isOnline = isOnline;
+      });
+    });
+
+  }
 
   void login(email, password) async {
     final url = BASE_URL + LOGIN;
@@ -90,6 +114,9 @@ class _LoginPageState extends State<LoginPage> {
         child: SingleChildScrollView(
           child: Column(
             children: <Widget>[
+              Container(
+                child: isInternet("No Internet Connection Available", globals.isOnline),
+              ),
               Header("LOGIN"),
               SizedBox(height: 35),
               Container(
@@ -250,3 +277,26 @@ class _LoginPageState extends State<LoginPage> {
     );
   }
 }
+
+Widget isInternet(String text,bool status){
+  if(status == false){
+    return Container(
+      padding: EdgeInsets.all(10.00),
+      margin: EdgeInsets.only(bottom: 10.00),
+      color: Colors.red,
+      child: Row(children: [
+
+        Container(
+          margin: EdgeInsets.only(right:6.00),
+          child: Icon(Icons.info, color: Colors.white),
+        ),
+        Text(text, style: TextStyle(color: Colors.white)),
+      ]),
+    );
+  }else{
+    return Container();
+  }
+}
+
+
+

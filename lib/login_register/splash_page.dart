@@ -8,6 +8,7 @@ import 'package:interview_bot/login_register/color.dart';
 import 'package:interview_bot/login_register/loginpage.dart';
 import 'package:page_transition/page_transition.dart';
 
+
 class SplashPage extends StatefulWidget {
   const SplashPage({Key? key}) : super(key: key);
 
@@ -25,8 +26,10 @@ String? finalToken,
     finalIsAdmin,
     finalIsStaff;
 
+
 class _SplashPageState extends State<SplashPage> {
   final SecureStorage secureStorage = SecureStorage();
+
 
   @override
   void initState() {
