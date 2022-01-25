@@ -43,7 +43,7 @@ class _RegistrationPageState extends State<RegistrationPage>
                 child: isInternet("No Internet Connection Available", globals.isOnline),
               ),
               Container(
-                height: MediaQuery.of(context).size.height * 0.3,
+                height: MediaQuery.of(context).size.height * 0.2,
                 decoration: BoxDecoration(
                   gradient: LinearGradient(
                       colors: [maroon, maroon],
