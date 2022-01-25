@@ -13,6 +13,7 @@ import 'package:interview_bot/login_register/registrationpage.dart';
 import 'package:interview_bot/login_register/splash_page.dart';
 
 import '../../Services/globals.dart' as globals;
+import '../isInternet.dart';
 
 class EditProfilePage extends StatefulWidget {
   @override
@@ -146,7 +147,13 @@ class _EditProfilePageState extends State<EditProfilePage>
   @override
   Widget build(BuildContext context) {
     return WillPopScope(
-        child: Scaffold(
+      child: Column(
+        children: <Widget>[
+          Container(
+            child: isInternet("No Internet Connection Available", globals.isOnline),
+          ),
+          Container(
+            child: Scaffold(
           body: Container(
             padding: EdgeInsets.only(
               left: 30,
@@ -285,6 +292,9 @@ class _EditProfilePageState extends State<EditProfilePage>
             ),
           ),
         ),
+          ),
+        ],
+      ),
         onWillPop: () => Future.value(false));
   }
 

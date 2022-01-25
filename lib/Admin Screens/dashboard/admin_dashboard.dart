@@ -5,6 +5,9 @@ import 'package:interview_bot/Admin%20Screens/dashboard/buildChart.dart';
 import 'package:interview_bot/Admin%20Screens/dashboard/chartModel.dart';
 import 'package:interview_bot/Services/RESTServices.dart';
 
+import 'package:interview_bot/isInternet.dart';
+import 'package:interview_bot/Services/globals.dart' as globals;
+
 class Dashboard extends StatefulWidget {
   @override
   _DashboardState createState() => new _DashboardState();
@@ -34,7 +37,13 @@ class _DashboardState extends State {
   @override
   Widget build(BuildContext context) {
     return WillPopScope(
-        child: Scaffold(
+      child: Column(
+        children: <Widget>[
+          Container(
+            child: isInternet("No Internet Connection Available", globals.isOnline),
+          ),
+          Container(
+            child: Scaffold(
             body: Padding(
                 padding: EdgeInsets.only(
                     left: 20.0, top: 35.0, right: 20.0, bottom: 10.0),
@@ -57,6 +66,10 @@ class _DashboardState extends State {
                         return Expanded(child: BuildChart(data: chartData));
                       })
                 ]))),
+          ),
+        ],
+      ),
+
         // block Back button
         onWillPop: () => Future.value(false));
   }

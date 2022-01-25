@@ -92,12 +92,12 @@ class _SplashPageState extends State<SplashPage> {
   Widget build(BuildContext context) {
     return Scaffold(
         body: Container(
-      decoration: BoxDecoration(
-        gradient: LinearGradient(
-            colors: [white, white],
-            end: Alignment.bottomCenter,
-            begin: Alignment.topCenter),
-      ),
+          decoration: BoxDecoration(
+          gradient: LinearGradient(
+              colors: [white, white],
+              end: Alignment.bottomCenter,
+              begin: Alignment.topCenter),
+        ),
       child: Center(
         child: new Image.asset("assets/images/favicon.png",
             width: 150, height: 150),

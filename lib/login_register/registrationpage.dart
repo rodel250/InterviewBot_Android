@@ -7,6 +7,9 @@ import 'package:interview_bot/model/accounts.dart';
 import 'package:interview_bot/model/fewAccountDetails.dart';
 import 'package:interview_bot/widgets/button.dart';
 
+import 'package:interview_bot/Services/globals.dart' as globals;
+
+import '../isInternet.dart';
 import 'color.dart';
 import 'loginpage.dart';
 
@@ -34,11 +37,13 @@ class _RegistrationPageState extends State<RegistrationPage>
     return Scaffold(
       body: Container(
         //padding: EdgeInsets.only(bottom: 30),
-        child: SingleChildScrollView(
           child: Column(
             children: <Widget>[
               Container(
-                height: MediaQuery.of(context).size.height * 0.3,
+                child: isInternet("No Internet Connection Available", globals.isOnline),
+              ),
+              Container(
+                height: MediaQuery.of(context).size.height * 0.2,
                 decoration: BoxDecoration(
                   gradient: LinearGradient(
                       colors: [maroon, maroon],
@@ -119,7 +124,6 @@ class _RegistrationPageState extends State<RegistrationPage>
               )
             ],
           ),
-        ),
       ),
     );
   }
