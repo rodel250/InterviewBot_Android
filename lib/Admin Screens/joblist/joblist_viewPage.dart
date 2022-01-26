@@ -62,14 +62,14 @@ class JobListViewPage extends StatelessWidget {
               ),
               Container(
                 child: Padding(
-                  padding: EdgeInsets.all(40),
+                  padding: EdgeInsets.all(20),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
                       Center(
                         child: Container(
-                          height: 90,
-                          width: 90,
+                          height: 70,
+                          width: 70,
                           decoration: BoxDecoration(
                             image: DecorationImage(
                               image: AssetImage("assets/images/citLogo.png"),
