@@ -1,11 +1,14 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:interview_bot/Services/CheckInternet.dart';
 import 'package:interview_bot/Services/RESTServices.dart';
 
 import 'package:interview_bot/model/accounts.dart';
 import 'package:interview_bot/model/fewAccountDetails.dart';
 import 'package:interview_bot/widgets/button.dart';
+
+import 'package:interview_bot/Services/globals.dart' as globals;
 
 import 'color.dart';
 import 'loginpage.dart';
@@ -37,6 +40,9 @@ class _RegistrationPageState extends State<RegistrationPage>
         child: SingleChildScrollView(
           child: Column(
             children: <Widget>[
+              Container(
+                child: isInternet("No Internet Connection Available", globals.isOnline),
+              ),
               Container(
                 height: MediaQuery.of(context).size.height * 0.3,
                 decoration: BoxDecoration(

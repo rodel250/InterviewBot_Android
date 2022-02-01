@@ -3,7 +3,10 @@ import 'package:flutter/material.dart';
 
 import 'package:interview_bot/Admin%20Screens/dashboard/buildChart.dart';
 import 'package:interview_bot/Admin%20Screens/dashboard/chartModel.dart';
+import 'package:interview_bot/Services/CheckInternet.dart';
 import 'package:interview_bot/Services/RESTServices.dart';
+
+import 'package:interview_bot/Services/globals.dart' as globals;
 
 class Dashboard extends StatefulWidget {
   @override
@@ -34,7 +37,10 @@ class _DashboardState extends State {
   @override
   Widget build(BuildContext context) {
     return WillPopScope(
-        child: Scaffold(
+      child: Stack(
+        children: <Widget>[
+          Container(
+            child: Scaffold(
             body: Padding(
                 padding: EdgeInsets.only(
                     left: 20.0, top: 35.0, right: 20.0, bottom: 10.0),
@@ -57,6 +63,12 @@ class _DashboardState extends State {
                         return Expanded(child: BuildChart(data: chartData));
                       })
                 ]))),
+          ),
+          Container(
+            child: isInternet("No Internet Connection Available", globals.isOnline),
+          ),
+        ],
+      ),
         // block Back button
         onWillPop: () => Future.value(false));
   }

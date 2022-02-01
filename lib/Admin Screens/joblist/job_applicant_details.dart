@@ -1,5 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:interview_bot/Services/CheckInternet.dart';
+
+import 'package:interview_bot/Services/globals.dart' as globals;
 
 // ignore: must_be_immutable
 class JobApplicantDetail extends StatelessWidget {
@@ -52,97 +55,106 @@ class JobApplicantDetail extends StatelessWidget {
             borderRadius: BorderRadius.only(
               topLeft: Radius.circular(50),
               topRight: Radius.circular(50),
-            )),
-        child: Padding(
-          padding: EdgeInsets.all(40),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              SizedBox(
-                height: 25,
-              ),
-              Text(
-                "Final Score",
-                style: TextStyle(
-                  fontSize: 24,
-                  fontFamily: 'Gotham Bold',
+        )),
+        child: Stack(
+          children: <Widget>[
+            Container(
+              child: Padding(
+                padding: EdgeInsets.all(40),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    SizedBox(
+                      height: 25,
+                    ),
+                    Text(
+                      "Final Score",
+                      style: TextStyle(
+                        fontSize: 24,
+                        fontFamily: 'Gotham Bold',
+                      ),
+                    ),
+                    SizedBox(
+                      height: 10,
+                    ),
+                    Text(
+                      "     " + score + "%",
+                      style: TextStyle(
+                        fontSize: 16,
+                        fontFamily: 'Gotham Regular',
+                      ),
+                    ),
+                    SizedBox(
+                      height: 50,
+                    ),
+                    Text(
+                      "Profile",
+                      style: TextStyle(
+                        fontSize: 24,
+                        fontFamily: 'Gotham Bold',
+                      ),
+                    ),
+                    SizedBox(
+                      height: 10,
+                    ),
+                    Text(
+                      "     Name: " + firstname + " " + lastname,
+                      style: TextStyle(
+                        fontSize: 16,
+                        fontFamily: 'Gotham Regular',
+                      ),
+                    ),
+                    SizedBox(
+                      height: 10,
+                    ),
+                    Text(
+                      "     Gender: " + gender,
+                      style: TextStyle(
+                        fontSize: 16,
+                        fontFamily: 'Gotham Regular',
+                      ),
+                    ),
+                    SizedBox(
+                      height: 50,
+                    ),
+                    Text(
+                      "Contact Details",
+                      style: TextStyle(
+                        fontSize: 24,
+                        fontFamily: 'Gotham Bold',
+                      ),
+                    ),
+                    SizedBox(
+                      height: 10,
+                    ),
+                    Text(
+                      "     Email: " + email,
+                      style: TextStyle(
+                        fontSize: 16,
+                        fontFamily: 'Gotham Regular',
+                      ),
+                    ),
+                    SizedBox(
+                      height: 10,
+                    ),
+                    Text(
+                      "     Phone: " + phone,
+                      style: TextStyle(
+                        fontSize: 16,
+                        fontFamily: 'Gotham Regular',
+                      ),
+                    ),
+                    Expanded(
+                        child:
+                            Container()), //to fill the spaces after the description
+                  ],
                 ),
               ),
-              SizedBox(
-                height: 10,
-              ),
-              Text(
-                "     " + score + "%",
-                style: TextStyle(
-                  fontSize: 16,
-                  fontFamily: 'Gotham Regular',
-                ),
-              ),
-              SizedBox(
-                height: 50,
-              ),
-              Text(
-                "Profile",
-                style: TextStyle(
-                  fontSize: 24,
-                  fontFamily: 'Gotham Bold',
-                ),
-              ),
-              SizedBox(
-                height: 10,
-              ),
-              Text(
-                "     Name: " + firstname + " " + lastname,
-                style: TextStyle(
-                  fontSize: 16,
-                  fontFamily: 'Gotham Regular',
-                ),
-              ),
-              SizedBox(
-                height: 10,
-              ),
-              Text(
-                "     Gender: " + gender,
-                style: TextStyle(
-                  fontSize: 16,
-                  fontFamily: 'Gotham Regular',
-                ),
-              ),
-              SizedBox(
-                height: 50,
-              ),
-              Text(
-                "Contact Details",
-                style: TextStyle(
-                  fontSize: 24,
-                  fontFamily: 'Gotham Bold',
-                ),
-              ),
-              SizedBox(
-                height: 10,
-              ),
-              Text(
-                "     Email: " + email,
-                style: TextStyle(
-                  fontSize: 16,
-                  fontFamily: 'Gotham Regular',
-                ),
-              ),
-              SizedBox(
-                height: 10,
-              ),
-              Text(
-                "     Phone: " + phone,
-                style: TextStyle(
-                  fontSize: 16,
-                  fontFamily: 'Gotham Regular',
-                ),
-              ),
-              Expanded(
-                  child:
-                      Container()), //to fill the spaces after the description
-            ],
-          ),
+            ),
+            Container(
+              child: isInternet("No Internet Connection Available", globals.isOnline),
+            ),
+          ],
         ),
       ),
     );

@@ -1,9 +1,12 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:interview_bot/Services/CheckInternet.dart';
 import 'package:interview_bot/Services/RESTServices.dart';
 
 import 'package:interview_bot/User%20Screens/jobOffers/job_detail.dart';
 import 'package:interview_bot/model/jobOfferings.dart';
+
+import 'package:interview_bot/Services/globals.dart' as globals;
 
 class Jobs extends StatefulWidget {
   @override
@@ -31,7 +34,10 @@ class _JobsState extends State<Jobs> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: SafeArea(
-        child: FutureBuilder<List<JobOfferings>>(
+        child: Stack(
+          children: <Widget>[
+            Container(
+              child: FutureBuilder<List<JobOfferings>>(
             future: jobOfferings,
             builder: (BuildContext context, AsyncSnapshot snapshot) {
               if (snapshot.hasData) {
@@ -62,7 +68,7 @@ class _JobsState extends State<Jobs> {
                                   borderRadius: BorderRadius.circular(24),
                                 ),
                                 color: Colors.white,
-                                child: Container(
+                                child: Container(                                               
                                   padding: const EdgeInsets.symmetric(
                                       horizontal: 24.0, vertical: 20),
                                   decoration: BoxDecoration(
@@ -107,6 +113,7 @@ class _JobsState extends State<Jobs> {
                                                 color: Colors.black,
                                               ),
                                             ),
+                                            
                                             RichText(
                                               overflow: TextOverflow.ellipsis,
                                               maxLines: 2,
@@ -122,7 +129,7 @@ class _JobsState extends State<Jobs> {
                                             ),
                                           ],
                                         ),
-                                      ),
+                                      ),                                    
                                       Icon(
                                         Icons.navigate_next,
                                         size: 36,
@@ -140,6 +147,12 @@ class _JobsState extends State<Jobs> {
               } else
                 return Center(child: CircularProgressIndicator());
             }),
+            ),
+            Container(
+                child: isInternet("No Internet Connection Available", globals.isOnline),
+            ),
+          ],
+        ),
       ),
     );
   }

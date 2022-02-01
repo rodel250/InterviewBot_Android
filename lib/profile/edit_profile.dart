@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:http/http.dart' as http;
 import 'package:interview_bot/Admin%20Screens/admin_nav.dart';
+import 'package:interview_bot/Services/CheckInternet.dart';
 import 'package:interview_bot/Services/RESTServices.dart';
 
 import 'package:interview_bot/Services/Storage.dart';
@@ -146,146 +147,155 @@ class _EditProfilePageState extends State<EditProfilePage>
   @override
   Widget build(BuildContext context) {
     return WillPopScope(
-        child: Scaffold(
-          body: Container(
-            padding: EdgeInsets.only(
-              left: 30,
-              top: 30,
-              right: 30,
-            ),
-            child: GestureDetector(
-              onTap: () {
-                FocusScope.of(context).unfocus();
-              },
-              child: ListView(
-                children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
+      child: Stack(
+        children: <Widget>[
+          Container(
+            child: Scaffold(
+              body: Container(
+                padding: EdgeInsets.only(
+                  left: 30,
+                  top: 30,
+                  right: 30,
+                ),
+                child: GestureDetector(
+                  onTap: () {
+                    FocusScope.of(context).unfocus();
+                  },
+                  child: ListView(
                     children: [
-                      ElevatedButton(
-                        onPressed: () {
-                          if(globals.isOnline==true)
-                            logout();
-                        },
-                        style: ElevatedButton.styleFrom(
-                          primary: maroon,
-                          onPrimary: Colors.white,
-                          shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(20)),
-                        ),
-                        child: Column(
-                          mainAxisSize: MainAxisSize.min,
-                          children: <Widget>[
-                            new Icon(Icons.logout),
-                          ],
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          ElevatedButton(
+                            onPressed: () {
+                              if(globals.isOnline==true)
+                                logout();
+                            },
+                            style: ElevatedButton.styleFrom(
+                              primary: maroon,
+                              onPrimary: Colors.white,
+                              shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(20)),
+                            ),
+                            child: Column(
+                              mainAxisSize: MainAxisSize.min,
+                              children: <Widget>[
+                                new Icon(Icons.logout),
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
+                      SizedBox(
+                        height: 35,
+                      ),
+                      Form(
+                        key: _formKey,
+                        child: Container(
+                          child: Column(
+                            children: [
+                              Text(
+                                "Personal Information",
+                                style: TextStyle(
+                                    color: Color(0xFF8C383E),
+                                    fontSize: 25,
+                                    fontWeight: FontWeight.w500,
+                                    fontFamily: "assets/fonts/Gotham Bold"),
+                              ),
+                              SizedBox(
+                                height: 20,
+                              ),
+                              buildTextField(
+                                  controller: firstnameController,
+                                  labelText: "First Name:",
+                                  editable: true,
+                                  isPasswordTextField: false),
+                              buildTextField(
+                                  controller: lastnameController,
+                                  labelText: "Last Name",
+                                  editable: true,
+                                  isPasswordTextField: false),
+                              buildTextField(
+                                  controller: phoneController,
+                                  labelText: "Phone",
+                                  editable: true,
+                                  isPasswordTextField: false),
+                              Text(
+                                "\nAccount Information",
+                                style: TextStyle(
+                                    color: Color(0xFF8C383E),
+                                    fontSize: 25,
+                                    fontWeight: FontWeight.w500,
+                                    fontFamily: "assets/fonts/Gotham Bold"),
+                              ),
+                              SizedBox(
+                                height: 20,
+                              ),
+                              buildTextField(
+                                  controller: emailController,
+                                  labelText: "Email Address",
+                                  editable: false,
+                                  isPasswordTextField: false),
+                              buildTextField(
+                                  controller: passwordController,
+                                  labelText: "Password",
+                                  editable: true,
+                                  isPasswordTextField: true),
+                              SizedBox(
+                                height: 15,
+                              ),
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                mainAxisSize: MainAxisSize.max,
+                                children: [
+                                  ElevatedButton(
+                                    onPressed: () {
+                                      if (_formKey.currentState!.validate()) {
+                                        save(
+                                            finalUserId,
+                                            firstnameController.text,
+                                            lastnameController.text,
+                                            phoneController.text,
+                                            passwordController.text);
+                                      }
+                                    },
+                                    style: ElevatedButton.styleFrom(
+                                      primary: gold,
+                                      padding: EdgeInsets.symmetric(
+                                          vertical: 12, horizontal: 40),
+                                      elevation: 2,
+                                      shape: RoundedRectangleBorder(
+                                          borderRadius: BorderRadius.circular(25)),
+                                    ),
+                                    child: Text(
+                                      "SAVE",
+                                      textAlign: TextAlign.center,
+                                      style: TextStyle(
+                                          fontSize: 18,
+                                          fontWeight: FontWeight.bold,
+                                          letterSpacing: 2.2,
+                                          color: Colors.black54),
+                                    ),
+                                  )
+                                ],
+                              ),
+                            ],
+                          ),
                         ),
                       ),
                     ],
                   ),
-                  SizedBox(
-                    height: 35,
-                  ),
-                  Form(
-                    key: _formKey,
-                    child: Container(
-                      child: Column(
-                        children: [
-                          Text(
-                            "Personal Information",
-                            style: TextStyle(
-                                color: Color(0xFF8C383E),
-                                fontSize: 25,
-                                fontWeight: FontWeight.w500,
-                                fontFamily: "assets/fonts/Gotham Bold"),
-                          ),
-                          SizedBox(
-                            height: 20,
-                          ),
-                          buildTextField(
-                              controller: firstnameController,
-                              labelText: "First Name:",
-                              editable: true,
-                              isPasswordTextField: false),
-                          buildTextField(
-                              controller: lastnameController,
-                              labelText: "Last Name",
-                              editable: true,
-                              isPasswordTextField: false),
-                          buildTextField(
-                              controller: phoneController,
-                              labelText: "Phone",
-                              editable: true,
-                              isPasswordTextField: false),
-                          Text(
-                            "\nAccount Information",
-                            style: TextStyle(
-                                color: Color(0xFF8C383E),
-                                fontSize: 25,
-                                fontWeight: FontWeight.w500,
-                                fontFamily: "assets/fonts/Gotham Bold"),
-                          ),
-                          SizedBox(
-                            height: 20,
-                          ),
-                          buildTextField(
-                              controller: emailController,
-                              labelText: "Email Address",
-                              editable: false,
-                              isPasswordTextField: false),
-                          buildTextField(
-                              controller: passwordController,
-                              labelText: "Password",
-                              editable: true,
-                              isPasswordTextField: true),
-                          SizedBox(
-                            height: 15,
-                          ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            mainAxisSize: MainAxisSize.max,
-                            children: [
-                              ElevatedButton(
-                                onPressed: () {
-                                  if (_formKey.currentState!.validate()) {
-                                    save(
-                                        finalUserId,
-                                        firstnameController.text,
-                                        lastnameController.text,
-                                        phoneController.text,
-                                        passwordController.text);
-                                  }
-                                },
-                                style: ElevatedButton.styleFrom(
-                                  primary: gold,
-                                  padding: EdgeInsets.symmetric(
-                                      vertical: 12, horizontal: 40),
-                                  elevation: 2,
-                                  shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(25)),
-                                ),
-                                child: Text(
-                                  "SAVE",
-                                  textAlign: TextAlign.center,
-                                  style: TextStyle(
-                                      fontSize: 18,
-                                      fontWeight: FontWeight.bold,
-                                      letterSpacing: 2.2,
-                                      color: Colors.black54),
-                                ),
-                              )
-                            ],
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                ],
+                ),
               ),
             ),
           ),
-        ),
-        onWillPop: () => Future.value(false));
+          Container(
+            child: isInternet("No Internet Connection Available", globals.isOnline),
+          ),
+        ],
+      ),
+      onWillPop: () => Future.value(false));
   }
 
   Widget buildTextField(

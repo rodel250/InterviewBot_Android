@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:interview_bot/Services/CheckInternet.dart';
 import 'package:interview_bot/Services/RESTServices.dart';
 
 import 'package:interview_bot/Services/Storage.dart';
@@ -7,6 +8,8 @@ import 'package:interview_bot/User%20Screens/homePage/appliedJobsList.dart';
 import 'package:interview_bot/User%20Screens/homePage/savedJobsList.dart';
 import 'package:interview_bot/login_register/color.dart';
 import 'package:interview_bot/login_register/splash_page.dart';
+
+import 'package:interview_bot/Services/globals.dart' as globals;
 
 class HomePage extends StatefulWidget {
   @override
@@ -46,6 +49,9 @@ class _HomePageState extends State<HomePage> {
                     borderRadius:
                         BorderRadius.only(bottomRight: Radius.circular(100)),
                   ),
+                ),
+                Container(
+                  child: isInternet("No Internet Connection Available", globals.isOnline),
                 ),
                 SafeArea(
                   child: Padding(

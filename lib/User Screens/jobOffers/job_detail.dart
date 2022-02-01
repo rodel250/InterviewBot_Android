@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:interview_bot/Services/CheckInternet.dart';
 
 import 'package:interview_bot/Services/RESTServices.dart';
+import 'package:interview_bot/Services/globals.dart' as globals;
 
 // ignore: must_be_immutable
 class JobDetail extends StatelessWidget {
@@ -52,132 +54,141 @@ class JobDetail extends StatelessWidget {
             borderRadius: BorderRadius.only(
               topLeft: Radius.circular(50),
               topRight: Radius.circular(50),
-            )),
-        child: Padding(
-          padding: EdgeInsets.all(30),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Center(
-                child: Container(
-                  height: 90,
-                  width: 90,
-                  decoration: BoxDecoration(
-                    image: DecorationImage(
-                      image: AssetImage("assets/images/citLogo.png"),
-                      fit: BoxFit.fitWidth,
-                    ),
-                    borderRadius: BorderRadius.all(
-                      Radius.circular(12),
-                    ),
-                  ),
-                ),
-              ),
-              SizedBox(
-                height: 5,
-              ),
-              Center(
-                child: Text(
-                  jobTitle,
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                    color: Colors.black,
-                    fontSize: 25,
-                    fontFamily: 'Gotham Bold',
-                  ),
-                ),
-              ),
-              SizedBox(
-                height: 20,
-              ),
-              Center(
-                child: Text(
-                  jobDescription,
-                  textAlign: TextAlign.justify,
-                  style: TextStyle(
-                    fontSize: 16,
-                    fontFamily: 'Gotham Regular',
-                    color: Colors.black,
-                  ),
-                ),
-              ),
-              SizedBox(
-                height: 50,
-              ),
-              Text(
-                "Job Owner",
-                style: TextStyle(
-                  color: Colors.black,
-                  fontSize: 18,
-                  fontFamily: 'Gotham Bold',
-                ),
-              ),
-              SizedBox(
-                height: 5,
-              ),
-              Row(
-                children: [
-                  Text(
-                    adminFirstName + " " + adminLastName,
-                    style: TextStyle(
-                      color: Colors.black54,
-                      fontSize: 18,
-                      fontFamily: 'GothamBook Regular',
-                    ),
-                  ),
-                ],
-              ),
-              Row(
-                children: [
-                  Text(
-                    adminEmail,
-                    style: TextStyle(
-                      color: Colors.black54,
-                      fontSize: 15,
-                      fontFamily: 'GothamBook Regular',
-                    ),
-                  ),
-                ],
-              ),
-              SizedBox(
-                height: 16,
-              ),
-              SizedBox(
-                height: 16,
-              ),
-              Expanded(
-                  child:
-                      Container()), //to fill the spaces after the description
-              Row(
-                children: [
-                  Expanded(
-                    child: InkWell(
-                      onTap: () => {saveJobOffering(context, jobId)},
+        )),
+        child: Stack(
+          children: <Widget>[
+            Container(
+              child: Padding(
+                padding: EdgeInsets.all(30),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Center(
                       child: Container(
-                        height: 50,
+                        height: 90,
+                        width: 90,
                         decoration: BoxDecoration(
-                          color: Color(0xFF8C383E),
-                          borderRadius: BorderRadius.all(
-                            Radius.circular(15),
+                          image: DecorationImage(
+                            image: AssetImage("assets/images/citLogo.png"),
+                            fit: BoxFit.fitWidth,
                           ),
-                        ),
-                        child: Center(
-                          child: Text(
-                            "SAVE",
-                            style: TextStyle(
-                              fontSize: 24,
-                              fontFamily: 'Gotham Bold',
-                              color: Colors.white,
-                            ),
+                          borderRadius: BorderRadius.all(
+                            Radius.circular(12),
                           ),
                         ),
                       ),
                     ),
-                  ),
-                ],
+                    SizedBox(
+                      height: 5,
+                    ),
+                    Center(
+                      child: Text(
+                        jobTitle,
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          color: Colors.black,
+                          fontSize: 25,
+                          fontFamily: 'Gotham Bold',
+                        ),
+                      ),
+                    ),
+                    SizedBox(
+                      height: 20,
+                    ),
+                    Center(
+                      child: Text(
+                        jobDescription,
+                        textAlign: TextAlign.justify,
+                        style: TextStyle(
+                          fontSize: 16,
+                          fontFamily: 'Gotham Regular',
+                          color: Colors.black,
+                        ),
+                      ),
+                    ),
+                    SizedBox(
+                      height: 50,
+                    ),
+                    Text(
+                      "Job Owner",
+                      style: TextStyle(
+                        color: Colors.black,
+                        fontSize: 18,
+                        fontFamily: 'Gotham Bold',
+                      ),
+                    ),
+                    SizedBox(
+                      height: 5,
+                    ),
+                    Row(
+                      children: [
+                        Text(
+                          adminFirstName + " " + adminLastName,
+                          style: TextStyle(
+                            color: Colors.black54,
+                            fontSize: 18,
+                            fontFamily: 'GothamBook Regular',
+                          ),
+                        ),
+                      ],
+                    ),
+                    Row(
+                      children: [
+                        Text(
+                          adminEmail,
+                          style: TextStyle(
+                            color: Colors.black54,
+                            fontSize: 15,
+                            fontFamily: 'GothamBook Regular',
+                          ),
+                        ),
+                      ],
+                    ),
+                    SizedBox(
+                      height: 16,
+                    ),
+                    SizedBox(
+                      height: 16,
+                    ),
+                    Expanded(
+                        child:
+                            Container()), //to fill the spaces after the description
+                    Row(
+                      children: [
+                        Expanded(
+                          child: InkWell(
+                            onTap: () => {saveJobOffering(context, jobId)},
+                            child: Container(
+                              height: 50,
+                              decoration: BoxDecoration(
+                                color: Color(0xFF8C383E),
+                                borderRadius: BorderRadius.all(
+                                  Radius.circular(15),
+                                ),
+                              ),
+                              child: Center(
+                                child: Text(
+                                  "SAVE",
+                                  style: TextStyle(
+                                    fontSize: 24,
+                                    fontFamily: 'Gotham Bold',
+                                    color: Colors.white,
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
               ),
-            ],
-          ),
+            ),
+            Container(
+              child: isInternet("No Internet Connection Available", globals.isOnline),
+            ),
+          ],
         ),
       ),
     );
