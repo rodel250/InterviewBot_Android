@@ -6,6 +6,7 @@ import 'package:http/http.dart' as http;
 import 'package:interview_bot/Admin%20Screens/admin_nav.dart';
 import 'package:interview_bot/Services/CheckInternet.dart';
 import 'package:interview_bot/Services/RESTServices.dart';
+import 'package:interview_bot/Services/InternetHandler.dart';
 
 import 'package:interview_bot/Services/Storage.dart';
 import 'package:interview_bot/User%20Screens/user_nav.dart';
@@ -30,6 +31,7 @@ class _EditProfilePageState extends State<EditProfilePage>
   TextEditingController lastnameController = TextEditingController();
   TextEditingController phoneController = TextEditingController();
   bool showPassword = true;
+   ConnectionUtil test = ConnectionUtil.getInstance();
 
   @override
   void initState() {
@@ -97,12 +99,13 @@ class _EditProfilePageState extends State<EditProfilePage>
     secureStorage.deleteAllSecureData();
     globals.selectedIndex = 0;
 
-    Navigator.push(
-      context,
-      MaterialPageRoute(
-        builder: (context) => SplashPage(),
-      ),
-    );
+    // Navigator.push(
+    //   context,
+    //   MaterialPageRoute(
+    //     builder: (context) => SplashPage(),
+    //   ),
+    // );
+    Navigator.pop(context);
 
     showDialog(
         context: context,
@@ -170,6 +173,7 @@ class _EditProfilePageState extends State<EditProfilePage>
                             onPressed: () {
                               if(globals.isOnline==true)
                                 logout();
+
                             },
                             style: ElevatedButton.styleFrom(
                               primary: maroon,
