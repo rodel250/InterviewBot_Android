@@ -86,10 +86,11 @@ class _RegistrationPageState extends State<RegistrationPage>
                               children: [
                                 InkWell(
                                   onTap: () {
-                                    Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                            builder: (context) => LoginPage()));
+                                    Navigator.pop(context);
+                                    // Navigator.push(
+                                    //     context,
+                                    //     MaterialPageRoute(
+                                    //         builder: (context) => LoginPage()));
                                   },
                                   child: Container(
                                     //margin: EdgeInsets.only(top:10),
